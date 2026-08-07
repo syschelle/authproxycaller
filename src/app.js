@@ -46,7 +46,7 @@
     studyUID: 'SUID',
     urlSharedPassword: 'Sammelpasswort',
     urlSharedUser: 'Sammelbenutzer',
-    urlSharedUserEnabled: 'URL Sammelbenutzer',
+    urlSharedUserEnabled: 'URL Aufruf Sammelnutzer?',
     user: 'Benutzername',
     foreignPatientIdVariable: 'Variablenname Patienten-ID',
     foreignOrderNumberVariable: 'Variablenname Auftragsnummer'
