@@ -18,6 +18,8 @@
     ['companion-custom', 'Companion: freie Parameterkombination']
   ];
 
+  const SESSION_STORAGE_KEY = 'authproxycaller.formState.v1';
+
   const SVF_RIS_OPTIONS = [
     ['Start #DeepUnity Insight', {}, { companionOnly: true, includeIssuer: false }],
     ['Systemaufruf für Anzeige einer Studie', { PatientID: '%PATIENTID%', studyUID: '%STUDYUID%' }],
@@ -758,6 +760,38 @@
     'encryptedSvf'
   ];
 
+  function readSessionState() {
+    try {
+      const raw = window.sessionStorage.getItem(SESSION_STORAGE_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch {
+      return null;
+    }
+  }
+
+  function writeSessionState() {
+    const stateToSave = snapshotTestData();
+    try {
+      window.sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(stateToSave));
+    } catch {
+      // The app stays fully usable when storage is unavailable.
+    }
+  }
+
+  function clearSessionState() {
+    try {
+      window.sessionStorage.removeItem(SESSION_STORAGE_KEY);
+    } catch {
+      // Ignore blocked storage access.
+    }
+  }
+
+  function restoreSessionState() {
+    const savedState = readSessionState();
+    if (!savedState) return;
+    restoreTestDataSnapshot(savedState);
+  }
+
   function setTestButton(active) {
     serverTestButton.textContent = active ? 'Testdaten deaktivieren' : 'Testdaten aktivieren';
   }
@@ -823,6 +857,7 @@
     state.testDataActive = false;
     state.testDataSnapshot = null;
     setTestButton(false);
+    clearSessionState();
     updateServerFields();
     updateKisFields();
     renderOutput();
@@ -846,16 +881,22 @@
     }
     updateServerFields();
     updateKisFields();
+    writeSessionState();
     renderOutput();
   }
 
   sameViewerFqdn.addEventListener('change', () => {
     updateServerFields();
+    writeSessionState();
     renderOutput();
   });
-  form.addEventListener('input', renderOutput);
+  form.addEventListener('input', () => {
+    writeSessionState();
+    renderOutput();
+  });
   form.addEventListener('change', () => {
     updateKisFields();
+    writeSessionState();
     renderOutput();
   });
   copyAllButton.addEventListener('click', copyAllOutput);
@@ -909,6 +950,7 @@
     copyToast.classList.add('hidden');
   });
 
+  restoreSessionState();
   updateServerFields();
   updateKisFields();
   renderOutput();
