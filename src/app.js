@@ -37,7 +37,7 @@
     IssuerOfPatientID: 'IssuerOfPatientID',
     PatientID: 'Patienten-ID',
     appName: 'Pfad zur Companion App',
-    encryptedSvf: 'Verschlüsselt',
+    encryptedSvf: 'ORBIS Verschlüsselung',
     idp: 'IDP',
     loginserver: 'FQDN DicomServices',
     password: 'Passwort',
@@ -102,6 +102,7 @@
   const viewerFqdnContainer = document.querySelector('[data-field="viewerFqdn"]');
   const kisType = document.getElementById('kisType');
   const foreignKisFields = document.querySelectorAll('.foreign-kis-only');
+  const orbisKisFields = document.querySelectorAll('.orbis-kis-only');
   const sharedUrlUserFields = document.querySelectorAll('.shared-url-user-only');
   const svfOnlyElements = document.querySelectorAll('.svf-only');
 
@@ -130,6 +131,13 @@
       field.classList.toggle('hidden', !isForeignKis);
       if (input) {
         input.disabled = !isForeignKis;
+      }
+    });
+    orbisKisFields.forEach((field) => {
+      const input = field.querySelector('input, select, textarea');
+      field.classList.toggle('hidden', isForeignKis);
+      if (input) {
+        input.disabled = isForeignKis;
       }
     });
     svfOnlyElements.forEach((element) => {
