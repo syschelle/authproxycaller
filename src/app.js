@@ -227,6 +227,22 @@
         value.textContent = item.value;
         itemElement.append(value);
 
+        if (item.type === 'call') {
+          const actions = document.createElement('div');
+          actions.className = 'output-item-actions';
+
+          const copyButton = document.createElement('button');
+          copyButton.type = 'button';
+          copyButton.className = 'button button-secondary output-copy-button';
+          copyButton.textContent = 'Kopieren';
+          copyButton.addEventListener('click', () => {
+            copyText(item.value, `${item.label} wurde in die Zwischenablage kopiert.`);
+          });
+
+          actions.append(copyButton);
+          itemElement.append(actions);
+        }
+
         sectionElement.append(itemElement);
       });
 
