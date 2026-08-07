@@ -19,7 +19,7 @@
     </div>
     <div class="topbar-actions">
       <a class="feedback-link" href="mailto:sylvio.schelle@dedalus.com?subject=Feedback%20Authproxycaller">Feedback</a>
-      <span class="version">v0.1.69</span>
+      <span class="version">v0.1.70</span>
     </div>
   </header>
 
@@ -95,14 +95,14 @@
               </select>
             </label>
 
-            <label class="switch-row switch-row-card field-wide">
-              <input id="terminalKis" name="terminalKis" type="checkbox">
-              <span>KIS läuft im Terminal?</span>
+            <label class="field field-wide foreign-kis-only hidden" data-field="foreignUserVariable">
+              <span>Variablenname Benutzername</span>
+              <input id="foreignUserVariable" name="foreignUserVariable" type="text" placeholder="USER" spellcheck="false" autocomplete="off">
             </label>
 
-            <label class="switch-row switch-row-card field-wide">
-              <input id="encryptedSvf" name="encryptedSvf" type="checkbox">
-              <span>Verschlüsselt?</span>
+            <label class="field field-wide foreign-kis-only hidden" data-field="foreignPasswordVariable">
+              <span>Variablenname Passwort</span>
+              <input id="foreignPasswordVariable" name="foreignPasswordVariable" type="text" placeholder="PASSWORD" spellcheck="false" autocomplete="off">
             </label>
 
             <label class="field field-wide foreign-kis-only hidden" data-field="foreignPatientIdVariable">
@@ -115,14 +115,14 @@
               <input id="foreignOrderNumberVariable" name="foreignOrderNumberVariable" type="text" placeholder="ORDER_NUMBER" spellcheck="false" autocomplete="off">
             </label>
 
-            <label class="field field-wide foreign-kis-only hidden" data-field="foreignUserVariable">
-              <span>Variablenname Benutzername</span>
-              <input id="foreignUserVariable" name="foreignUserVariable" type="text" placeholder="USER" spellcheck="false" autocomplete="off">
+            <label class="switch-row switch-row-card field-wide">
+              <input id="terminalKis" name="terminalKis" type="checkbox">
+              <span>KIS läuft im Terminal?</span>
             </label>
 
-            <label class="field field-wide foreign-kis-only hidden" data-field="foreignPasswordVariable">
-              <span>Variablenname Passwort</span>
-              <input id="foreignPasswordVariable" name="foreignPasswordVariable" type="text" placeholder="PASSWORD" spellcheck="false" autocomplete="off">
+            <label class="switch-row switch-row-card field-wide">
+              <input id="encryptedSvf" name="encryptedSvf" type="checkbox">
+              <span>Verschlüsselt?</span>
             </label>
 
             <label class="field field-wide" data-field="diagnostPath">
@@ -209,7 +209,7 @@
   </main>
 
   <footer>
-    <span>Authproxycaller v0.1.69</span>
+    <span>Authproxycaller v0.1.70</span>
     <span>Clientseitig · zustandslos · ohne Tracking</span>
   </footer>
   <div id="pdf-dialog" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="pdf-dialog-title">
