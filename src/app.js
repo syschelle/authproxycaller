@@ -45,8 +45,8 @@
     server: 'FQDN DU Viewer',
     studyUID: 'SUID',
     urlSharedPassword: 'Sammelpasswort',
-    urlSharedUser: 'Sammelnutzer',
-    urlSharedUserEnabled: 'URL Sammelnutzer',
+    urlSharedUser: 'Sammelbenutzer',
+    urlSharedUserEnabled: 'URL Sammelbenutzer',
     user: 'Benutzername',
     foreignPatientIdVariable: 'Variablenname Patienten-ID',
     foreignOrderNumberVariable: 'Variablenname Auftragsnummer'
@@ -175,7 +175,7 @@
   function svfUrlCredentials(config, userPlaceholder, passwordPlaceholder, encryptedPrefix = 'enc_') {
     if (config.urlSharedUserEnabled) {
       return {
-        user: DUBuilder.validatePlainText(config.urlSharedUser, 'Sammelnutzer'),
+        user: DUBuilder.validatePlainText(config.urlSharedUser, 'Sammelbenutzer'),
         password: DUBuilder.validatePlainText(config.urlSharedPassword, 'Sammelpasswort')
       };
     }
@@ -837,7 +837,7 @@
     document.getElementById('IssuerOfPatientID').value = 'TESTISSUER';
     document.getElementById('idp').value = 'ldap_IDP';
     document.getElementById('urlSharedUserEnabled').checked = true;
-    document.getElementById('urlSharedUser').value = 'sammelnutzer';
+    document.getElementById('urlSharedUser').value = 'sammelbenutzer';
     document.getElementById('urlSharedPassword').value = 'sammelpasswort123';
     document.getElementById('terminalKis').checked = true;
     document.getElementById('encryptedSvf').checked = true;
@@ -891,6 +891,7 @@
   });
   form.addEventListener('input', renderOutput);
   form.addEventListener('change', () => {
+    updateServerFields();
     updateKisFields();
     renderOutput();
   });
