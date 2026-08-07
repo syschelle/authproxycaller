@@ -322,7 +322,7 @@
 
   function buildSvfRisUrl(config, parameters, options = {}) {
     const credentialFields = config.urlSharedUserEnabled ? ['urlSharedUser', 'urlSharedPassword'] : [];
-    const missing = ['server', 'IssuerOfPatientID', ...credentialFields].filter((field) => !config[field]);
+    const missing = ['server', ...credentialFields].filter((field) => !config[field]);
     if (missing.length > 0) {
       throw missingFieldsError(missing);
     }
@@ -347,7 +347,7 @@
       password: credentials.password,
       ...(config.urlAuditUserEnabled ? { app_usr: auditCredentials.user } : {}),
       ...(config.idp ? { idp: config.idp } : {}),
-      IssuerOfPatientID: config.IssuerOfPatientID,
+      ...(config.IssuerOfPatientID ? { IssuerOfPatientID: config.IssuerOfPatientID } : {}),
       ...parameters
     };
 
@@ -359,9 +359,7 @@
 
   function buildExternalCompanion(config, userPlaceholder, passwordPlaceholder, parameters, options = {}) {
     const includeIssuer = options.includeIssuer !== false;
-    const requiredFields = includeIssuer
-      ? ['appName', 'loginserver', 'IssuerOfPatientID']
-      : ['appName', 'loginserver'];
+    const requiredFields = ['appName', 'loginserver'];
     const missing = requiredFields.filter((field) => !config[field]);
     if (missing.length > 0) {
       throw missingFieldsError(missing);
@@ -372,7 +370,7 @@
       user: userPlaceholder,
       password: passwordPlaceholder,
       ...(config.idp ? { idp: config.idp } : {}),
-      ...(includeIssuer ? { IssuerOfPatientID: config.IssuerOfPatientID } : {}),
+      ...(includeIssuer && config.IssuerOfPatientID ? { IssuerOfPatientID: config.IssuerOfPatientID } : {}),
       ...(config.remote ? { remote: config.remote } : {}),
       ...parameters
     };

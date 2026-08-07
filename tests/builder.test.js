@@ -226,6 +226,19 @@ test('builds every documented URL scenario', () => {
   }
 });
 
+test('omits IssuerOfPatientID from URL calls when empty', () => {
+  const result = buildUrl('viewer-patient', {
+    server: 'example.test',
+    user: 'web',
+    password: 'PW',
+    PatientID: '12345',
+    IssuerOfPatientID: ''
+  });
+
+  assert.match(result, /PatientID=12345/);
+  assert.doesNotMatch(result, /IssuerOfPatientID/);
+});
+
 test('builds every documented Companion App scenario', () => {
   const base = {
     appName: 'du-proxy-app',
@@ -252,4 +265,18 @@ test('builds every documented Companion App scenario', () => {
   ]) {
     assert.doesNotThrow(() => buildCompanion(scenario, base, 'multi-line'));
   }
+});
+
+test('omits IssuerOfPatientID from Companion App calls when empty', () => {
+  const result = buildCompanion('companion-patient', {
+    appName: 'du-proxy-app',
+    loginserver: 'example.test',
+    user: 'web',
+    password: 'PW',
+    PatientID: '12345',
+    IssuerOfPatientID: ''
+  }, 'single-line');
+
+  assert.match(result, /PatientID=12345/);
+  assert.doesNotMatch(result, /IssuerOfPatientID/);
 });

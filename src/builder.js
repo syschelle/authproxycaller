@@ -16,12 +16,12 @@
     },
     'viewer-patient': {
       path: '/du-auth-proxy/viewer',
-      required: ['server', 'user', 'password', 'PatientID', 'IssuerOfPatientID'],
+      required: ['server', 'user', 'password', 'PatientID'],
       params: ['user', 'password', 'idp', 'PatientID', 'IssuerOfPatientID']
     },
     'viewer-accession': {
       path: '/du-auth-proxy/viewer',
-      required: ['server', 'user', 'password', 'PatientID', 'IssuerOfPatientID', 'AccessionNumber'],
+      required: ['server', 'user', 'password', 'PatientID', 'AccessionNumber'],
       params: ['user', 'password', 'idp', 'PatientID', 'IssuerOfPatientID', 'AccessionNumber']
     },
     'studysearch-empty': {
@@ -42,19 +42,19 @@
       params: ['loginserver', 'user', 'password', 'idp', 'studyUID', 'remote']
     },
     'companion-patient': {
-      required: ['appName', 'loginserver', 'user', 'password', 'PatientID', 'IssuerOfPatientID'],
+      required: ['appName', 'loginserver', 'user', 'password', 'PatientID'],
       params: ['loginserver', 'user', 'password', 'idp', 'PatientID', 'IssuerOfPatientID', 'remote']
     },
     'companion-accession': {
-      required: ['appName', 'loginserver', 'user', 'password', 'PatientID', 'IssuerOfPatientID', 'AccessionNumber'],
+      required: ['appName', 'loginserver', 'user', 'password', 'PatientID', 'AccessionNumber'],
       params: ['loginserver', 'user', 'password', 'idp', 'PatientID', 'IssuerOfPatientID', 'AccessionNumber', 'remote']
     },
     'companion-multi-accession': {
-      required: ['appName', 'loginserver', 'user', 'password', 'IssuerOfPatientID', 'AccessionNumber'],
+      required: ['appName', 'loginserver', 'user', 'password', 'AccessionNumber'],
       params: ['loginserver', 'user', 'password', 'idp', 'IssuerOfPatientID', 'AccessionNumber', 'remote']
     },
     'companion-remote': {
-      required: ['appName', 'loginserver', 'user', 'password', 'PatientID', 'IssuerOfPatientID', 'remote'],
+      required: ['appName', 'loginserver', 'user', 'password', 'PatientID', 'remote'],
       params: ['loginserver', 'user', 'password', 'idp', 'PatientID', 'IssuerOfPatientID', 'remote']
     },
     'companion-diagnost': {
@@ -63,8 +63,7 @@
         'loginserver',
         'user',
         'password',
-        'PatientID',
-        'IssuerOfPatientID'
+        'PatientID'
       ],
       params: ['loginserver', 'user', 'password', 'idp', 'PatientID', 'IssuerOfPatientID', 'remote']
     },
