@@ -9,7 +9,7 @@ The production container serves only static HTML, CSS and JavaScript through Ngi
 After the GitHub workflow has published the image to GHCR, deploy it with Docker Compose:
 
 ```bash
-docker compose up -d
+docker compose -f docker-compose.image.yml up -d
 ```
 
 The default image is:
@@ -21,7 +21,7 @@ ghcr.io/syschelle/authproxycaller:latest
 Override image or port if needed:
 
 ```bash
-AUTHPROXYCALLER_IMAGE=ghcr.io/syschelle/authproxycaller:v0.1.58 WEB_PORT=18081 docker compose up -d
+AUTHPROXYCALLER_IMAGE=ghcr.io/syschelle/authproxycaller:v0.1.58 WEB_PORT=18081 docker compose -f docker-compose.image.yml up -d
 ```
 
 Open:
