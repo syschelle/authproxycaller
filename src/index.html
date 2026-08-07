@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Authproxycaller</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="builder.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-title">
+      <p class="eyebrow">DeepUnity Auth Proxy &amp; Companion App</p>
+      <h1>Authproxycaller</h1>
+      <p class="subtitle">Erzeugt Viewer-, Study-Search- und Companion-App-, ORBIS-Aufrufe direkt im Browser.</p>
+    </div>
+    <div class="topbar-actions">
+      <a class="feedback-link" href="mailto:sylvio.schelle@dedalus.com?subject=Feedback%20Authproxycaller">Feedback</a>
+      <span class="version">v0.1.58</span>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="workspace">
+      <form id="builder-form" autocomplete="off" novalidate>
+        <div class="card">
+          <div class="card-heading">
+            <div>
+              <p class="step">1</p>
+              <h2>Serverdaten</h2>
+            </div>
+            <button type="button" id="server-test-button" class="button button-ghost">Testdaten aktivieren</button>
+          </div>
+
+          <div class="field-grid">
+            <label class="field field-wide" data-field="dicomFqdn">
+              <span>FQDN DicomServices <b>*</b></span>
+              <input id="dicomFqdn" name="dicomFqdn" type="text" placeholder="dicomservices.example.local" spellcheck="false" autocomplete="off">
+            </label>
+
+            <label class="switch-row switch-row-card field-wide">
+              <input id="sameViewerFqdn" name="sameViewerFqdn" type="checkbox" checked>
+              <span>FQDN für DicomServices und DU Viewer gleich?</span>
+            </label>
+
+            <label class="field field-wide hidden" data-field="viewerFqdn">
+              <span>FQDN DU Viewer <b>*</b></span>
+              <input id="viewerFqdn" name="viewerFqdn" type="text" placeholder="viewer.example.local" spellcheck="false" autocomplete="off" disabled>
+            </label>
+
+            <label class="field" data-field="IssuerOfPatientID">
+              <span>IssuerOfPatientID <b>*</b></span>
+              <input id="IssuerOfPatientID" name="IssuerOfPatientID" type="text" placeholder="4060KSR" spellcheck="false" autocomplete="off">
+            </label>
+
+            <label class="field" data-field="idp">
+              <span>IDP</span>
+              <input id="idp" name="idp" type="text" placeholder="ldap_IDP" spellcheck="false" autocomplete="off">
+            </label>
+
+            <label class="field field-wide" data-field="companionPath">
+              <span>Pfad zur Companion App</span>
+              <input id="companionPath" name="companionPath" type="text" placeholder="O:\orbis\admin" spellcheck="false" autocomplete="off">
+              <small>Nur den Ordnerpfad eingeben, z.B. O:\orbis\admin</small>
+            </label>
+
+            <label class="field" data-field="kisType">
+              <span>KIS-Typ <b>*</b></span>
+              <select id="kisType" name="kisType">
+                <option value="orbis">ORBIS KIS</option>
+                <option value="fremd">Fremd-KIS</option>
+              </select>
+            </label>
+
+            <label class="switch-row switch-row-card field-wide">
+              <input id="terminalKis" name="terminalKis" type="checkbox">
+              <span>KIS läuft im Terminal?</span>
+            </label>
+
+            <label class="field field-wide foreign-kis-only hidden" data-field="foreignPatientIdVariable">
+              <span>Variablenname Patienten-ID</span>
+              <input id="foreignPatientIdVariable" name="foreignPatientIdVariable" type="text" placeholder="PATIENT_ID" spellcheck="false" autocomplete="off">
+            </label>
+
+            <label class="field field-wide foreign-kis-only hidden" data-field="foreignOrderNumberVariable">
+              <span>Variablenname Auftragsnummer</span>
+              <input id="foreignOrderNumberVariable" name="foreignOrderNumberVariable" type="text" placeholder="ORDER_NUMBER" spellcheck="false" autocomplete="off">
+            </label>
+
+            <label class="field field-wide" data-field="diagnostPath">
+              <span>Pfad zum DeepUnity-Ordner</span>
+              <input id="diagnostPath" name="diagnostPath" type="text" placeholder="C:\Program Files\Dedalus\DeepUnity" spellcheck="false" autocomplete="off">
+              <small>Optional. Nur den Ordnerpfad eingeben, z.B. C:\Program Files\Dedalus\DeepUnity. Ohne Angabe sucht die Companion App den Client automatisch.</small>
+            </label>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-heading">
+            <div>
+              <p class="step">2</p>
+              <h2>Testparameter</h2>
+            </div>
+            <button type="button" id="clear-button" class="button button-ghost">Alles leeren</button>
+          </div>
+
+          <div id="dynamic-fields" class="field-grid">
+            <label class="field" data-field="user">
+              <span>Benutzername <b class="required-marker">*</b></span>
+              <input id="user" name="user" type="text" placeholder="testuser" spellcheck="false" autocomplete="off">
+            </label>
+
+            <label class="field" data-field="password">
+              <span>Passwort <b class="required-marker">*</b></span>
+              <input id="password" name="password" type="password" placeholder="testpasswort123" spellcheck="false" autocomplete="off">
+            </label>
+
+            <label class="field" data-field="PatientID">
+              <span>Patienten-ID <b class="required-marker">*</b></span>
+              <input id="PatientID" name="PatientID" type="text" placeholder="1025889" spellcheck="false" autocomplete="off">
+            </label>
+
+            <label class="field field-wide" data-field="AccessionNumber">
+              <span>Auftragsnummer</span>
+              <textarea id="AccessionNumber" name="AccessionNumber" rows="3" placeholder="LSTM-2026-032564" spellcheck="false" autocomplete="off"></textarea>
+              <small id="accession-help">Für mehrere Werte: Komma, Semikolon oder eine Zeile pro Auftragsnummer.</small>
+            </label>
+
+            <label class="field field-wide" data-field="studyUID">
+              <span>SUID <b class="required-marker">*</b></span>
+              <input id="studyUID" name="studyUID" type="text" placeholder="1.2.40.0.13…" spellcheck="false" autocomplete="off">
+            </label>
+          </div>
+
+          <div id="form-error" class="form-error hidden" role="alert"></div>
+        </div>
+      </form>
+
+      <aside class="card output-card" aria-live="polite">
+        <div class="card-heading">
+          <div>
+            <p class="step">3</p>
+            <h2>Aufruf übernehmen</h2>
+          </div>
+          <button type="button" id="pdf-export-button" class="button button-ghost">PDF/TXT Export</button>
+        </div>
+
+        <div class="button-row">
+          <button type="button" id="copy-all-button" class="button button-primary" disabled>Alle Aufrufe</button>
+          <button type="button" id="copy-url-button" class="button button-primary" disabled>URL-Aufruf</button>
+          <button type="button" id="copy-companion-button" class="button button-primary" disabled>Companion App</button>
+          <button type="button" id="copy-svf-button" class="button button-primary svf-only" disabled>SVF-RIS</button>
+          <button type="button" id="copy-svf-card-button" class="button button-primary svf-only" disabled>SVF CARD</button>
+          <button type="button" id="copy-svf-frau-button" class="button button-primary svf-only" disabled>SVF-FRAU</button>
+          <button type="button" id="copy-svf-opap-button" class="button button-primary svf-only" disabled>SVF-OPAP</button>
+          <button type="button" id="copy-svf-lstm-button" class="button button-primary svf-only" disabled>SVF LSTM</button>
+        </div>
+
+        <div class="display-filter" aria-label="Anzeige filtern">
+          <label class="check-row"><input type="radio" name="display-call-type" value="both" checked> <span>Beides anzeigen</span></label>
+          <label class="check-row"><input type="radio" name="display-call-type" value="url"> <span>Nur URL</span></label>
+          <label class="check-row"><input type="radio" name="display-call-type" value="companion"> <span>Nur Companion App</span></label>
+        </div>
+
+        <div class="output-wrap">
+          <div id="output" class="output-content" tabindex="0">Bitte Pflichtfelder ausfüllen.</div>
+        </div>
+        <p id="copy-status" class="status" role="status"></p>
+      </aside>
+    </section>
+  </main>
+
+  <footer>
+    <span>Authproxycaller v0.1.58</span>
+    <span>Clientseitig · zustandslos · ohne Tracking</span>
+  </footer>
+  <div id="pdf-dialog" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="pdf-dialog-title">
+    <div class="modal-panel">
+      <div class="modal-heading">
+        <h2 id="pdf-dialog-title">PDF/TXT Export</h2>
+        <button type="button" id="pdf-cancel-button" class="button button-ghost">Schließen</button>
+      </div>
+      <div class="pdf-option-group">
+        <h3>Aufruf-Typ</h3>
+        <div class="pdf-options pdf-options-compact">
+          <label class="check-row"><input type="radio" name="export-call-type" value="both" checked> <span>Beides</span></label>
+          <label class="check-row"><input type="radio" name="export-call-type" value="url"> <span>Nur URL-Aufrufe</span></label>
+          <label class="check-row"><input type="radio" name="export-call-type" value="companion"> <span>Nur Companion App</span></label>
+        </div>
+      </div>
+
+      <div class="pdf-option-group">
+        <h3>Rubriken</h3>
+        <div class="pdf-options">
+          <label class="check-row"><input type="checkbox" value="all" checked> <span>Alle Aufrufe</span></label>
+          <label class="check-row"><input type="checkbox" value="url"> <span>URL-Aufruf</span></label>
+          <label class="check-row"><input type="checkbox" value="companion"> <span>Companion App</span></label>
+          <label class="check-row"><input type="checkbox" value="svf"> <span>SVF-RIS</span></label>
+          <label class="check-row"><input type="checkbox" value="svfCard"> <span>SVF CARD</span></label>
+          <label class="check-row"><input type="checkbox" value="svfFrau"> <span>SVF-FRAU</span></label>
+          <label class="check-row"><input type="checkbox" value="svfOpap"> <span>SVF-OPAP</span></label>
+          <label class="check-row"><input type="checkbox" value="svfLstm"> <span>SVF LSTM</span></label>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" id="txt-create-button" class="button button-secondary">TXT erstellen</button>
+        <button type="button" id="pdf-create-button" class="button button-primary">PDF erstellen</button>
+      </div>
+    </div>
+  </div>
+  <div id="copy-toast" class="toast hidden" role="status" aria-live="polite"></div>
+</body>
+</html>
