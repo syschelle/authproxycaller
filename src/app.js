@@ -44,6 +44,9 @@
     remote: 'Terminal-KIS',
     server: 'FQDN DU Viewer',
     studyUID: 'SUID',
+    urlSharedPassword: 'Sammelpasswort',
+    urlSharedUser: 'Sammelnutzer',
+    urlSharedUserEnabled: 'URL Sammelnutzer',
     user: 'Benutzername',
     foreignPatientIdVariable: 'Variablenname Patienten-ID',
     foreignOrderNumberVariable: 'Variablenname Auftragsnummer'
@@ -90,10 +93,12 @@
   const copyStatus = document.getElementById('copy-status');
   const copyToast = document.getElementById('copy-toast');
   const sameViewerFqdn = document.getElementById('sameViewerFqdn');
+  const urlSharedUserEnabled = document.getElementById('urlSharedUserEnabled');
   const viewerFqdn = document.getElementById('viewerFqdn');
   const viewerFqdnContainer = document.querySelector('[data-field="viewerFqdn"]');
   const kisType = document.getElementById('kisType');
   const foreignKisFields = document.querySelectorAll('.foreign-kis-only');
+  const sharedUrlUserFields = document.querySelectorAll('.shared-url-user-only');
   const svfOnlyElements = document.querySelectorAll('.svf-only');
 
   function updateServerFields() {
@@ -103,6 +108,15 @@
     if (sameFqdn) {
       viewerFqdnContainer.classList.remove('invalid');
     }
+
+    const sharedUserActive = urlSharedUserEnabled.checked;
+    sharedUrlUserFields.forEach((field) => {
+      const input = field.querySelector('input, select, textarea');
+      field.classList.toggle('hidden', !sharedUserActive);
+      if (input) {
+        input.disabled = !sharedUserActive;
+      }
+    });
   }
 
   function updateKisFields() {
@@ -143,6 +157,7 @@
     config.AccessionNumber = DUBuilder.normalizeAccessions(config.AccessionNumber);
     config.remote = config.terminalKis ? '%' : '';
     config.encryptedSvf = Boolean(config.encryptedSvf);
+    config.urlSharedUserEnabled = Boolean(config.urlSharedUserEnabled);
     if (config.kisType === 'fremd') {
       config.PatientID = variablePlaceholder(config.foreignPatientIdVariable);
       config.AccessionNumber = variablePlaceholder(config.foreignOrderNumberVariable);
@@ -155,6 +170,16 @@
       user: DUBuilder.svfCredentialPlaceholder(userPlaceholder, config.encryptedSvf, encryptedPrefix),
       password: DUBuilder.svfCredentialPlaceholder(passwordPlaceholder, config.encryptedSvf, encryptedPrefix)
     };
+  }
+
+  function svfUrlCredentials(config, userPlaceholder, passwordPlaceholder, encryptedPrefix = 'enc_') {
+    if (config.urlSharedUserEnabled) {
+      return {
+        user: DUBuilder.validatePlainText(config.urlSharedUser, 'Sammelnutzer'),
+        password: DUBuilder.validatePlainText(config.urlSharedPassword, 'Sammelpasswort')
+      };
+    }
+    return svfCredentials(config, userPlaceholder, passwordPlaceholder, encryptedPrefix);
   }
 
   function clearInvalidState() {
@@ -277,14 +302,20 @@
     return error;
   }
 
-  function buildSvfRisUrl(config, parameters) {
-    const missing = ['server', 'IssuerOfPatientID'].filter((field) => !config[field]);
+  function buildSvfRisUrl(config, parameters, options = {}) {
+    const credentialFields = config.urlSharedUserEnabled ? ['urlSharedUser', 'urlSharedPassword'] : [];
+    const missing = ['server', 'IssuerOfPatientID', ...credentialFields].filter((field) => !config[field]);
     if (missing.length > 0) {
       throw missingFieldsError(missing);
     }
 
     const url = new URL('/du-auth-proxy/viewer', DUBuilder.normalizeServer(config.server));
-    const credentials = svfCredentials(config, '%USER%', '%PWD%', 'ENC_');
+    const credentials = svfUrlCredentials(
+      config,
+      options.userPlaceholder || '%USER%',
+      options.passwordPlaceholder || '%PWD%',
+      options.encryptedPrefix || 'ENC_'
+    );
     const params = {
       user: credentials.user,
       password: credentials.password,
@@ -336,11 +367,10 @@
   }
 
   function buildSvfCardUrl(config, parameters) {
-    const credentials = svfCredentials(config, '%benutzercode', '%passwort');
-    return buildSvfRisUrl(config, {
-      user: credentials.user,
-      password: credentials.password,
-      ...parameters
+    return buildSvfRisUrl(config, parameters, {
+      userPlaceholder: '%benutzercode',
+      passwordPlaceholder: '%passwort',
+      encryptedPrefix: 'enc_'
     });
   }
 
@@ -592,7 +622,7 @@
     copyStatus.textContent = '';
 
     const config = collectConfig();
-    const urlSection = createOutputSection('url', 'URL-Aufruf');
+    const urlSection = createOutputSection('url', 'Test URL-Aufruf');
 
     URL_OPTIONS.forEach(([scenarioName, label]) => {
       try {
@@ -604,7 +634,7 @@
     });
 
     const includeCompanion = Boolean(config.appName);
-    let companionSection = createOutputSection('companion', 'Companion App');
+    let companionSection = createOutputSection('companion', 'Test Companion App');
     const sections = [urlSection];
     if (includeCompanion) {
       COMPANION_OPTIONS.forEach(([scenarioName, label]) => {
@@ -742,6 +772,8 @@
     'viewerFqdn',
     'IssuerOfPatientID',
     'idp',
+    'urlSharedUser',
+    'urlSharedPassword',
     'user',
     'password',
     'companionPath',
@@ -755,7 +787,8 @@
   ];
   const TEST_DATA_CHECKBOXES = [
     'terminalKis',
-    'encryptedSvf'
+    'encryptedSvf',
+    'urlSharedUserEnabled'
   ];
 
   function setTestButton(active) {
@@ -803,6 +836,9 @@
     viewerFqdn.value = 'viewer.test.local';
     document.getElementById('IssuerOfPatientID').value = 'TESTISSUER';
     document.getElementById('idp').value = 'ldap_IDP';
+    document.getElementById('urlSharedUserEnabled').checked = true;
+    document.getElementById('urlSharedUser').value = 'sammelnutzer';
+    document.getElementById('urlSharedPassword').value = 'sammelpasswort123';
     document.getElementById('terminalKis').checked = true;
     document.getElementById('encryptedSvf').checked = true;
     document.getElementById('user').value = 'testuser';

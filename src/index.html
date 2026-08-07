@@ -19,7 +19,7 @@
     </div>
     <div class="topbar-actions">
       <a class="feedback-link" href="mailto:sylvio.schelle@dedalus.com?subject=Feedback%20Authproxycaller">Feedback</a>
-      <span class="version">v0.1.61</span>
+      <span class="version">v0.1.63</span>
     </div>
   </header>
 
@@ -59,6 +59,21 @@
             <label class="field" data-field="idp">
               <span>IDP</span>
               <input id="idp" name="idp" type="text" placeholder="ldap_IDP" spellcheck="false" autocomplete="off">
+            </label>
+
+            <label class="switch-row switch-row-card field-wide">
+              <input id="urlSharedUserEnabled" name="urlSharedUserEnabled" type="checkbox">
+              <span>URL Sammelnutzer</span>
+            </label>
+
+            <label class="field shared-url-user-only hidden" data-field="urlSharedUser">
+              <span>Sammelnutzer</span>
+              <input id="urlSharedUser" name="urlSharedUser" type="text" placeholder="sammelnutzer" spellcheck="false" autocomplete="off" disabled>
+            </label>
+
+            <label class="field shared-url-user-only hidden" data-field="urlSharedPassword">
+              <span>Sammelpasswort</span>
+              <input id="urlSharedPassword" name="urlSharedPassword" type="password" placeholder="sammelpasswort" spellcheck="false" autocomplete="off" disabled>
             </label>
 
             <label class="field field-wide" data-field="companionPath">
@@ -179,7 +194,7 @@
   </main>
 
   <footer>
-    <span>Authproxycaller v0.1.61</span>
+    <span>Authproxycaller v0.1.63</span>
     <span>Clientseitig · zustandslos · ohne Tracking</span>
   </footer>
   <div id="pdf-dialog" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="pdf-dialog-title">
