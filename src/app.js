@@ -164,7 +164,7 @@
     config.remote = config.terminalKis ? '%' : '';
     config.encryptedSvf = Boolean(config.encryptedSvf);
     config.urlSharedUserEnabled = Boolean(config.urlSharedUserEnabled);
-    config.urlAuditUserEnabled = Boolean(config.urlSharedUserEnabled && config.urlAuditUserEnabled);
+    config.urlAuditUserEnabled = Boolean(config.urlAuditUserEnabled);
     if (config.kisType === 'fremd') {
       config.PatientID = variablePlaceholder(config.foreignPatientIdVariable);
       config.AccessionNumber = variablePlaceholder(config.foreignOrderNumberVariable);
