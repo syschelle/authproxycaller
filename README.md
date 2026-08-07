@@ -6,7 +6,7 @@ The production container serves only static HTML, CSS and JavaScript through Ngi
 
 ## Docker Deploy
 
-After the GitHub workflow has published the image to GHCR, deploy it with Docker Compose:
+Deploy the published GHCR image with Docker Compose:
 
 ```bash
 docker compose -f docker-compose.image.yml up -d
@@ -21,7 +21,7 @@ ghcr.io/syschelle/authproxycaller:latest
 Override image or port if needed:
 
 ```bash
-AUTHPROXYCALLER_IMAGE=ghcr.io/syschelle/authproxycaller:v0.1.58 WEB_PORT=18081 docker compose -f docker-compose.image.yml up -d
+AUTHPROXYCALLER_IMAGE=ghcr.io/syschelle/authproxycaller:latest WEB_PORT=18081 docker compose -f docker-compose.image.yml up -d
 ```
 
 Open:
@@ -42,22 +42,31 @@ Health check:
 http://<DOCKER-HOST>:18081/healthz
 ```
 
-## GitHub Release
+## Update Existing Deployment
 
-Push the repository to GitHub, then create and push a tag:
+Update the Compose file and pull the newest image:
 
 ```bash
-git tag v0.1.58
-git push origin main
-git push origin v0.1.58
+git pull
+docker compose -f docker-compose.image.yml pull
+docker compose -f docker-compose.image.yml up -d --force-recreate
 ```
 
-The GitHub workflow will:
+If the deployment uses custom environment values, pass them again during the recreate:
 
-- run the Node.js tests
-- build the Docker image
-- publish `latest`, branch, SHA and tag images to GitHub Container Registry
-- create a GitHub Release for `v*` tags
+```bash
+AUTHPROXYCALLER_IMAGE=ghcr.io/syschelle/authproxycaller:latest WEB_PORT=18081 docker compose -f docker-compose.image.yml pull
+AUTHPROXYCALLER_IMAGE=ghcr.io/syschelle/authproxycaller:latest WEB_PORT=18081 docker compose -f docker-compose.image.yml up -d --force-recreate
+```
+
+Check the updated container:
+
+```bash
+docker compose -f docker-compose.image.yml ps
+docker compose -f docker-compose.image.yml logs --tail=50 authproxycaller
+```
+
+The GitHub workflow runs the Node.js tests, builds the Docker image and publishes `latest`, branch and SHA images to GitHub Container Registry.
 
 ## Local Development
 
