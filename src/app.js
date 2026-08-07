@@ -37,6 +37,7 @@
     IssuerOfPatientID: 'IssuerOfPatientID',
     PatientID: 'Patienten-ID',
     appName: 'Pfad zur Companion App',
+    encryptedSvf: 'Verschlüsselt',
     idp: 'IDP',
     loginserver: 'FQDN DicomServices',
     password: 'Passwort',
@@ -140,11 +141,19 @@
     config.diagnostParameter = 'diagnostPath';
     config.AccessionNumber = DUBuilder.normalizeAccessions(config.AccessionNumber);
     config.remote = config.terminalKis ? '%' : '';
+    config.encryptedSvf = Boolean(config.encryptedSvf);
     if (config.kisType === 'fremd') {
       config.PatientID = variablePlaceholder(config.foreignPatientIdVariable);
       config.AccessionNumber = variablePlaceholder(config.foreignOrderNumberVariable);
     }
     return config;
+  }
+
+  function svfCredentials(config, userPlaceholder, passwordPlaceholder, encryptedPrefix = 'enc_') {
+    return {
+      user: DUBuilder.svfCredentialPlaceholder(userPlaceholder, config.encryptedSvf, encryptedPrefix),
+      password: DUBuilder.svfCredentialPlaceholder(passwordPlaceholder, config.encryptedSvf, encryptedPrefix)
+    };
   }
 
   function clearInvalidState() {
@@ -227,12 +236,18 @@
 
   function preserveSvfVariables(value) {
     return value
+      .replace(/%25ENC_USER%25/g, '%ENC_USER%')
+      .replace(/%25enc_USER%25/g, '%enc_USER%')
       .replace(/%25USER%25/g, '%USER%')
+      .replace(/%25ENC_PWD%25/g, '%ENC_PWD%')
+      .replace(/%25enc_PWD%25/g, '%enc_PWD%')
       .replace(/%25PWD%25/g, '%PWD%')
       .replace(/%25STUDYUID%25/g, '%STUDYUID%')
       .replace(/%25ORDERNR%25/g, '%ORDERNR%')
       .replace(/%25PATIENTID%25/g, '%PATIENTID%')
+      .replace(/%25enc_benutzercode/g, '%enc_benutzercode')
       .replace(/%25benutzercode/g, '%benutzercode')
+      .replace(/%25enc_passwort/g, '%enc_passwort')
       .replace(/%25passwort/g, '%passwort')
       .replace(/%25auftragsnr/g, '%auftragsnr')
       .replace(/%25patid/g, '%patid');
@@ -252,9 +267,10 @@
     }
 
     const url = new URL('/du-auth-proxy/viewer', DUBuilder.normalizeServer(config.server));
+    const credentials = svfCredentials(config, '%USER%', '%PWD%', 'ENC_');
     const params = {
-      user: '%USER%',
-      password: '%PWD%',
+      user: credentials.user,
+      password: credentials.password,
       ...(config.idp ? { idp: config.idp } : {}),
       IssuerOfPatientID: config.IssuerOfPatientID,
       ...parameters
@@ -298,19 +314,22 @@
   }
 
   function buildSvfRisCompanion(config, parameters, options) {
-    return buildExternalCompanion(config, '%USER%', '%PWD%', parameters, options);
+    const credentials = svfCredentials(config, '%USER%', '%PWD%', 'ENC_');
+    return buildExternalCompanion(config, credentials.user, credentials.password, parameters, options);
   }
 
   function buildSvfCardUrl(config, parameters) {
+    const credentials = svfCredentials(config, '%benutzercode', '%passwort');
     return buildSvfRisUrl(config, {
-      user: '%benutzercode',
-      password: '%passwort',
+      user: credentials.user,
+      password: credentials.password,
       ...parameters
     });
   }
 
   function buildSvfCardCompanion(config, parameters) {
-    return buildExternalCompanion(config, '%benutzercode', '%passwort', parameters);
+    const credentials = svfCredentials(config, '%benutzercode', '%passwort');
+    return buildExternalCompanion(config, credentials.user, credentials.password, parameters);
   }
 
   function buildSvfCardSection(key, title, config, includeCompanion) {
@@ -718,7 +737,8 @@
     'studyUID'
   ];
   const TEST_DATA_CHECKBOXES = [
-    'terminalKis'
+    'terminalKis',
+    'encryptedSvf'
   ];
 
   function setTestButton(active) {
@@ -767,6 +787,7 @@
     document.getElementById('IssuerOfPatientID').value = 'TESTISSUER';
     document.getElementById('idp').value = 'ldap_IDP';
     document.getElementById('terminalKis').checked = true;
+    document.getElementById('encryptedSvf').checked = true;
     document.getElementById('user').value = 'testuser';
     document.getElementById('password').value = 'testpasswort123';
     document.getElementById('companionPath').value = 'O:\\orbis\\admin';

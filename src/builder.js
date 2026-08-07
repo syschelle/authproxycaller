@@ -194,6 +194,14 @@
     return text;
   }
 
+  function svfCredentialPlaceholder(value, encrypted, encryptedPrefix = 'enc_') {
+    const text = clean(value);
+    if (!encrypted) {
+      return text;
+    }
+    return text.replace(/^%/, `%${encryptedPrefix}`);
+  }
+
   function buildCompanion(scenarioName, config, format) {
     const scenario = COMPANION_SCENARIOS[scenarioName];
     if (!scenario) {
@@ -259,6 +267,7 @@
     companionExecutablePath,
     normalizeAccessions,
     quoteCmdValue,
+    svfCredentialPlaceholder,
     validateParameterName
   };
 });

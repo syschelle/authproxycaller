@@ -7,6 +7,7 @@ const {
   buildCompanion,
   normalizeAccessions,
   companionExecutablePath,
+  svfCredentialPlaceholder,
   validateParameterName
 } = require('../src/builder.js');
 
@@ -106,6 +107,14 @@ test('adds terminal KIS remote marker to Companion App commands', () => {
   }, 'single-line');
 
   assert.match(result, / remote=%$/);
+});
+
+test('adds encrypted prefix to SVF credential placeholders', () => {
+  assert.equal(svfCredentialPlaceholder('%USER%', true, 'ENC_'), '%ENC_USER%');
+  assert.equal(svfCredentialPlaceholder('%PWD%', true, 'ENC_'), '%ENC_PWD%');
+  assert.equal(svfCredentialPlaceholder('%benutzercode', true), '%enc_benutzercode');
+  assert.equal(svfCredentialPlaceholder('%passwort', true), '%enc_passwort');
+  assert.equal(svfCredentialPlaceholder('%USER%', false), '%USER%');
 });
 
 test('normalizes multiple accession numbers', () => {
