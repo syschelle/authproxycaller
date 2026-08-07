@@ -44,6 +44,7 @@
     remote: 'Terminal-KIS',
     server: 'FQDN DU Viewer',
     studyUID: 'SUID',
+    urlAuditUserEnabled: 'Auditloguser',
     urlSharedPassword: 'Sammelpasswort',
     urlSharedUser: 'Sammelbenutzer',
     urlSharedUserEnabled: 'URL Aufruf Sammelnutzer?',
@@ -158,6 +159,7 @@
     config.remote = config.terminalKis ? '%' : '';
     config.encryptedSvf = Boolean(config.encryptedSvf);
     config.urlSharedUserEnabled = Boolean(config.urlSharedUserEnabled);
+    config.urlAuditUserEnabled = Boolean(config.urlSharedUserEnabled && config.urlAuditUserEnabled);
     if (config.kisType === 'fremd') {
       config.PatientID = variablePlaceholder(config.foreignPatientIdVariable);
       config.AccessionNumber = variablePlaceholder(config.foreignOrderNumberVariable);
@@ -316,9 +318,16 @@
       options.passwordPlaceholder || '%PWD%',
       options.encryptedPrefix || 'ENC_'
     );
+    const auditCredentials = svfCredentials(
+      config,
+      options.userPlaceholder || '%USER%',
+      options.passwordPlaceholder || '%PWD%',
+      options.encryptedPrefix || 'ENC_'
+    );
     const params = {
       user: credentials.user,
       password: credentials.password,
+      ...(config.urlAuditUserEnabled ? { app_usr: auditCredentials.user } : {}),
       ...(config.idp ? { idp: config.idp } : {}),
       IssuerOfPatientID: config.IssuerOfPatientID,
       ...parameters
@@ -788,7 +797,8 @@
   const TEST_DATA_CHECKBOXES = [
     'terminalKis',
     'encryptedSvf',
-    'urlSharedUserEnabled'
+    'urlSharedUserEnabled',
+    'urlAuditUserEnabled'
   ];
 
   function setTestButton(active) {
@@ -837,6 +847,7 @@
     document.getElementById('IssuerOfPatientID').value = 'TESTISSUER';
     document.getElementById('idp').value = 'ldap_IDP';
     document.getElementById('urlSharedUserEnabled').checked = true;
+    document.getElementById('urlAuditUserEnabled').checked = true;
     document.getElementById('urlSharedUser').value = 'sammelbenutzer';
     document.getElementById('urlSharedPassword').value = 'sammelpasswort123';
     document.getElementById('terminalKis').checked = true;
