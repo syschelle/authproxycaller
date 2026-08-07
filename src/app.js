@@ -50,7 +50,9 @@
     urlSharedUserEnabled: 'URL Aufruf Sammelnutzer?',
     user: 'Benutzername',
     foreignPatientIdVariable: 'Variablenname Patienten-ID',
-    foreignOrderNumberVariable: 'Variablenname Auftragsnummer'
+    foreignOrderNumberVariable: 'Variablenname Auftragsnummer',
+    foreignUserVariable: 'Variablenname Benutzername',
+    foreignPasswordVariable: 'Variablenname Passwort'
   };
 
   const state = {
@@ -91,6 +93,7 @@
   const displayCallTypeRadios = document.querySelectorAll('input[name="display-call-type"]');
   const displayCompanionOption = document.querySelector('input[name="display-call-type"][value="companion"]').closest('label');
   const exportCompanionOption = pdfDialog.querySelector('input[name="export-call-type"][value="companion"]').closest('label');
+  const svfExportLabel = pdfDialog.querySelector('input[value="svf"]').closest('label').querySelector('span');
   const copyStatus = document.getElementById('copy-status');
   const copyToast = document.getElementById('copy-toast');
   const sameViewerFqdn = document.getElementById('sameViewerFqdn');
@@ -132,6 +135,8 @@
     svfOnlyElements.forEach((element) => {
       element.classList.toggle('hidden', isForeignKis);
     });
+    copySvfButton.textContent = isForeignKis ? 'Fremd-RIS' : 'SVF-RIS';
+    svfExportLabel.textContent = isForeignKis ? 'Fremd-RIS' : 'SVF-RIS';
   }
 
   function variablePlaceholder(value) {
@@ -163,25 +168,28 @@
     if (config.kisType === 'fremd') {
       config.PatientID = variablePlaceholder(config.foreignPatientIdVariable);
       config.AccessionNumber = variablePlaceholder(config.foreignOrderNumberVariable);
+      config.foreignUserPlaceholder = variablePlaceholder(config.foreignUserVariable);
+      config.foreignPasswordPlaceholder = variablePlaceholder(config.foreignPasswordVariable);
     }
     return config;
   }
 
-  function svfCredentials(config, userPlaceholder, passwordPlaceholder, encryptedPrefix = 'enc_') {
+  function svfCredentials(config, userPlaceholder, passwordPlaceholder, encryptedPrefix = 'enc_', options = {}) {
+    const encrypted = options.applyEncryption === false ? false : config.encryptedSvf;
     return {
-      user: DUBuilder.svfCredentialPlaceholder(userPlaceholder, config.encryptedSvf, encryptedPrefix),
-      password: DUBuilder.svfCredentialPlaceholder(passwordPlaceholder, config.encryptedSvf, encryptedPrefix)
+      user: DUBuilder.svfCredentialPlaceholder(userPlaceholder, encrypted, encryptedPrefix),
+      password: DUBuilder.svfCredentialPlaceholder(passwordPlaceholder, encrypted, encryptedPrefix)
     };
   }
 
-  function svfUrlCredentials(config, userPlaceholder, passwordPlaceholder, encryptedPrefix = 'enc_') {
+  function svfUrlCredentials(config, userPlaceholder, passwordPlaceholder, encryptedPrefix = 'enc_', options = {}) {
     if (config.urlSharedUserEnabled) {
       return {
         user: DUBuilder.validatePlainText(config.urlSharedUser, 'Sammelbenutzer'),
         password: DUBuilder.validatePlainText(config.urlSharedPassword, 'Sammelpasswort')
       };
     }
-    return svfCredentials(config, userPlaceholder, passwordPlaceholder, encryptedPrefix);
+    return svfCredentials(config, userPlaceholder, passwordPlaceholder, encryptedPrefix, options);
   }
 
   function clearInvalidState() {
@@ -316,13 +324,15 @@
       config,
       options.userPlaceholder || '%USER%',
       options.passwordPlaceholder || '%PWD%',
-      options.encryptedPrefix || 'ENC_'
+      options.encryptedPrefix || 'ENC_',
+      { applyEncryption: options.applyEncryption }
     );
     const auditCredentials = svfCredentials(
       config,
       options.userPlaceholder || '%USER%',
       options.passwordPlaceholder || '%PWD%',
-      options.encryptedPrefix || 'ENC_'
+      options.encryptedPrefix || 'ENC_',
+      { applyEncryption: options.applyEncryption }
     );
     const params = {
       user: credentials.user,
@@ -373,6 +383,84 @@
   function buildSvfRisCompanion(config, parameters, options) {
     const credentials = svfCredentials(config, '%USER%', '%PWD%', 'ENC_');
     return buildExternalCompanion(config, credentials.user, credentials.password, parameters, options);
+  }
+
+  function foreignRisParameters(config, parameters) {
+    return Object.fromEntries(Object.entries(parameters).map(([key, value]) => {
+      if (value === '%PATIENTID%') return [key, config.PatientID];
+      if (value === '%ORDERNR%') return [key, config.AccessionNumber];
+      return [key, value];
+    }));
+  }
+
+  function missingForeignRisParameterFields(config, parameters) {
+    const missing = [];
+    Object.values(parameters).forEach((value) => {
+      if (value === '%PATIENTID%' && !config.PatientID) {
+        missing.push('foreignPatientIdVariable');
+      }
+      if (value === '%ORDERNR%' && !config.AccessionNumber) {
+        missing.push('foreignOrderNumberVariable');
+      }
+    });
+    return missing;
+  }
+
+  function buildForeignRisUrl(config, parameters) {
+    const missing = missingForeignRisParameterFields(config, parameters);
+    if (!config.urlSharedUserEnabled) {
+      if (!config.foreignUserPlaceholder) missing.push('foreignUserVariable');
+      if (!config.foreignPasswordPlaceholder) missing.push('foreignPasswordVariable');
+    }
+    if (config.urlAuditUserEnabled && !config.foreignUserPlaceholder) {
+      missing.push('foreignUserVariable');
+    }
+    if (missing.length > 0) {
+      throw missingFieldsError([...new Set(missing)]);
+    }
+    return buildSvfRisUrl(config, foreignRisParameters(config, parameters), {
+      userPlaceholder: config.foreignUserPlaceholder || '%USER%',
+      passwordPlaceholder: config.foreignPasswordPlaceholder || '%PWD%',
+      encryptedPrefix: '',
+      applyEncryption: false
+    });
+  }
+
+  function buildForeignRisCompanion(config, parameters, options) {
+    const missing = missingForeignRisParameterFields(config, parameters);
+    if (!config.foreignUserPlaceholder) missing.push('foreignUserVariable');
+    if (!config.foreignPasswordPlaceholder) missing.push('foreignPasswordVariable');
+    if (missing.length > 0) {
+      throw missingFieldsError([...new Set(missing)]);
+    }
+    return buildExternalCompanion(
+      config,
+      config.foreignUserPlaceholder,
+      config.foreignPasswordPlaceholder,
+      foreignRisParameters(config, parameters),
+      options
+    );
+  }
+
+  function buildRisSection(title, config, includeCompanion, urlBuilder, companionBuilder) {
+    const section = createOutputSection('svf', title);
+    SVF_RIS_OPTIONS.forEach(([label, parameters, options = {}]) => {
+      if (!options.companionOnly) {
+        try {
+          appendScenario(section, `URL-Aufruf - ${label}`, urlBuilder(config, parameters, options));
+        } catch (error) {
+          appendMissing(section, `URL-Aufruf - ${label}`, error);
+        }
+      }
+      if (includeCompanion) {
+        try {
+          appendScenario(section, `Companion App - ${label}`, companionBuilder(config, parameters, options));
+        } catch (error) {
+          appendMissing(section, `Companion App - ${label}`, error);
+        }
+      }
+    });
+    return section;
   }
 
   function buildSvfCardUrl(config, parameters) {
@@ -666,29 +754,15 @@
     let svfLstmSection = createOutputSection('svfLstm', 'SVF LSTM');
 
     if (config.kisType !== 'fremd') {
-      svfSection = createOutputSection('svf', 'SVF-RIS');
-      SVF_RIS_OPTIONS.forEach(([label, parameters, options = {}]) => {
-        if (!options.companionOnly) {
-          try {
-            appendScenario(svfSection, `URL-Aufruf - ${label}`, buildSvfRisUrl(config, parameters));
-          } catch (error) {
-            appendMissing(svfSection, `URL-Aufruf - ${label}`, error);
-          }
-        }
-        if (includeCompanion) {
-          try {
-            appendScenario(svfSection, `Companion App - ${label}`, buildSvfRisCompanion(config, parameters, options));
-          } catch (error) {
-            appendMissing(svfSection, `Companion App - ${label}`, error);
-          }
-        }
-      });
-
+      svfSection = buildRisSection('SVF-RIS', config, includeCompanion, buildSvfRisUrl, buildSvfRisCompanion);
       svfCardSection = buildSvfCardSection('svfCard', 'SVF CARD', config, includeCompanion);
       svfFrauSection = buildSvfCardSection('svfFrau', 'SVF-FRAU', config, includeCompanion);
       svfOpapSection = buildSvfCardSection('svfOpap', 'SVF-OPAP', config, includeCompanion);
       svfLstmSection = buildSvfCardSection('svfLstm', 'SVF LSTM', config, includeCompanion);
       sections.push(svfSection, svfCardSection, svfFrauSection, svfOpapSection, svfLstmSection);
+    } else {
+      svfSection = buildRisSection('Fremd-RIS', config, includeCompanion, buildForeignRisUrl, buildForeignRisCompanion);
+      sections.push(svfSection);
     }
     state.sections = sections;
     updateCompanionOptions(Boolean(companionSection));
@@ -696,7 +770,7 @@
     state.urlOutput = sectionToText(urlSection);
     state.companionOutput = companionSection ? sectionToText(companionSection) : '';
     if (config.kisType === 'fremd') {
-      state.svfOutput = '';
+      state.svfOutput = sectionToText(svfSection);
       state.svfCardOutput = '';
       state.svfFrauOutput = '';
       state.svfOpapOutput = '';
@@ -789,6 +863,8 @@
     'kisType',
     'foreignPatientIdVariable',
     'foreignOrderNumberVariable',
+    'foreignUserVariable',
+    'foreignPasswordVariable',
     'diagnostPath',
     'PatientID',
     'AccessionNumber',
@@ -858,6 +934,8 @@
     kisType.value = 'fremd';
     document.getElementById('foreignPatientIdVariable').value = 'FKIS_PATIENT_ID';
     document.getElementById('foreignOrderNumberVariable').value = 'FKIS_AUFTRAG_NR';
+    document.getElementById('foreignUserVariable').value = 'FKIS_USER';
+    document.getElementById('foreignPasswordVariable').value = 'FKIS_PASSWORD';
     document.getElementById('diagnostPath').value = 'C:\\Program Files\\Dedalus\\DeepUnity';
     document.getElementById('PatientID').value = 'PAT-100200';
     document.getElementById('AccessionNumber').value = 'ORD-2026-0001';

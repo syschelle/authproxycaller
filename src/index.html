@@ -19,7 +19,7 @@
     </div>
     <div class="topbar-actions">
       <a class="feedback-link" href="mailto:sylvio.schelle@dedalus.com?subject=Feedback%20Authproxycaller">Feedback</a>
-      <span class="version">v0.1.66</span>
+      <span class="version">v0.1.67</span>
     </div>
   </header>
 
@@ -115,6 +115,16 @@
               <input id="foreignOrderNumberVariable" name="foreignOrderNumberVariable" type="text" placeholder="ORDER_NUMBER" spellcheck="false" autocomplete="off">
             </label>
 
+            <label class="field field-wide foreign-kis-only hidden" data-field="foreignUserVariable">
+              <span>Variablenname Benutzername</span>
+              <input id="foreignUserVariable" name="foreignUserVariable" type="text" placeholder="USER" spellcheck="false" autocomplete="off">
+            </label>
+
+            <label class="field field-wide foreign-kis-only hidden" data-field="foreignPasswordVariable">
+              <span>Variablenname Passwort</span>
+              <input id="foreignPasswordVariable" name="foreignPasswordVariable" type="text" placeholder="PASSWORD" spellcheck="false" autocomplete="off">
+            </label>
+
             <label class="field field-wide" data-field="diagnostPath">
               <span>Pfad zum DeepUnity-Ordner</span>
               <input id="diagnostPath" name="diagnostPath" type="text" placeholder="C:\Program Files\Dedalus\DeepUnity" spellcheck="false" autocomplete="off">
@@ -177,7 +187,7 @@
           <button type="button" id="copy-all-button" class="button button-primary" disabled>Alle Aufrufe</button>
           <button type="button" id="copy-url-button" class="button button-primary" disabled>URL-Aufruf</button>
           <button type="button" id="copy-companion-button" class="button button-primary" disabled>Companion App</button>
-          <button type="button" id="copy-svf-button" class="button button-primary svf-only" disabled>SVF-RIS</button>
+          <button type="button" id="copy-svf-button" class="button button-primary" disabled>SVF-RIS</button>
           <button type="button" id="copy-svf-card-button" class="button button-primary svf-only" disabled>SVF CARD</button>
           <button type="button" id="copy-svf-frau-button" class="button button-primary svf-only" disabled>SVF-FRAU</button>
           <button type="button" id="copy-svf-opap-button" class="button button-primary svf-only" disabled>SVF-OPAP</button>
@@ -199,7 +209,7 @@
   </main>
 
   <footer>
-    <span>Authproxycaller v0.1.66</span>
+    <span>Authproxycaller v0.1.67</span>
     <span>Clientseitig · zustandslos · ohne Tracking</span>
   </footer>
   <div id="pdf-dialog" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="pdf-dialog-title">
