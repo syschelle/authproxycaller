@@ -122,7 +122,8 @@
   function variablePlaceholder(value) {
     const text = typeof value === 'string' ? value.trim() : '';
     if (!text) return '';
-    return text.startsWith('%') ? text : `%${text}%`;
+    const unwrapped = text.replace(/^%/, '').replace(/%$/, '');
+    return `%${DUBuilder.validateParameterName(unwrapped)}%`;
   }
 
   function collectConfig() {
@@ -164,7 +165,7 @@
 
   function missingFieldsFrom(error) {
     if (error && error.code === 'MISSING_FIELDS' && Array.isArray(error.fields)) {
-      return error.fields.map((field) => FIELD_LABELS[field] || field).join(', ');
+      return `Parameter fehlen: ${error.fields.map((field) => FIELD_LABELS[field] || field).join(', ')}`;
     }
     if (error && error.message) {
       return error.message;
@@ -187,7 +188,7 @@
   function appendMissing(section, label, error) {
     section.items.push({
       label,
-      value: `Hinweis: Parameter fehlen: ${missingFieldsFrom(error)}`,
+      value: `Hinweis: ${missingFieldsFrom(error)}`,
       type: 'missing'
     });
   }

@@ -84,8 +84,50 @@
     }
   });
 
+  const MAX_FIELD_LENGTH = 1024;
+  const MAX_PATH_LENGTH = 2048;
+  const MAX_PARAMETER_NAME_LENGTH = 64;
+  const CONTROL_CHARS = /[\u0000-\u001F\u007F]/u;
+  const HOST_PATTERN = /^(?:localhost|[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)*|\d{1,3}(?:\.\d{1,3}){3})(?::\d{1,5})?$/u;
+
   function clean(value) {
     return typeof value === 'string' ? value.trim() : '';
+  }
+
+  function validatePlainText(value, label, maxLength = MAX_FIELD_LENGTH) {
+    const text = clean(value);
+    if (text.length > maxLength) {
+      throw new Error(`${label} ist zu lang.`);
+    }
+    if (CONTROL_CHARS.test(text)) {
+      throw new Error(`${label} enthält unzulässige Steuerzeichen.`);
+    }
+    return text;
+  }
+
+  function validateHost(value, label) {
+    const text = validatePlainText(value, label);
+    if (!HOST_PATTERN.test(text)) {
+      throw new Error(`${label} muss ein Hostname, eine IP-Adresse oder Host:Port sein.`);
+    }
+
+    const portMatch = text.match(/:(\d{1,5})$/u);
+    if (portMatch) {
+      const port = Number(portMatch[1]);
+      if (port < 1 || port > 65535) {
+        throw new Error(`${label} enthält einen ungültigen Port.`);
+      }
+    }
+    return text;
+  }
+
+  function rejectUrlParts(parsed, label) {
+    if (parsed.username || parsed.password) {
+      throw new Error('Benutzerdaten dürfen nicht im Serverfeld stehen.');
+    }
+    if (parsed.pathname !== '/' || parsed.search || parsed.hash) {
+      throw new Error(`${label} darf keinen Pfad, Query-String oder Fragment enthalten.`);
+    }
   }
 
   function requireFields(config, requiredFields) {
@@ -99,7 +141,7 @@
   }
 
   function normalizeServer(input) {
-    let value = clean(input);
+    let value = validatePlainText(input, 'Server');
     if (!value) {
       throw new Error('Server fehlt.');
     }
@@ -117,29 +159,33 @@
     if (!['http:', 'https:'].includes(parsed.protocol)) {
       throw new Error('Für URL-Aufrufe sind nur HTTP und HTTPS zulässig.');
     }
-    if (parsed.username || parsed.password) {
-      throw new Error('Benutzerdaten dürfen nicht im Serverfeld stehen.');
-    }
+    rejectUrlParts(parsed, 'Server');
+    validateHost(parsed.host, 'Server');
 
     return parsed.origin;
   }
 
   function normalizeLoginServer(input) {
-    const value = clean(input);
+    const value = validatePlainText(input, 'Loginserver');
     if (!value) {
       throw new Error('Loginserver fehlt.');
     }
 
     if (/^[a-z][a-z0-9+.-]*:\/\//i.test(value)) {
       const parsed = new URL(value);
+      if (!['http:', 'https:'].includes(parsed.protocol)) {
+        throw new Error('Für den Loginserver sind nur HTTP und HTTPS zulässig.');
+      }
+      rejectUrlParts(parsed, 'Loginserver');
+      validateHost(parsed.host, 'Loginserver');
       return parsed.host;
     }
 
-    return value.replace(/^\/+|\/+$/g, '');
+    return validateHost(value.replace(/^\/+|\/+$/g, ''), 'Loginserver');
   }
 
   function companionExecutablePath(path) {
-    const value = clean(path);
+    const value = validatePlainText(path, 'Pfad zur Companion App', MAX_PATH_LENGTH);
     if (!value) {
       return '';
     }
@@ -165,7 +211,7 @@
     const url = new URL(scenario.path, normalizeServer(config.server));
 
     scenario.params.forEach((parameter) => {
-      const value = clean(config[parameter]);
+      const value = validatePlainText(config[parameter], parameter);
       if (value !== '') {
         url.searchParams.append(parameter, value);
       }
@@ -175,7 +221,7 @@
   }
 
   function validateParameterName(name) {
-    const value = clean(name);
+    const value = validatePlainText(name, 'Parametername', MAX_PARAMETER_NAME_LENGTH);
     if (!/^[A-Za-z][A-Za-z0-9_.-]*$/.test(value)) {
       throw new Error('Der projektspezifische Parametername enthält unzulässige Zeichen.');
     }
@@ -183,7 +229,7 @@
   }
 
   function quoteCmdValue(value) {
-    const text = String(value);
+    const text = validatePlainText(String(value), 'Kommando-Wert', MAX_PATH_LENGTH);
     if (text === '') {
       return '""';
     }
@@ -210,10 +256,7 @@
 
     requireFields(config, scenario.required);
 
-    const appName = clean(config.appName);
-    if (/\r|\n/.test(appName)) {
-      throw new Error('Der App-Name darf keinen Zeilenumbruch enthalten.');
-    }
+    const appName = validatePlainText(config.appName, 'Pfad zur Companion App', MAX_PATH_LENGTH);
 
     const normalizedConfig = {
       ...config,
@@ -222,7 +265,7 @@
 
     const pairs = [];
     scenario.params.forEach((parameter) => {
-      const value = clean(normalizedConfig[parameter]);
+      const value = validatePlainText(normalizedConfig[parameter], parameter);
       if (value !== '') {
         const formattedValue = parameter === 'remote' && value === '%' ? '%' : quoteCmdValue(value);
         pairs.push(`${parameter}=${formattedValue}`);
@@ -230,7 +273,7 @@
     });
 
     const diagnostParameter = clean(config.diagnostParameter);
-    const diagnostPath = clean(config.diagnostPath);
+    const diagnostPath = validatePlainText(config.diagnostPath, 'Pfad zum DeepUnity-Ordner', MAX_PATH_LENGTH);
     if (diagnostParameter && diagnostPath) {
       requireFields(config, ['diagnostParameter', 'diagnostPath']);
       pairs.push(`${validateParameterName(diagnostParameter)}=${quoteCmdValue(diagnostPath)}`);
@@ -262,6 +305,7 @@
     COMPANION_SCENARIOS,
     buildUrl,
     buildCompanion,
+    validatePlainText,
     normalizeServer,
     normalizeLoginServer,
     companionExecutablePath,

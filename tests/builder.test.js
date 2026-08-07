@@ -8,6 +8,7 @@ const {
   normalizeAccessions,
   companionExecutablePath,
   svfCredentialPlaceholder,
+  validatePlainText,
   validateParameterName
 } = require('../src/builder.js');
 
@@ -28,7 +29,7 @@ test('builds viewer URL by StudyUID with encoded parameters', () => {
 
 test('builds filtered study search and omits empty filters', () => {
   const result = buildUrl('studysearch-filtered', {
-    server: 'https://auth.example.com/ignored/path',
+    server: 'https://auth.example.com',
     user: 'test',
     password: 'secret',
     ModalitiesInStudy: 'CT,MR',
@@ -45,7 +46,7 @@ test('builds filtered study search and omits empty filters', () => {
 test('builds multiline Companion App command', () => {
   const result = buildCompanion('companion-remote', {
     appName: 'du-proxy-app',
-    loginserver: 'https://deepunity.example.local/path',
+    loginserver: 'https://deepunity.example.local',
     user: 'web',
     password: 'PW',
     idp: 'ldap_IDP',
@@ -141,6 +142,64 @@ test('builds Companion App executable path from directory', () => {
 
 test('rejects unsafe custom parameter names', () => {
   assert.throws(() => validateParameterName('path&calc'), /unzulässige Zeichen/);
+});
+
+test('rejects control characters in text values', () => {
+  assert.throws(() => validatePlainText('safe\nunsafe', 'Testfeld'), /Steuerzeichen/);
+});
+
+test('rejects server URLs with paths, queries or credentials', () => {
+  assert.throws(() => buildUrl('viewer-study', {
+    server: 'https://auth.example.com/ignored/path',
+    user: 'web',
+    password: 'PW',
+    studyUID: '1.2.3'
+  }), /keinen Pfad/);
+
+  assert.throws(() => buildUrl('viewer-study', {
+    server: 'https://user:pw@auth.example.com',
+    user: 'web',
+    password: 'PW',
+    studyUID: '1.2.3'
+  }), /Benutzerdaten/);
+});
+
+test('rejects unsafe URL protocols and malformed hosts', () => {
+  assert.throws(() => buildUrl('viewer-study', {
+    server: 'javascript:alert(1)',
+    user: 'web',
+    password: 'PW',
+    studyUID: '1.2.3'
+  }), /HTTP und HTTPS|gültige URL|Hostname/);
+
+  assert.throws(() => buildUrl('viewer-study', {
+    server: 'auth example.local',
+    user: 'web',
+    password: 'PW',
+    studyUID: '1.2.3'
+  }), /Hostname/);
+});
+
+test('rejects line breaks in Companion App commands and paths', () => {
+  assert.throws(() => companionExecutablePath('O:\\orbis\ncalc'), /Steuerzeichen/);
+
+  assert.throws(() => buildCompanion('companion-study', {
+    appName: 'du-proxy-app.exe',
+    loginserver: 'deepunity.example.local',
+    user: 'web',
+    password: 'PW\ncalc',
+    studyUID: '1.2.3'
+  }, 'single-line'), /Steuerzeichen/);
+});
+
+test('rejects loginserver URLs with paths in Companion App commands', () => {
+  assert.throws(() => buildCompanion('companion-study', {
+    appName: 'du-proxy-app.exe',
+    loginserver: 'https://deepunity.example.local/path',
+    user: 'web',
+    password: 'PW',
+    studyUID: '1.2.3'
+  }, 'single-line'), /keinen Pfad/);
 });
 
 test('builds every documented URL scenario', () => {

@@ -91,6 +91,8 @@ docker run --rm -p 18081:8080 authproxycaller:local
 ## Security Notes
 
 - static frontend only
+- form output is rendered as text, not as HTML
+- host, URL and command values are validated before calls are generated
 - unprivileged Nginx image
 - read-only container filesystem
 - Linux capabilities dropped
