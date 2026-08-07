@@ -2,7 +2,7 @@
 
 Authproxycaller is a static browser application for generating DeepUnity Auth Proxy URLs and `du-proxy-app` Companion App calls.
 
-The production container serves only static HTML, CSS and JavaScript through Nginx. There is no backend API, database, cookie, persistent browser storage, telemetry or access logging. Form values are kept only in `sessionStorage` for the current browser session.
+The production container serves only static HTML, CSS and JavaScript through Nginx. There is no backend API, database, cookie, browser storage, telemetry or access logging.
 
 ## Docker Deploy
 
@@ -93,7 +93,6 @@ docker run --rm -p 18081:8080 authproxycaller:local
 - static frontend only
 - form output is rendered as text, not as HTML
 - host, URL and command values are validated before calls are generated
-- form values are kept only in session-scoped browser storage
 - unprivileged Nginx image
 - read-only container filesystem
 - Linux capabilities dropped
