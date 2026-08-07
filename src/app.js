@@ -44,7 +44,7 @@
     remote: 'Terminal-KIS',
     server: 'FQDN DU Viewer',
     studyUID: 'SUID',
-    urlAuditUserEnabled: 'Auditloguser',
+    urlAuditUserEnabled: 'Audit-Protokoll-Benutzer',
     urlSharedPassword: 'Sammelpasswort',
     urlSharedUser: 'Sammelbenutzer',
     urlSharedUserEnabled: 'URL Aufruf Sammelnutzer?',
