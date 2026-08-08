@@ -66,8 +66,10 @@
   <text key="button.createTxt">Create TXT</text>
   <text key="button.createPdf">Create PDF</text>
   <text key="button.fieldHint">Show hint</text>
-  <text key="button.hintXml">Hint XML</text>
+  <text key="button.support">Support</text>
+  <text key="button.hintXml">Support</text>
   <text key="button.downloadHintXml">Download hint XML</text>
+  <text key="button.downloadLanguageXml">Download language XML</text>
   <text key="label.urlCall">URL call</text>
   <text key="filter.both">Show both</text>
   <text key="filter.urlOnly">URL only</text>
@@ -79,8 +81,10 @@
   <text key="dialog.urlCallsOnly">URL calls only</text>
   <text key="dialog.sections">Sections</text>
   <text key="dialog.pdfTitle">Authproxycaller PDF export</text>
-  <text key="dialog.hintDownloadTitle">Download hint XML</text>
-  <text key="dialog.hintDownloadBody">The hint XML for the currently selected language can be downloaded, edited and then sent by email using the feedback link.</text>
+  <text key="dialog.supportTitle">Support</text>
+  <text key="dialog.supportBody">The XML files for the currently selected language can be downloaded, edited and then sent by email using the feedback link.</text>
+  <text key="dialog.hintDownloadTitle">Support</text>
+  <text key="dialog.hintDownloadBody">The XML files for the currently selected language can be downloaded, edited and then sent by email using the feedback link.</text>
   <text key="scenario.viewerStudy">Viewer: study by StudyUID</text>
   <text key="scenario.viewerPatient">Viewer: all studies for a patient</text>
   <text key="scenario.viewerAccession">Viewer: patient and accession number</text>
@@ -116,4 +120,6 @@
   <text key="message.noFieldHint">No hint has been added for this field yet.</text>
   <text key="message.hintXmlDownloaded">Hint XML has been downloaded.</text>
   <text key="message.hintXmlDownloadFailed">Hint XML could not be downloaded.</text>
+  <text key="message.languageXmlDownloaded">Language XML has been downloaded.</text>
+  <text key="message.languageXmlDownloadFailed">Language XML could not be downloaded.</text>
 </translations>

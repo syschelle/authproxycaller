@@ -107,6 +107,7 @@
   const hintDownloadDialog = document.getElementById('hint-download-dialog');
   const hintDownloadCloseButton = document.getElementById('hint-download-close-button');
   const hintDownloadCreateButton = document.getElementById('hint-download-create-button');
+  const languageDownloadCreateButton = document.getElementById('language-download-create-button');
   const pdfChecks = pdfDialog.querySelectorAll('input[type="checkbox"]');
   const exportCallTypeRadios = pdfDialog.querySelectorAll('input[name="export-call-type"]');
   const displayCallTypeRadios = document.querySelectorAll('input[name="display-call-type"]');
@@ -199,27 +200,49 @@
     hintDownloadDialog.classList.add('hidden');
   }
 
-  async function downloadCurrentHintXml() {
-    const language = i18n && i18n.language ? i18n.language : 'de';
+  async function downloadXml(path, filename, successKey, successFallback, failureKey, failureFallback) {
     try {
-      const response = await fetch(`i18n/hints/${language}.xml`, { cache: 'no-store' });
+      const response = await fetch(path, { cache: 'no-store' });
       if (!response.ok) {
-        throw new Error(`Hint XML ${language} could not be loaded.`);
+        throw new Error(`${path} could not be loaded.`);
       }
       const blob = new Blob([await response.text()], { type: 'application/xml;charset=utf-8' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = `authproxycaller-hints-${language}.xml`;
+      link.download = filename;
       document.body.append(link);
       link.click();
       link.remove();
       URL.revokeObjectURL(url);
-      closeHintDownloadDialog();
-      showNotice(t('message.hintXmlDownloaded', 'Hint-XML wurde heruntergeladen.'));
+      showNotice(t(successKey, successFallback));
     } catch {
-      showNotice(t('message.hintXmlDownloadFailed', 'Hint-XML konnte nicht heruntergeladen werden.'), 'error');
+      showNotice(t(failureKey, failureFallback), 'error');
     }
+  }
+
+  function downloadCurrentHintXml() {
+    const language = i18n && i18n.language ? i18n.language : 'de';
+    downloadXml(
+      `i18n/hints/${language}.xml`,
+      `authproxycaller-hints-${language}.xml`,
+      'message.hintXmlDownloaded',
+      'Hint-XML wurde heruntergeladen.',
+      'message.hintXmlDownloadFailed',
+      'Hint-XML konnte nicht heruntergeladen werden.'
+    );
+  }
+
+  function downloadCurrentLanguageXml() {
+    const language = i18n && i18n.language ? i18n.language : 'de';
+    downloadXml(
+      `i18n/${language}.xml`,
+      `authproxycaller-language-${language}.xml`,
+      'message.languageXmlDownloaded',
+      'Sprach-XML wurde heruntergeladen.',
+      'message.languageXmlDownloadFailed',
+      'Sprach-XML konnte nicht heruntergeladen werden.'
+    );
   }
 
   function refreshHintButtons() {
@@ -1131,6 +1154,7 @@
   hintDownloadButton.addEventListener('click', openHintDownloadDialog);
   hintDownloadCloseButton.addEventListener('click', closeHintDownloadDialog);
   hintDownloadCreateButton.addEventListener('click', downloadCurrentHintXml);
+  languageDownloadCreateButton.addEventListener('click', downloadCurrentLanguageXml);
   hintDownloadDialog.addEventListener('click', (event) => {
     if (event.target === hintDownloadDialog) {
       closeHintDownloadDialog();

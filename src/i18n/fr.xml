@@ -66,8 +66,10 @@
   <text key="button.createTxt">Créer TXT</text>
   <text key="button.createPdf">Créer PDF</text>
   <text key="button.fieldHint">Afficher l'aide</text>
-  <text key="button.hintXml">Hint XML</text>
+  <text key="button.support">Contribuer</text>
+  <text key="button.hintXml">Contribuer</text>
   <text key="button.downloadHintXml">Télécharger le Hint XML</text>
+  <text key="button.downloadLanguageXml">Télécharger le XML de langue</text>
   <text key="label.urlCall">Appel URL</text>
   <text key="filter.both">Afficher les deux</text>
   <text key="filter.urlOnly">URL seulement</text>
@@ -79,8 +81,10 @@
   <text key="dialog.urlCallsOnly">Appels URL seulement</text>
   <text key="dialog.sections">Rubriques</text>
   <text key="dialog.pdfTitle">Export PDF Authproxycaller</text>
-  <text key="dialog.hintDownloadTitle">Télécharger le Hint XML</text>
-  <text key="dialog.hintDownloadBody">Le Hint XML de la langue actuellement sélectionnée peut être téléchargé, modifié puis envoyé par e-mail via le lien Feedback.</text>
+  <text key="dialog.supportTitle">Contribuer</text>
+  <text key="dialog.supportBody">Les fichiers XML de la langue actuellement sélectionnée peuvent être téléchargés, modifiés puis envoyés par e-mail via le lien Feedback.</text>
+  <text key="dialog.hintDownloadTitle">Contribuer</text>
+  <text key="dialog.hintDownloadBody">Les fichiers XML de la langue actuellement sélectionnée peuvent être téléchargés, modifiés puis envoyés par e-mail via le lien Feedback.</text>
   <text key="scenario.viewerStudy">Viewer : étude par StudyUID</text>
   <text key="scenario.viewerPatient">Viewer : toutes les études d'un patient</text>
   <text key="scenario.viewerAccession">Viewer : patient et Accession Number</text>
@@ -116,4 +120,6 @@
   <text key="message.noFieldHint">Aucune aide n'a encore été ajoutée pour ce champ.</text>
   <text key="message.hintXmlDownloaded">Le Hint XML a été téléchargé.</text>
   <text key="message.hintXmlDownloadFailed">Le Hint XML n'a pas pu être téléchargé.</text>
+  <text key="message.languageXmlDownloaded">Le XML de langue a été téléchargé.</text>
+  <text key="message.languageXmlDownloadFailed">Le XML de langue n'a pas pu être téléchargé.</text>
 </translations>

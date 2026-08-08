@@ -66,8 +66,10 @@
   <text key="button.createTxt">TXT erstellen</text>
   <text key="button.createPdf">PDF erstellen</text>
   <text key="button.fieldHint">Hinweis anzeigen</text>
-  <text key="button.hintXml">Hint-XML</text>
+  <text key="button.support">Unterstützen</text>
+  <text key="button.hintXml">Unterstützen</text>
   <text key="button.downloadHintXml">Hint-XML herunterladen</text>
+  <text key="button.downloadLanguageXml">Sprach-XML herunterladen</text>
   <text key="label.urlCall">URL-Aufruf</text>
   <text key="filter.both">Beides anzeigen</text>
   <text key="filter.urlOnly">Nur URL</text>
@@ -79,8 +81,10 @@
   <text key="dialog.urlCallsOnly">Nur URL-Aufrufe</text>
   <text key="dialog.sections">Rubriken</text>
   <text key="dialog.pdfTitle">Authproxycaller PDF Export</text>
-  <text key="dialog.hintDownloadTitle">Hint-XML herunterladen</text>
-  <text key="dialog.hintDownloadBody">Die Hint-XML der aktuell gewählten Sprache kann heruntergeladen, bearbeitet und anschließend über den Feedbacklink per E-Mail gesendet werden.</text>
+  <text key="dialog.supportTitle">Unterstützen</text>
+  <text key="dialog.supportBody">Die XML-Dateien der aktuell gewählten Sprache können heruntergeladen, bearbeitet und anschließend über den Feedbacklink per E-Mail gesendet werden.</text>
+  <text key="dialog.hintDownloadTitle">Unterstützen</text>
+  <text key="dialog.hintDownloadBody">Die XML-Dateien der aktuell gewählten Sprache können heruntergeladen, bearbeitet und anschließend über den Feedbacklink per E-Mail gesendet werden.</text>
   <text key="scenario.viewerStudy">Viewer: Studie über StudyUID</text>
   <text key="scenario.viewerPatient">Viewer: alle Studien eines Patienten</text>
   <text key="scenario.viewerAccession">Viewer: Patient und Accession Number</text>
@@ -116,4 +120,6 @@
   <text key="message.noFieldHint">Für dieses Feld ist noch kein Hinweis hinterlegt.</text>
   <text key="message.hintXmlDownloaded">Hint-XML wurde heruntergeladen.</text>
   <text key="message.hintXmlDownloadFailed">Hint-XML konnte nicht heruntergeladen werden.</text>
+  <text key="message.languageXmlDownloaded">Sprach-XML wurde heruntergeladen.</text>
+  <text key="message.languageXmlDownloadFailed">Sprach-XML konnte nicht heruntergeladen werden.</text>
 </translations>
