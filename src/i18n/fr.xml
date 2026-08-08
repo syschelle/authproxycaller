@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <translations lang="fr">
   <text key="app.eyebrow">DeepUnity Auth Proxy &amp; Companion App</text>
-  <text key="app.subtitle">Crée des appels Viewer, Study Search, Companion App et ORBIS directement dans le navigateur.</text>
+  <text key="app.subtitle">Simplifie la configuration des appels DeepUnity Auth Proxy ! :)</text>
   <text key="language.label">Langue</text>
   <text key="section.serverData">Données serveur</text>
   <text key="section.testParameters">Paramètres de test</text>
@@ -38,6 +38,7 @@
   <text key="field.AccessionNumber">Numéro de commande</text>
   <text key="field.studyUID">SUID</text>
   <text key="field.remote">SIH terminal</text>
+  <text key="option.orbisKis">ORBIS SIH</text>
   <text key="option.browserSystemDefault">Valeur système par défaut</text>
   <text key="placeholder.dicomFqdn">dicomservices.exemple.local</text>
   <text key="placeholder.viewerFqdn">viewer.exemple.local</text>
