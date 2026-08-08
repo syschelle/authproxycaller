@@ -7,19 +7,29 @@
   <meta name="robots" content="noindex, nofollow">
   <title>Authproxycaller</title>
   <link rel="stylesheet" href="styles.css">
+  <script defer src="i18n.js"></script>
   <script defer src="builder.js"></script>
   <script defer src="app.js"></script>
 </head>
 <body>
   <header class="topbar">
     <div class="topbar-title">
-      <p class="eyebrow">DeepUnity Auth Proxy &amp; Companion App</p>
+      <p class="eyebrow" data-i18n="app.eyebrow">DeepUnity Auth Proxy &amp; Companion App</p>
       <h1>Authproxycaller</h1>
-      <p class="subtitle">Erzeugt Viewer-, Study-Search- und Companion-App-, ORBIS-Aufrufe direkt im Browser.</p>
+      <p class="subtitle" data-i18n="app.subtitle">Erzeugt Viewer-, Study-Search- und Companion-App-, ORBIS-Aufrufe direkt im Browser.</p>
     </div>
     <div class="topbar-actions">
+      <label class="language-switch" for="language-select">
+        <span data-i18n="language.label">Sprache</span>
+        <select id="language-select" aria-label="Sprache">
+          <option value="de">Deutsch</option>
+          <option value="en">English</option>
+          <option value="fr">Français</option>
+        </select>
+      </label>
+      <button type="button" id="hint-download-button" class="feedback-link header-button" data-i18n="button.hintXml">Hint-XML</button>
       <a class="feedback-link" href="mailto:sylvio.schelle@dedalus.com?subject=Feedback%20Authproxycaller">Feedback</a>
-      <span class="version">v0.1.74</span>
+      <span class="version">v0.2.0</span>
     </div>
   </header>
 
@@ -30,105 +40,105 @@
           <div class="card-heading">
             <div>
               <p class="step">1</p>
-              <h2>Serverdaten</h2>
+              <h2 data-i18n="section.serverData">Serverdaten</h2>
             </div>
-            <button type="button" id="server-test-button" class="button button-ghost">Testdaten aktivieren</button>
+            <button type="button" id="server-test-button" class="button button-ghost" data-i18n="button.testDataEnable">Testdaten aktivieren</button>
           </div>
 
           <div class="field-grid">
             <label class="field field-wide" data-field="dicomFqdn">
-              <span>FQDN DicomServices <b>*</b></span>
-              <input id="dicomFqdn" name="dicomFqdn" type="text" placeholder="dicomservices.example.local" spellcheck="false" autocomplete="off">
+              <span><span data-i18n="field.dicomFqdn">FQDN DicomServices</span> <b>*</b></span>
+              <input id="dicomFqdn" name="dicomFqdn" type="text" placeholder="dicomservices.beispiel.local" data-i18n-placeholder="placeholder.dicomFqdn" spellcheck="false" autocomplete="off">
             </label>
 
             <label class="switch-row switch-row-card field-wide">
               <input id="sameViewerFqdn" name="sameViewerFqdn" type="checkbox" checked>
-              <span>FQDN für DicomServices und DU Viewer gleich?</span>
+              <span data-i18n="field.sameViewerFqdn">FQDN für DicomServices und DU Viewer gleich?</span>
             </label>
 
             <label class="field field-wide hidden" data-field="viewerFqdn">
-              <span>FQDN DU Viewer <b>*</b></span>
-              <input id="viewerFqdn" name="viewerFqdn" type="text" placeholder="viewer.example.local" spellcheck="false" autocomplete="off" disabled>
+              <span><span data-i18n="field.viewerFqdn">FQDN DU Viewer</span> <b>*</b></span>
+              <input id="viewerFqdn" name="viewerFqdn" type="text" placeholder="viewer.beispiel.local" data-i18n-placeholder="placeholder.viewerFqdn" spellcheck="false" autocomplete="off" disabled>
             </label>
 
             <label class="field" data-field="IssuerOfPatientID">
               <span>IssuerOfPatientID</span>
-              <input id="IssuerOfPatientID" name="IssuerOfPatientID" type="text" placeholder="4060KSR" spellcheck="false" autocomplete="off">
+              <input id="IssuerOfPatientID" name="IssuerOfPatientID" type="text" placeholder="4060KSR" data-i18n-placeholder="placeholder.IssuerOfPatientID" spellcheck="false" autocomplete="off">
             </label>
 
             <label class="field" data-field="idp">
               <span>IDP</span>
-              <input id="idp" name="idp" type="text" placeholder="ldap_IDP" spellcheck="false" autocomplete="off">
+              <input id="idp" name="idp" type="text" placeholder="ldap_IDP" data-i18n-placeholder="placeholder.idp" spellcheck="false" autocomplete="off">
             </label>
 
             <label class="switch-row switch-row-card field-wide">
               <input id="urlSharedUserEnabled" name="urlSharedUserEnabled" type="checkbox">
-              <span>URL Aufruf Sammelnutzer?</span>
+              <span data-i18n="field.urlSharedUserEnabled">URL Aufruf Sammelnutzer?</span>
             </label>
 
             <label class="field shared-url-user-only hidden" data-field="urlSharedUser">
-              <span>Sammelbenutzer</span>
-              <input id="urlSharedUser" name="urlSharedUser" type="text" placeholder="sammelbenutzer" spellcheck="false" autocomplete="off" disabled>
+              <span data-i18n="field.urlSharedUser">Sammelbenutzer</span>
+              <input id="urlSharedUser" name="urlSharedUser" type="text" placeholder="sammelbenutzer" data-i18n-placeholder="placeholder.urlSharedUser" spellcheck="false" autocomplete="off" disabled>
             </label>
 
             <label class="field shared-url-user-only hidden" data-field="urlSharedPassword">
-              <span>Sammelpasswort</span>
-              <input id="urlSharedPassword" name="urlSharedPassword" type="password" placeholder="sammelpasswort" spellcheck="false" autocomplete="off" disabled>
+              <span data-i18n="field.urlSharedPassword">Sammelpasswort</span>
+              <input id="urlSharedPassword" name="urlSharedPassword" type="password" placeholder="sammelpasswort" data-i18n-placeholder="placeholder.urlSharedPassword" spellcheck="false" autocomplete="off" disabled>
             </label>
 
             <label class="switch-row switch-row-card field-wide shared-url-user-only hidden">
               <input id="urlAuditUserEnabled" name="urlAuditUserEnabled" type="checkbox" disabled>
-              <span>Audit-Protokoll-Benutzer?</span>
+              <span data-i18n="field.urlAuditUserEnabled">Audit-Protokoll-Benutzer?</span>
             </label>
 
             <label class="field field-wide" data-field="companionPath">
-              <span>Pfad zur Companion App</span>
-              <input id="companionPath" name="companionPath" type="text" placeholder="O:\orbis\admin" spellcheck="false" autocomplete="off">
-              <small>Nur den Ordnerpfad eingeben, z.B. O:\orbis\admin</small>
+              <span data-i18n="field.companionPath">Pfad zur Companion App</span>
+              <input id="companionPath" name="companionPath" type="text" placeholder="O:\orbis\admin" data-i18n-placeholder="placeholder.companionPath" spellcheck="false" autocomplete="off">
+              <small data-i18n="help.companionPath">Nur den Ordnerpfad eingeben, z. B. O:\orbis\admin</small>
             </label>
 
             <label class="field" data-field="kisType">
-              <span>KIS-Typ <b>*</b></span>
+              <span><span data-i18n="field.kisType">KIS-Typ</span> <b>*</b></span>
               <select id="kisType" name="kisType">
                 <option value="orbis">ORBIS KIS</option>
-                <option value="fremd">Fremd-KIS</option>
+                <option value="fremd" data-i18n="section.foreignKis">Fremd-KIS</option>
               </select>
             </label>
 
             <label class="field field-wide foreign-kis-only hidden" data-field="foreignUserVariable">
-              <span>Variablenname Benutzername</span>
-              <input id="foreignUserVariable" name="foreignUserVariable" type="text" placeholder="USER" spellcheck="false" autocomplete="off">
+              <span data-i18n="field.foreignUserVariable">Variablenname Benutzername</span>
+              <input id="foreignUserVariable" name="foreignUserVariable" type="text" placeholder="BENUTZER" data-i18n-placeholder="placeholder.foreignUserVariable" spellcheck="false" autocomplete="off">
             </label>
 
             <label class="field field-wide foreign-kis-only hidden" data-field="foreignPasswordVariable">
-              <span>Variablenname Passwort</span>
-              <input id="foreignPasswordVariable" name="foreignPasswordVariable" type="text" placeholder="PASSWORD" spellcheck="false" autocomplete="off">
+              <span data-i18n="field.foreignPasswordVariable">Variablenname Passwort</span>
+              <input id="foreignPasswordVariable" name="foreignPasswordVariable" type="text" placeholder="PASSWORT" data-i18n-placeholder="placeholder.foreignPasswordVariable" spellcheck="false" autocomplete="off">
             </label>
 
             <label class="field field-wide foreign-kis-only hidden" data-field="foreignPatientIdVariable">
-              <span>Variablenname Patienten-ID</span>
-              <input id="foreignPatientIdVariable" name="foreignPatientIdVariable" type="text" placeholder="PATIENT_ID" spellcheck="false" autocomplete="off">
+              <span data-i18n="field.foreignPatientIdVariable">Variablenname Patienten-ID</span>
+              <input id="foreignPatientIdVariable" name="foreignPatientIdVariable" type="text" placeholder="PATIENTEN_ID" data-i18n-placeholder="placeholder.foreignPatientIdVariable" spellcheck="false" autocomplete="off">
             </label>
 
             <label class="field field-wide foreign-kis-only hidden" data-field="foreignOrderNumberVariable">
-              <span>Variablenname Auftragsnummer</span>
-              <input id="foreignOrderNumberVariable" name="foreignOrderNumberVariable" type="text" placeholder="ORDER_NUMBER" spellcheck="false" autocomplete="off">
+              <span data-i18n="field.foreignOrderNumberVariable">Variablenname Auftragsnummer</span>
+              <input id="foreignOrderNumberVariable" name="foreignOrderNumberVariable" type="text" placeholder="AUFTRAGSNUMMER" data-i18n-placeholder="placeholder.foreignOrderNumberVariable" spellcheck="false" autocomplete="off">
             </label>
 
             <label class="switch-row switch-row-card field-wide orbis-kis-only">
               <input id="terminalKis" name="terminalKis" type="checkbox">
-              <span>KIS läuft im Terminal?</span>
+              <span data-i18n="field.terminalKis">KIS läuft im Terminal?</span>
             </label>
 
             <label class="switch-row switch-row-card field-wide orbis-kis-only">
               <input id="encryptedSvf" name="encryptedSvf" type="checkbox">
-              <span>ORBIS Verschlüsselung?</span>
+              <span data-i18n="field.encryptedSvf">ORBIS Verschlüsselung?</span>
             </label>
 
             <label class="field field-wide" data-field="diagnostPath">
-              <span>Pfad zum DeepUnity-Ordner</span>
-              <input id="diagnostPath" name="diagnostPath" type="text" placeholder="C:\Program Files\Dedalus\DeepUnity" spellcheck="false" autocomplete="off">
-              <small>Optional. Nur den Ordnerpfad eingeben, z.B. C:\Program Files\Dedalus\DeepUnity. Ohne Angabe sucht die Companion App den Client automatisch.</small>
+              <span data-i18n="field.diagnostPath">Pfad zum DeepUnity-Ordner</span>
+              <input id="diagnostPath" name="diagnostPath" type="text" placeholder="C:\Program Files\Dedalus\DeepUnity" data-i18n-placeholder="placeholder.diagnostPath" spellcheck="false" autocomplete="off">
+              <small data-i18n="help.diagnostPath">Optional. Nur den Ordnerpfad eingeben, z. B. C:\Program Files\Dedalus\DeepUnity. Ohne Angabe sucht die Companion App den Client automatisch.</small>
             </label>
           </div>
         </div>
@@ -137,36 +147,36 @@
           <div class="card-heading">
             <div>
               <p class="step">2</p>
-              <h2>Testparameter</h2>
+              <h2 data-i18n="section.testParameters">Testparameter</h2>
             </div>
-            <button type="button" id="clear-button" class="button button-ghost">Alles leeren</button>
+            <button type="button" id="clear-button" class="button button-ghost" data-i18n="button.clearAll">Alles leeren</button>
           </div>
 
           <div id="dynamic-fields" class="field-grid">
             <label class="field" data-field="user">
-              <span>Benutzername <b class="required-marker">*</b></span>
-              <input id="user" name="user" type="text" placeholder="testuser" spellcheck="false" autocomplete="off">
+              <span><span data-i18n="field.user">Benutzername</span> <b class="required-marker">*</b></span>
+              <input id="user" name="user" type="text" placeholder="testbenutzer" data-i18n-placeholder="placeholder.user" spellcheck="false" autocomplete="off">
             </label>
 
             <label class="field" data-field="password">
-              <span>Passwort <b class="required-marker">*</b></span>
-              <input id="password" name="password" type="password" placeholder="testpasswort123" spellcheck="false" autocomplete="off">
+              <span><span data-i18n="field.password">Passwort</span> <b class="required-marker">*</b></span>
+              <input id="password" name="password" type="password" placeholder="testpasswort123" data-i18n-placeholder="placeholder.password" spellcheck="false" autocomplete="off">
             </label>
 
             <label class="field" data-field="PatientID">
-              <span>Patienten-ID <b class="required-marker">*</b></span>
-              <input id="PatientID" name="PatientID" type="text" placeholder="1025889" spellcheck="false" autocomplete="off">
+              <span><span data-i18n="field.PatientID">Patienten-ID</span> <b class="required-marker">*</b></span>
+              <input id="PatientID" name="PatientID" type="text" placeholder="1025889" data-i18n-placeholder="placeholder.PatientID" spellcheck="false" autocomplete="off">
             </label>
 
             <label class="field field-wide" data-field="AccessionNumber">
-              <span>Auftragsnummer</span>
-              <textarea id="AccessionNumber" name="AccessionNumber" rows="3" placeholder="LSTM-2026-032564" spellcheck="false" autocomplete="off"></textarea>
-              <small id="accession-help">Für mehrere Werte: Komma, Semikolon oder eine Zeile pro Auftragsnummer.</small>
+              <span data-i18n="field.AccessionNumber">Auftragsnummer</span>
+              <textarea id="AccessionNumber" name="AccessionNumber" rows="3" placeholder="LSTM-2026-032564" data-i18n-placeholder="placeholder.AccessionNumber" spellcheck="false" autocomplete="off"></textarea>
+              <small id="accession-help" data-i18n="help.accession">Für mehrere Werte: Komma, Semikolon oder eine Zeile pro Auftragsnummer.</small>
             </label>
 
             <label class="field field-wide" data-field="studyUID">
-              <span>SUID <b class="required-marker">*</b></span>
-              <input id="studyUID" name="studyUID" type="text" placeholder="1.2.40.0.13…" spellcheck="false" autocomplete="off">
+              <span><span data-i18n="field.studyUID">SUID</span> <b class="required-marker">*</b></span>
+              <input id="studyUID" name="studyUID" type="text" placeholder="1.2.40.0.13..." data-i18n-placeholder="placeholder.studyUID" spellcheck="false" autocomplete="off">
             </label>
           </div>
 
@@ -178,14 +188,14 @@
         <div class="card-heading">
           <div>
             <p class="step">3</p>
-            <h2>Aufruf übernehmen</h2>
+            <h2 data-i18n="section.output">Aufruf übernehmen</h2>
           </div>
-          <button type="button" id="pdf-export-button" class="button button-ghost">PDF/TXT Export</button>
+          <button type="button" id="pdf-export-button" class="button button-ghost" data-i18n="button.export">PDF/TXT Export</button>
         </div>
 
         <div class="button-row">
-          <button type="button" id="copy-all-button" class="button button-primary" disabled>Alle Aufrufe</button>
-          <button type="button" id="copy-url-button" class="button button-primary" disabled>URL-Aufruf</button>
+          <button type="button" id="copy-all-button" class="button button-primary" disabled data-i18n="button.copyAll">Alle Aufrufe</button>
+          <button type="button" id="copy-url-button" class="button button-primary" disabled data-i18n="label.urlCall">URL-Aufruf</button>
           <button type="button" id="copy-companion-button" class="button button-primary" disabled>Companion App</button>
           <button type="button" id="copy-svf-button" class="button button-primary" disabled>SVF-RIS</button>
           <button type="button" id="copy-svf-card-button" class="button button-primary svf-only" disabled>SVF CARD</button>
@@ -195,13 +205,13 @@
         </div>
 
         <div class="display-filter" aria-label="Anzeige filtern">
-          <label class="check-row"><input type="radio" name="display-call-type" value="both" checked> <span>Beides anzeigen</span></label>
-          <label class="check-row"><input type="radio" name="display-call-type" value="url"> <span>Nur URL</span></label>
-          <label class="check-row"><input type="radio" name="display-call-type" value="companion"> <span>Nur Companion App</span></label>
+          <label class="check-row"><input type="radio" name="display-call-type" value="both" checked> <span data-i18n="filter.both">Beides anzeigen</span></label>
+          <label class="check-row"><input type="radio" name="display-call-type" value="url"> <span data-i18n="filter.urlOnly">Nur URL</span></label>
+          <label class="check-row"><input type="radio" name="display-call-type" value="companion"> <span data-i18n="filter.companionOnly">Nur Companion App</span></label>
         </div>
 
         <div class="output-wrap">
-          <div id="output" class="output-content" tabindex="0">Bitte Pflichtfelder ausfüllen.</div>
+          <div id="output" class="output-content" tabindex="0" data-i18n="output.fillRequired">Bitte Pflichtfelder ausfüllen.</div>
         </div>
         <p id="copy-status" class="status" role="status"></p>
       </aside>
@@ -209,29 +219,29 @@
   </main>
 
   <footer>
-    <span>Authproxycaller v0.1.74</span>
-    <span>Clientseitig · zustandslos · ohne Tracking</span>
+    <span>Authproxycaller v0.2.0</span>
+    <span data-i18n="footer.privacy">Clientseitig · zustandslos · ohne Tracking</span>
   </footer>
   <div id="pdf-dialog" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="pdf-dialog-title">
     <div class="modal-panel">
       <div class="modal-heading">
-        <h2 id="pdf-dialog-title">PDF/TXT Export</h2>
-        <button type="button" id="pdf-cancel-button" class="button button-ghost">Schließen</button>
+        <h2 id="pdf-dialog-title" data-i18n="dialog.exportTitle">PDF/TXT Export</h2>
+        <button type="button" id="pdf-cancel-button" class="button button-ghost" data-i18n="button.close">Schließen</button>
       </div>
       <div class="pdf-option-group">
-        <h3>Aufruf-Typ</h3>
+        <h3 data-i18n="dialog.callType">Aufruf-Typ</h3>
         <div class="pdf-options pdf-options-compact">
-          <label class="check-row"><input type="radio" name="export-call-type" value="both" checked> <span>Beides</span></label>
-          <label class="check-row"><input type="radio" name="export-call-type" value="url"> <span>Nur URL-Aufrufe</span></label>
-          <label class="check-row"><input type="radio" name="export-call-type" value="companion"> <span>Nur Companion App</span></label>
+          <label class="check-row"><input type="radio" name="export-call-type" value="both" checked> <span data-i18n="dialog.both">Beides</span></label>
+          <label class="check-row"><input type="radio" name="export-call-type" value="url"> <span data-i18n="dialog.urlCallsOnly">Nur URL-Aufrufe</span></label>
+          <label class="check-row"><input type="radio" name="export-call-type" value="companion"> <span data-i18n="filter.companionOnly">Nur Companion App</span></label>
         </div>
       </div>
 
       <div class="pdf-option-group">
-        <h3>Rubriken</h3>
+        <h3 data-i18n="dialog.sections">Rubriken</h3>
         <div class="pdf-options">
-          <label class="check-row"><input type="checkbox" value="all" checked> <span>Alle Aufrufe</span></label>
-          <label class="check-row"><input type="checkbox" value="url"> <span>URL-Aufruf</span></label>
+          <label class="check-row"><input type="checkbox" value="all" checked> <span data-i18n="button.copyAll">Alle Aufrufe</span></label>
+          <label class="check-row"><input type="checkbox" value="url"> <span data-i18n="label.urlCall">URL-Aufruf</span></label>
           <label class="check-row"><input type="checkbox" value="companion"> <span>Companion App</span></label>
           <label class="check-row"><input type="checkbox" value="svf"> <span>SVF-RIS</span></label>
           <label class="check-row"><input type="checkbox" value="svfCard"> <span>SVF CARD</span></label>
@@ -241,8 +251,32 @@
         </div>
       </div>
       <div class="modal-actions">
-        <button type="button" id="txt-create-button" class="button button-secondary">TXT erstellen</button>
-        <button type="button" id="pdf-create-button" class="button button-primary">PDF erstellen</button>
+        <button type="button" id="txt-create-button" class="button button-secondary" data-i18n="button.createTxt">TXT erstellen</button>
+        <button type="button" id="pdf-create-button" class="button button-primary" data-i18n="button.createPdf">PDF erstellen</button>
+      </div>
+    </div>
+  </div>
+  <div id="hint-dialog" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="hint-dialog-title">
+    <div class="modal-panel hint-panel">
+      <div class="modal-heading">
+        <h2 id="hint-dialog-title">Hinweis</h2>
+        <button type="button" id="hint-close-button" class="button button-ghost" data-i18n="button.close">Schließen</button>
+      </div>
+      <div id="hint-dialog-body" class="hint-body"></div>
+    </div>
+  </div>
+  <div id="hint-download-dialog" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="hint-download-title">
+    <div class="modal-panel hint-panel">
+      <div class="modal-heading">
+        <h2 id="hint-download-title" data-i18n="dialog.hintDownloadTitle">Hint-XML herunterladen</h2>
+        <button type="button" id="hint-download-close-button" class="button button-ghost" data-i18n="button.close">Schließen</button>
+      </div>
+      <div class="hint-body">
+        <p data-i18n="dialog.hintDownloadBody">Die Hint-XML der aktuell gewählten Sprache kann heruntergeladen, bearbeitet und anschließend über den Feedbacklink per E-Mail gesendet werden.</p>
+        <p><a id="hint-download-feedback-link" href="mailto:sylvio.schelle@dedalus.com?subject=Feedback%20Authproxycaller%20Hint-XML">Feedback</a></p>
+      </div>
+      <div class="modal-actions">
+        <button type="button" id="hint-download-create-button" class="button button-primary" data-i18n="button.downloadHintXml">Hint-XML herunterladen</button>
       </div>
     </div>
   </div>

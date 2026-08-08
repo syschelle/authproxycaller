@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<translations lang="de">
+  <text key="dicomFqdn">FQDN steht für Fully Qualified Domain Name. Gebraucht wird hier der FQDN der DeepUnity DicomServices. Nur den Host eintragen, ohne https://, ohne Pfad, ohne Port und ohne Protokoll.</text>
+  <text key="sameViewerFqdn">Aktiv lassen, wenn DicomServices und DU Viewer über denselben FQDN erreichbar sind. Deaktivieren, wenn der Viewer einen eigenen FQDN hat.</text>
+  <text key="viewerFqdn">Abweichender FQDN des DU Viewers. Wird nur benötigt, wenn DicomServices und Viewer nicht denselben FQDN nutzen.</text>
+  <text key="IssuerOfPatientID">Optionaler Issuer der Patienten-ID. Wenn leer, wird dieser Parameter in den erzeugten Aufrufen weggelassen. Es wird aber auf jeden Fall empfohlen, einen Issuer anzugeben.</text>
+  <text key="idp">Optionaler Identity-Provider-Wert. Wenn ihr einen Identity Provider verwendet, zum Beispiel LDAP oder ORBIS, könnt ihr ihn hier eintragen. Wenn gefüllt, wird er als idp-Parameter in URL-, Companion-App- und SVF-Aufrufen ergänzt.</text>
+  <text key="urlSharedUserEnabled">Soll ein Sammelbenutzer für URL-Aufrufe des DU Viewers verwendet werden?</text>
+  <text key="urlSharedUser">du.webviewer.rl gilt als Sammelbenutzer und ist der technische Authentifizierungs-Client, den der auth-proxy verwendet, um den DeepUnity Viewer aufzurufen. Er ist kein normaler Benutzer, sondern Bestandteil des Authentifizierungsmechanismus zwischen auth-proxy und DeepUnity/Keycloak. Aktivieren, wenn URL-Aufrufe einen gemeinsamen technischen Benutzer statt der normalen Platzhalter verwenden sollen. Dieser Benutzer funktioniert nicht mit der Companion App. Test-URL- und Companion-App-Aufrufe verwenden weiterhin die Testparameter aus Punkt 2.</text>
+  <text key="urlSharedPassword">Passwort des Sammelnutzers für URL-Aufrufe. Bei du.webviewer.rl bitte das Secret aus Keycloak kopieren.</text>
+  <text key="urlAuditUserEnabled">Wenn ein Sammelbenutzer verwendet wird und kein Audit-Protokoll-Benutzer an das ARR übergeben wird, erscheint im ARR nur der Sammelbenutzer. Das erschwert die Fehleranalyse. Wichtig ist, dass z. B. bei Fremd-RIS ein Benutzername aus einer Platzhaltervariable vom Fremdsystem an den auth-proxy übergeben wird. Dies gebt ihr bitte weiter unten bei Variablenname Benutzername ein. Für ORBIS sind die Platzhaltervariablen bekannt.</text>
+  <text key="companionPath">Optionaler Ordnerpfad zur Companion App. Nur den Ordner angeben; du-proxy-app.exe wird intern ergänzt. Ohne Pfad werden keine Companion-App-Aufrufe erzeugt.</text>
+  <text key="kisType">Legt fest, ob ORBIS-spezifische SVF-Aufrufe oder Fremd-RIS-Aufrufe erzeugt werden. Bei Fremd-RIS-Aufrufen werden frei wählbare Variablen verwendet. Ohne diese Platzhaltervariablen macht es wenig Sinn, die Aufrufe hier überhaupt bauen zu lassen.</text>
+  <text key="foreignUserVariable">Variablenname für den Benutzer im Fremd-RIS. Der Wert wird als Platzhalter in die erzeugten Fremd-RIS-Aufrufe übernommen.</text>
+  <text key="foreignPasswordVariable">Variablenname für das Passwort im Fremd-RIS. Der Wert wird als Platzhalter in die erzeugten Fremd-RIS-Aufrufe übernommen.</text>
+  <text key="foreignPatientIdVariable">Variablenname für die Patienten-ID im Fremd-RIS. Erlaubt sind sichere Parameternamen mit Buchstaben, Zahlen, Punkt, Unterstrich oder Bindestrich.</text>
+  <text key="foreignOrderNumberVariable">Variablenname für die Auftragsnummer im Fremd-RIS. Erlaubt sind sichere Parameternamen mit Buchstaben, Zahlen, Punkt, Unterstrich oder Bindestrich.</text>
+  <text key="terminalKis">Nur für die Companion App. Aktivieren, wenn ORBIS im Terminal-/Citrix-/RDP-Kontext läuft. Companion-App-Aufrufe enthalten dann remote=%.</text>
+  <text key="encryptedSvf">Aktivieren, wenn ORBIS-SVF-Benutzer- und Passwortplatzhalter verschlüsselt übergeben werden sollen, z. B. %ENC_USER%.</text>
+  <text key="diagnostPath">Optionaler DeepUnity-Ordnerpfad. Wenn gesetzt, wird er als diagnostPath an die Companion App übergeben. Ohne Eingabe sucht die Companion App Standardverzeichnisse, die in der Companion App definiert sind.</text>
+  <text key="user">Das ist gedacht, um die Aufrufe zunächst in der CMD zu testen. Test-Benutzername für normale URL- und Companion-App-Aufrufe. SVF-Aufrufe nutzen ihre Platzhalter oder Sammelnutzer-Einstellungen.</text>
+  <text key="password">Das ist gedacht, um die Aufrufe zunächst in der CMD zu testen. Test-Passwort für normale URL- und Companion-App-Aufrufe. Es wird in diesen Testaufrufen sichtbar ausgegeben.</text>
+  <text key="PatientID">Das ist gedacht, um die Aufrufe zunächst in der CMD zu testen. Test-Patienten-ID für Szenarien, die einen Patientenbezug benötigen.</text>
+  <text key="AccessionNumber">Das ist gedacht, um die Aufrufe zunächst in der CMD zu testen. Eine oder mehrere Auftragsnummern. Mehrere Werte können per Komma, Semikolon oder zeilenweise eingegeben werden.</text>
+  <text key="studyUID">Das ist gedacht, um die Aufrufe zunächst in der CMD zu testen. Study Instance UID für Studienaufrufe. Der Wert wird als studyUID-Parameter übernommen.</text>
+</translations>

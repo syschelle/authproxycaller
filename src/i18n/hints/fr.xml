@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<translations lang="fr">
+  <text key="dicomFqdn">FQDN signifie Fully Qualified Domain Name. Ce champ attend le FQDN des DeepUnity DicomServices. Saisir uniquement l'hôte, sans https://, sans chemin, sans port et sans protocole.</text>
+  <text key="sameViewerFqdn">Laisser activé si DicomServices et DU Viewer sont accessibles via le même FQDN. Désactiver si le viewer possède son propre FQDN.</text>
+  <text key="viewerFqdn">FQDN différent du DU Viewer. Nécessaire uniquement si DicomServices et le viewer n'utilisent pas le même FQDN.</text>
+  <text key="IssuerOfPatientID">Issuer facultatif de l'ID patient. Si le champ est vide, ce paramètre est omis dans les appels générés. Il est toutefois fortement recommandé d'indiquer un issuer.</text>
+  <text key="idp">Valeur facultative de l'identity provider. Si vous utilisez un identity provider, par exemple LDAP ou ORBIS, saisissez-le ici. Lorsque le champ est rempli, il est ajouté comme paramètre idp aux appels URL, Companion App et SVF.</text>
+  <text key="urlSharedUserEnabled">Un utilisateur partagé doit-il être utilisé pour les appels URL du DU Viewer ?</text>
+  <text key="urlSharedUser">du.webviewer.rl est considéré comme utilisateur partagé et correspond au client d'authentification technique utilisé par l'auth-proxy pour ouvrir le DeepUnity Viewer. Ce n'est pas un utilisateur normal, mais une partie du mécanisme d'authentification entre auth-proxy et DeepUnity/Keycloak. Activer cette option si les appels URL doivent utiliser un utilisateur technique commun au lieu des espaces réservés normaux. Cet utilisateur ne fonctionne pas avec la Companion App. Les appels URL de test et Companion App continuent d'utiliser les paramètres de test du point 2.</text>
+  <text key="urlSharedPassword">Mot de passe de l'utilisateur partagé pour les appels URL. Pour du.webviewer.rl, copier le secret depuis Keycloak.</text>
+  <text key="urlAuditUserEnabled">Lorsqu'un utilisateur partagé est utilisé et qu'aucun utilisateur de journal d'audit n'est transmis à l'ARR, seul l'utilisateur partagé apparaît dans l'ARR. Cela complique l'analyse des erreurs. Il est important, par exemple avec un RIS externe, qu'un nom d'utilisateur issu d'une variable d'espace réservé soit transmis par le système externe à l'auth-proxy. Saisissez-le plus bas dans Nom de variable utilisateur. Pour ORBIS, les variables d'espace réservé sont connues.</text>
+  <text key="companionPath">Chemin facultatif du dossier de la Companion App. Indiquer uniquement le dossier ; du-proxy-app.exe est ajouté en interne. Sans chemin, aucun appel Companion App n'est généré.</text>
+  <text key="kisType">Détermine si des appels SVF spécifiques à ORBIS ou des appels RIS externe sont générés. Les appels RIS externe utilisent des variables librement sélectionnables. Sans ces variables d'espace réservé, il est peu utile de générer les appels ici.</text>
+  <text key="foreignUserVariable">Nom de variable pour l'utilisateur dans le RIS externe. La valeur est reprise comme espace réservé dans les appels RIS externe générés.</text>
+  <text key="foreignPasswordVariable">Nom de variable pour le mot de passe dans le RIS externe. La valeur est reprise comme espace réservé dans les appels RIS externe générés.</text>
+  <text key="foreignPatientIdVariable">Nom de variable pour l'ID patient dans le RIS externe. Les noms de paramètres sûrs peuvent contenir lettres, chiffres, point, underscore ou tiret.</text>
+  <text key="foreignOrderNumberVariable">Nom de variable pour le numéro de commande dans le RIS externe. Les noms de paramètres sûrs peuvent contenir lettres, chiffres, point, underscore ou tiret.</text>
+  <text key="terminalKis">Uniquement pour la Companion App. Activer si ORBIS fonctionne dans un contexte terminal, Citrix ou RDP. Les appels Companion App contiennent alors remote=%.</text>
+  <text key="encryptedSvf">Activer si les espaces réservés utilisateur et mot de passe ORBIS-SVF doivent être transmis chiffrés, par ex. %ENC_USER%.</text>
+  <text key="diagnostPath">Chemin facultatif du dossier DeepUnity. S'il est défini, il est transmis à la Companion App comme diagnostPath. Sans saisie, la Companion App recherche les répertoires par défaut définis dans la Companion App.</text>
+  <text key="user">Prévu pour tester d'abord les appels dans CMD. Nom d'utilisateur de test pour les appels URL et Companion App normaux. Les appels SVF utilisent leurs espaces réservés ou les paramètres de l'utilisateur partagé.</text>
+  <text key="password">Prévu pour tester d'abord les appels dans CMD. Mot de passe de test pour les appels URL et Companion App normaux. Il est affiché en clair dans ces appels de test.</text>
+  <text key="PatientID">Prévu pour tester d'abord les appels dans CMD. ID patient de test pour les scénarios qui nécessitent une référence patient.</text>
+  <text key="AccessionNumber">Prévu pour tester d'abord les appels dans CMD. Un ou plusieurs numéros de commande. Plusieurs valeurs peuvent être saisies séparées par virgule, point-virgule ou ligne par ligne.</text>
+  <text key="studyUID">Prévu pour tester d'abord les appels dans CMD. Study Instance UID pour les appels d'étude. La valeur est reprise comme paramètre studyUID.</text>
+</translations>

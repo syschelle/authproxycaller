@@ -140,10 +140,45 @@ h2 {
   text-decoration: none;
 }
 
+.header-button {
+  cursor: pointer;
+}
+
 .feedback-link:hover,
 .feedback-link:focus {
   border-color: rgba(147, 197, 253, 0.68);
   background: rgba(49, 87, 213, 0.3);
+}
+
+.language-switch {
+  display: inline-flex;
+  min-height: 31px;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 6px 4px 10px;
+  border: 1px solid rgba(147, 197, 253, 0.35);
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.36);
+  color: #dbeafe;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.language-switch select {
+  width: auto;
+  min-width: 92px;
+  min-height: 24px;
+  padding: 2px 22px 2px 7px;
+  border-color: rgba(147, 197, 253, 0.35);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--text);
+  font-size: 0.78rem;
+}
+
+.language-switch option {
+  background: #fff;
+  color: var(--text);
 }
 
 .layout {
@@ -292,6 +327,14 @@ h2 {
   min-width: 0;
   flex-direction: column;
   gap: 4px;
+}
+
+.field.has-hint {
+  position: relative;
+}
+
+.field.has-hint > span {
+  padding-left: 22px;
 }
 
 .field-wide {
@@ -551,6 +594,49 @@ textarea:focus {
   white-space: normal;
 }
 
+.hint-button {
+  display: inline-grid;
+  width: 16px;
+  height: 16px;
+  min-height: 16px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid #c7d2e4;
+  border-radius: 50%;
+  background: #fff;
+  color: #3157d5;
+  font-size: 0.62rem;
+  font-weight: 900;
+  line-height: 1;
+  padding: 0;
+}
+
+.field.has-hint > .hint-button {
+  position: absolute;
+  top: 1px;
+  left: 1px;
+}
+
+.switch-row.has-hint {
+  position: relative;
+  padding-left: 30px;
+}
+
+.switch-row.has-hint .hint-button {
+  position: absolute;
+  top: 50%;
+  left: 8px;
+  transform: translateY(-50%);
+}
+
+.hint-button:hover,
+.hint-button:focus {
+  border-color: rgba(49, 87, 213, 0.72);
+  background: var(--primary-soft);
+  color: var(--primary-dark);
+  box-shadow: 0 0 0 2px rgba(49, 87, 213, 0.12);
+}
+
 .switch-row input {
   width: 18px;
   min-height: 18px;
@@ -614,6 +700,35 @@ textarea:focus {
   border-radius: 8px;
   background: #fff;
   box-shadow: 0 20px 48px rgba(15, 23, 42, 0.28);
+}
+
+.hint-panel {
+  width: min(440px, 100%);
+}
+
+.hint-body {
+  min-height: 70px;
+  padding: 10px;
+  border: 1px solid #dce3ec;
+  border-radius: 8px;
+  background: #f8fafc;
+  color: #2c374b;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.hint-body p {
+  margin: 0 0 10px;
+}
+
+.hint-body p:last-child {
+  margin-bottom: 0;
+}
+
+.hint-body a {
+  color: var(--primary);
+  font-weight: 800;
 }
 
 .modal-heading {

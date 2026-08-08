@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<translations lang="en">
+  <text key="dicomFqdn">FQDN stands for Fully Qualified Domain Name. This field needs the FQDN of the DeepUnity DicomServices. Enter only the host, without https://, path, port or protocol.</text>
+  <text key="sameViewerFqdn">Keep enabled when DicomServices and DU Viewer are reachable through the same FQDN. Disable it when the viewer has its own FQDN.</text>
+  <text key="viewerFqdn">Different FQDN of the DU Viewer. Needed only when DicomServices and viewer do not use the same FQDN.</text>
+  <text key="IssuerOfPatientID">Optional issuer of the patient ID. When empty, this parameter is omitted from generated calls. It is strongly recommended to provide an issuer.</text>
+  <text key="idp">Optional identity provider value. If you use an identity provider, for example LDAP or ORBIS, enter it here. When filled, it is added as the idp parameter to URL, Companion App and SVF calls.</text>
+  <text key="urlSharedUserEnabled">Should a shared user be used for DU Viewer URL calls?</text>
+  <text key="urlSharedUser">du.webviewer.rl is treated as a shared user and is the technical authentication client used by the auth-proxy to open the DeepUnity Viewer. It is not a normal user, but part of the authentication mechanism between auth-proxy and DeepUnity/Keycloak. Enable this when URL calls should use one shared technical user instead of the normal placeholders. This user does not work with the Companion App. Test URL and Companion App calls still use the test parameters from step 2.</text>
+  <text key="urlSharedPassword">Password of the shared user for URL calls. For du.webviewer.rl, copy the secret from Keycloak.</text>
+  <text key="urlAuditUserEnabled">When a shared user is used and no audit log user is passed to the ARR, only the shared user appears in the ARR. This makes troubleshooting harder. It is important that, for example with an external RIS, a username from a placeholder variable is passed from the external system to the auth-proxy. Enter this below in Username variable name. For ORBIS, the placeholder variables are known.</text>
+  <text key="companionPath">Optional folder path to the Companion App. Enter the folder only; du-proxy-app.exe is appended internally. Without a path, Companion App calls are not generated.</text>
+  <text key="kisType">Controls whether ORBIS-specific SVF calls or external RIS calls are generated. External RIS calls use freely selectable variables. Without these placeholder variables, it makes little sense to build the calls here at all.</text>
+  <text key="foreignUserVariable">Variable name for the user in the external RIS. The value is used as a placeholder in generated external RIS calls.</text>
+  <text key="foreignPasswordVariable">Variable name for the password in the external RIS. The value is used as a placeholder in generated external RIS calls.</text>
+  <text key="foreignPatientIdVariable">Variable name for the patient ID in the external RIS. Safe parameter names may contain letters, numbers, dots, underscores or hyphens.</text>
+  <text key="foreignOrderNumberVariable">Variable name for the order number in the external RIS. Safe parameter names may contain letters, numbers, dots, underscores or hyphens.</text>
+  <text key="terminalKis">Only for the Companion App. Enable this when ORBIS runs in a terminal, Citrix or RDP context. Companion App calls then include remote=%.</text>
+  <text key="encryptedSvf">Enable this when ORBIS SVF user and password placeholders should be passed encrypted, for example %ENC_USER%.</text>
+  <text key="diagnostPath">Optional DeepUnity folder path. When set, it is passed to the Companion App as diagnostPath. Without input, the Companion App searches the default directories defined in the Companion App.</text>
+  <text key="user">This is intended for initially testing calls in CMD. Test username for normal URL and Companion App calls. SVF calls use their placeholders or shared-user settings.</text>
+  <text key="password">This is intended for initially testing calls in CMD. Test password for normal URL and Companion App calls. It is shown visibly in these test calls.</text>
+  <text key="PatientID">This is intended for initially testing calls in CMD. Test patient ID for scenarios that require a patient reference.</text>
+  <text key="AccessionNumber">This is intended for initially testing calls in CMD. One or more order numbers. Multiple values can be entered comma-separated, semicolon-separated or one per line.</text>
+  <text key="studyUID">This is intended for initially testing calls in CMD. Study Instance UID for study calls. The value is passed as the studyUID parameter.</text>
+</translations>
