@@ -73,7 +73,6 @@
   <text key="filter.urlOnly">Nur URL</text>
   <text key="filter.companionOnly">Nur Companion App</text>
   <text key="output.fillRequired">Bitte Pflichtfelder ausfüllen.</text>
-  <text key="footer.privacy">Clientseitig · zustandslos · ohne Tracking</text>
   <text key="dialog.exportTitle">PDF/TXT Export</text>
   <text key="dialog.callType">Aufruf-Typ</text>
   <text key="dialog.both">Beides</text>

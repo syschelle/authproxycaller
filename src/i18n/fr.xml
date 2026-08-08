@@ -73,7 +73,6 @@
   <text key="filter.urlOnly">URL seulement</text>
   <text key="filter.companionOnly">Companion App seulement</text>
   <text key="output.fillRequired">Veuillez remplir les champs obligatoires.</text>
-  <text key="footer.privacy">Côté client · sans état · sans suivi</text>
   <text key="dialog.exportTitle">Export PDF/TXT</text>
   <text key="dialog.callType">Type d'appel</text>
   <text key="dialog.both">Les deux</text>

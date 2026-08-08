@@ -73,7 +73,6 @@
   <text key="filter.urlOnly">URL only</text>
   <text key="filter.companionOnly">Companion App only</text>
   <text key="output.fillRequired">Please fill in the required fields.</text>
-  <text key="footer.privacy">Client-side · stateless · no tracking</text>
   <text key="dialog.exportTitle">PDF/TXT export</text>
   <text key="dialog.callType">Call type</text>
   <text key="dialog.both">Both</text>
