@@ -43,6 +43,24 @@ test('builds filtered study search and omits empty filters', () => {
   );
 });
 
+test('adds browser and raw debug level to URL calls', () => {
+  const result = buildUrl('viewer-study', {
+    server: 'deepunity.example.local',
+    user: 'web',
+    password: 'PW',
+    idp: '',
+    browser: 'EDGE',
+    debuglevel: 'TRACE',
+    studyUID: '1.2.3.4'
+  });
+
+  assert.equal(
+    result,
+    'https://deepunity.example.local/du-auth-proxy/viewer?user=web&password=PW&browser=EDGE&studyUID=1.2.3.4&TRACE'
+  );
+  assert.doesNotMatch(result, /debuglevel=/);
+});
+
 test('builds multiline Companion App command', () => {
   const result = buildCompanion('companion-remote', {
     appName: 'du-proxy-app',
@@ -65,6 +83,22 @@ test('builds multiline Companion App command', () => {
     '  IssuerOfPatientID=9509KBT ^',
     '  remote=CITRIX-01'
   ].join('\n'));
+});
+
+test('adds browser and raw debug level to Companion App commands', () => {
+  const result = buildCompanion('companion-study', {
+    appName: 'du-proxy-app.exe',
+    loginserver: 'deepunity.example.local',
+    user: 'web',
+    password: 'PW',
+    browser: 'CHROME',
+    debuglevel: 'DEBUG',
+    studyUID: '1.2.3'
+  }, 'single-line');
+
+  assert.match(result, / browser=CHROME /);
+  assert.match(result, / DEBUG$/);
+  assert.doesNotMatch(result, /debuglevel=/);
 });
 
 test('quotes Companion App values containing spaces', () => {

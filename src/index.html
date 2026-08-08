@@ -29,7 +29,7 @@
       </label>
       <button type="button" id="hint-download-button" class="feedback-link header-button" data-i18n="button.support">Unterstützen</button>
       <a class="feedback-link" href="mailto:sylvio.schelle@dedalus.com?subject=Feedback%20Authproxycaller">Feedback</a>
-      <span class="version">v0.2.2</span>
+      <span class="version">v0.2.13</span>
     </div>
   </header>
 
@@ -42,7 +42,11 @@
               <p class="step">1</p>
               <h2 data-i18n="section.serverData">Serverdaten</h2>
             </div>
-            <button type="button" id="server-test-button" class="button button-ghost" data-i18n="button.testDataEnable">Testdaten aktivieren</button>
+            <div class="card-heading-actions">
+              <button type="button" id="txt-import-button" class="button button-ghost" data-i18n="button.importTxt">Import</button>
+              <button type="button" id="server-test-button" class="button button-ghost" data-i18n="button.testDataEnable">Testdaten an</button>
+              <input id="txt-import-input" type="file" accept=".txt" hidden>
+            </div>
           </div>
 
           <div class="field-grid">
@@ -89,6 +93,15 @@
             <label class="switch-row switch-row-card field-wide shared-url-user-only hidden">
               <input id="urlAuditUserEnabled" name="urlAuditUserEnabled" type="checkbox" disabled>
               <span data-i18n="field.urlAuditUserEnabled">Audit-Protokoll-Benutzer?</span>
+            </label>
+
+            <label class="field" data-field="browserChoice">
+              <span data-i18n="field.browserChoice">Browserwahl</span>
+              <select id="browserChoice" name="browserChoice">
+                <option value="" data-i18n="option.browserSystemDefault">Systemdefault</option>
+                <option value="CHROME">CHROME</option>
+                <option value="EDGE">EDGE</option>
+              </select>
             </label>
 
             <label class="field field-wide" data-field="companionPath">
@@ -178,6 +191,14 @@
               <span><span data-i18n="field.studyUID">SUID</span> <b class="required-marker">*</b></span>
               <input id="studyUID" name="studyUID" type="text" placeholder="1.2.40.0.13..." data-i18n-placeholder="placeholder.studyUID" spellcheck="false" autocomplete="off">
             </label>
+
+            <label class="field" data-field="debugLevel">
+              <span data-i18n="field.debugLevel">Debuglevel</span>
+              <select id="debugLevel" name="debugLevel">
+                <option value="DEBUG">DEBUG</option>
+                <option value="TRACE">TRACE</option>
+              </select>
+            </label>
           </div>
 
           <div id="form-error" class="form-error hidden" role="alert"></div>
@@ -219,7 +240,7 @@
   </main>
 
   <footer>
-    <span>Authproxycaller v0.2.2</span>
+    <span>Authproxycaller v0.2.13</span>
   </footer>
   <div id="pdf-dialog" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="pdf-dialog-title">
     <div class="modal-panel">

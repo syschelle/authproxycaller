@@ -21,6 +21,8 @@
   <text key="field.urlSharedPassword">Sammelpasswort</text>
   <text key="field.urlAuditUserEnabled">Audit-Protokoll-Benutzer?</text>
   <text key="field.urlAuditUserEnabledShort">Audit-Protokoll-Benutzer</text>
+  <text key="field.browserChoice">Browserwahl</text>
+  <text key="field.debugLevel">Debuglevel</text>
   <text key="field.companionPath">Pfad zur Companion App</text>
   <text key="field.kisType">KIS-Typ</text>
   <text key="field.foreignUserVariable">Variablenname Benutzername</text>
@@ -36,6 +38,7 @@
   <text key="field.AccessionNumber">Auftragsnummer</text>
   <text key="field.studyUID">SUID</text>
   <text key="field.remote">Terminal-KIS</text>
+  <text key="option.browserSystemDefault">Systemdefault</text>
   <text key="placeholder.dicomFqdn">dicomservices.beispiel.local</text>
   <text key="placeholder.viewerFqdn">viewer.beispiel.local</text>
   <text key="placeholder.IssuerOfPatientID">4060KSR</text>
@@ -56,10 +59,11 @@
   <text key="help.companionPath">Nur den Ordnerpfad eingeben, z. B. O:\orbis\admin</text>
   <text key="help.diagnostPath">Optional. Nur den Ordnerpfad eingeben, z. B. C:\Program Files\Dedalus\DeepUnity. Ohne Angabe sucht die Companion App den Client automatisch.</text>
   <text key="help.accession">Für mehrere Werte: Komma, Semikolon oder eine Zeile pro Auftragsnummer.</text>
-  <text key="button.testDataEnable">Testdaten aktivieren</text>
-  <text key="button.testDataDisable">Testdaten deaktivieren</text>
+  <text key="button.testDataEnable">Testdaten an</text>
+  <text key="button.testDataDisable">Testdaten aus</text>
   <text key="button.clearAll">Alles leeren</text>
   <text key="button.export">PDF/TXT Export</text>
+  <text key="button.importTxt">Import</text>
   <text key="button.copyAll">Alle Aufrufe</text>
   <text key="button.copySingle">Kopieren</text>
   <text key="button.close">Schließen</text>
@@ -110,6 +114,9 @@
   <text key="message.pdfPrepared">PDF Export wurde vorbereitet.</text>
   <text key="message.selectTxtSection">Bitte mindestens eine Rubrik für den TXT Export auswählen.</text>
   <text key="message.txtCreated">TXT Export wurde erstellt.</text>
+  <text key="message.txtImportSuccess">TXT Import wurde eingelesen.</text>
+  <text key="message.txtImportFailed">TXT Import konnte nicht eingelesen werden.</text>
+  <text key="message.txtImportMissingData">Die TXT-Datei enthält keinen Authproxycaller-Formularblock.</text>
   <text key="message.copyBlocked">Kopieren wurde vom Browser blockiert.</text>
   <text key="message.urlCopied">URL-Aufrufe wurden in die Zwischenablage kopiert.</text>
   <text key="message.allCopied">Alle sichtbaren Aufrufe wurden in die Zwischenablage kopiert.</text>

@@ -21,6 +21,8 @@
   <text key="field.urlSharedPassword">Shared password</text>
   <text key="field.urlAuditUserEnabled">Audit log user?</text>
   <text key="field.urlAuditUserEnabledShort">Audit log user</text>
+  <text key="field.browserChoice">Browser selection</text>
+  <text key="field.debugLevel">Debug level</text>
   <text key="field.companionPath">Companion App path</text>
   <text key="field.kisType">HIS type</text>
   <text key="field.foreignUserVariable">Username variable name</text>
@@ -36,6 +38,7 @@
   <text key="field.AccessionNumber">Order number</text>
   <text key="field.studyUID">SUID</text>
   <text key="field.remote">Terminal HIS</text>
+  <text key="option.browserSystemDefault">System default</text>
   <text key="placeholder.dicomFqdn">dicomservices.example.local</text>
   <text key="placeholder.viewerFqdn">viewer.example.local</text>
   <text key="placeholder.IssuerOfPatientID">4060KSR</text>
@@ -56,10 +59,11 @@
   <text key="help.companionPath">Enter the folder path only, for example O:\orbis\admin</text>
   <text key="help.diagnostPath">Optional. Enter the folder path only, for example C:\Program Files\Dedalus\DeepUnity. Without a value, the Companion App searches for the client automatically.</text>
   <text key="help.accession">For multiple values: comma, semicolon or one order number per line.</text>
-  <text key="button.testDataEnable">Enable test data</text>
-  <text key="button.testDataDisable">Disable test data</text>
+  <text key="button.testDataEnable">Test data on</text>
+  <text key="button.testDataDisable">Test data off</text>
   <text key="button.clearAll">Clear all</text>
   <text key="button.export">PDF/TXT export</text>
+  <text key="button.importTxt">Import</text>
   <text key="button.copyAll">All calls</text>
   <text key="button.copySingle">Copy</text>
   <text key="button.close">Close</text>
@@ -110,6 +114,9 @@
   <text key="message.pdfPrepared">The PDF export has been prepared.</text>
   <text key="message.selectTxtSection">Please select at least one section for the TXT export.</text>
   <text key="message.txtCreated">The TXT export has been created.</text>
+  <text key="message.txtImportSuccess">TXT import has been loaded.</text>
+  <text key="message.txtImportFailed">TXT import could not be loaded.</text>
+  <text key="message.txtImportMissingData">The TXT file does not contain an Authproxycaller form block.</text>
   <text key="message.copyBlocked">Copying was blocked by the browser.</text>
   <text key="message.urlCopied">URL calls were copied to the clipboard.</text>
   <text key="message.allCopied">All visible calls were copied to the clipboard.</text>

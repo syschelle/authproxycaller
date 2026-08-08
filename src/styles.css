@@ -229,6 +229,13 @@ h2 {
   gap: 8px;
 }
 
+.card-heading-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
 .step {
   display: grid;
   flex: 0 0 24px;

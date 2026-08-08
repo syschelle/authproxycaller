@@ -21,6 +21,8 @@
   <text key="field.urlSharedPassword">Mot de passe partagé</text>
   <text key="field.urlAuditUserEnabled">Utilisateur du journal d'audit ?</text>
   <text key="field.urlAuditUserEnabledShort">Utilisateur du journal d'audit</text>
+  <text key="field.browserChoice">Choix du navigateur</text>
+  <text key="field.debugLevel">Niveau de debug</text>
   <text key="field.companionPath">Chemin de la Companion App</text>
   <text key="field.kisType">Type de SIH</text>
   <text key="field.foreignUserVariable">Nom de variable utilisateur</text>
@@ -36,6 +38,7 @@
   <text key="field.AccessionNumber">Numéro de commande</text>
   <text key="field.studyUID">SUID</text>
   <text key="field.remote">SIH terminal</text>
+  <text key="option.browserSystemDefault">Valeur système par défaut</text>
   <text key="placeholder.dicomFqdn">dicomservices.exemple.local</text>
   <text key="placeholder.viewerFqdn">viewer.exemple.local</text>
   <text key="placeholder.IssuerOfPatientID">4060KSR</text>
@@ -60,6 +63,7 @@
   <text key="button.testDataDisable">Désactiver les données de test</text>
   <text key="button.clearAll">Tout effacer</text>
   <text key="button.export">Export PDF/TXT</text>
+  <text key="button.importTxt">Import</text>
   <text key="button.copyAll">Tous les appels</text>
   <text key="button.copySingle">Copier</text>
   <text key="button.close">Fermer</text>
@@ -110,6 +114,9 @@
   <text key="message.pdfPrepared">L'export PDF a été préparé.</text>
   <text key="message.selectTxtSection">Veuillez sélectionner au moins une rubrique pour l'export TXT.</text>
   <text key="message.txtCreated">L'export TXT a été créé.</text>
+  <text key="message.txtImportSuccess">L'import TXT a été chargé.</text>
+  <text key="message.txtImportFailed">L'import TXT n'a pas pu être chargé.</text>
+  <text key="message.txtImportMissingData">Le fichier TXT ne contient pas de bloc de formulaire Authproxycaller.</text>
   <text key="message.copyBlocked">La copie a été bloquée par le navigateur.</text>
   <text key="message.urlCopied">Les appels URL ont été copiés dans le presse-papiers.</text>
   <text key="message.allCopied">Tous les appels visibles ont été copiés dans le presse-papiers.</text>

@@ -12,50 +12,50 @@
     'viewer-study': {
       path: '/du-auth-proxy/viewer',
       required: ['server', 'user', 'password', 'studyUID'],
-      params: ['user', 'password', 'idp', 'studyUID']
+      params: ['user', 'password', 'idp', 'browser', 'studyUID']
     },
     'viewer-patient': {
       path: '/du-auth-proxy/viewer',
       required: ['server', 'user', 'password', 'PatientID'],
-      params: ['user', 'password', 'idp', 'PatientID', 'IssuerOfPatientID']
+      params: ['user', 'password', 'idp', 'browser', 'PatientID', 'IssuerOfPatientID']
     },
     'viewer-accession': {
       path: '/du-auth-proxy/viewer',
       required: ['server', 'user', 'password', 'PatientID', 'AccessionNumber'],
-      params: ['user', 'password', 'idp', 'PatientID', 'IssuerOfPatientID', 'AccessionNumber']
+      params: ['user', 'password', 'idp', 'browser', 'PatientID', 'IssuerOfPatientID', 'AccessionNumber']
     },
     'studysearch-empty': {
       path: '/du-auth-proxy/api/v1/viewer/studysearch',
       required: ['server', 'user', 'password'],
-      params: ['user', 'password', 'idp']
+      params: ['user', 'password', 'idp', 'browser']
     },
     'studysearch-filtered': {
       path: '/du-auth-proxy/api/v1/viewer/studysearch',
       required: ['server', 'user', 'password'],
-      params: ['user', 'password', 'idp', 'ModalitiesInStudy', 'PatientID', 'StudyDateTime']
+      params: ['user', 'password', 'idp', 'browser', 'ModalitiesInStudy', 'PatientID', 'StudyDateTime']
     }
   });
 
   const COMPANION_SCENARIOS = Object.freeze({
     'companion-study': {
       required: ['appName', 'loginserver', 'user', 'password', 'studyUID'],
-      params: ['loginserver', 'user', 'password', 'idp', 'studyUID', 'remote']
+      params: ['loginserver', 'user', 'password', 'idp', 'browser', 'studyUID', 'remote']
     },
     'companion-patient': {
       required: ['appName', 'loginserver', 'user', 'password', 'PatientID'],
-      params: ['loginserver', 'user', 'password', 'idp', 'PatientID', 'IssuerOfPatientID', 'remote']
+      params: ['loginserver', 'user', 'password', 'idp', 'browser', 'PatientID', 'IssuerOfPatientID', 'remote']
     },
     'companion-accession': {
       required: ['appName', 'loginserver', 'user', 'password', 'PatientID', 'AccessionNumber'],
-      params: ['loginserver', 'user', 'password', 'idp', 'PatientID', 'IssuerOfPatientID', 'AccessionNumber', 'remote']
+      params: ['loginserver', 'user', 'password', 'idp', 'browser', 'PatientID', 'IssuerOfPatientID', 'AccessionNumber', 'remote']
     },
     'companion-multi-accession': {
       required: ['appName', 'loginserver', 'user', 'password', 'AccessionNumber'],
-      params: ['loginserver', 'user', 'password', 'idp', 'IssuerOfPatientID', 'AccessionNumber', 'remote']
+      params: ['loginserver', 'user', 'password', 'idp', 'browser', 'IssuerOfPatientID', 'AccessionNumber', 'remote']
     },
     'companion-remote': {
       required: ['appName', 'loginserver', 'user', 'password', 'PatientID', 'remote'],
-      params: ['loginserver', 'user', 'password', 'idp', 'PatientID', 'IssuerOfPatientID', 'remote']
+      params: ['loginserver', 'user', 'password', 'idp', 'browser', 'PatientID', 'IssuerOfPatientID', 'remote']
     },
     'companion-diagnost': {
       required: [
@@ -65,7 +65,7 @@
         'password',
         'PatientID'
       ],
-      params: ['loginserver', 'user', 'password', 'idp', 'PatientID', 'IssuerOfPatientID', 'remote']
+      params: ['loginserver', 'user', 'password', 'idp', 'browser', 'PatientID', 'IssuerOfPatientID', 'remote']
     },
     'companion-custom': {
       required: ['appName', 'loginserver', 'user', 'password'],
@@ -74,6 +74,7 @@
         'user',
         'password',
         'idp',
+        'browser',
         'studyUID',
         'PatientID',
         'IssuerOfPatientID',
@@ -100,6 +101,14 @@
     }
     if (CONTROL_CHARS.test(text)) {
       throw new Error(`${label} enthält unzulässige Steuerzeichen.`);
+    }
+    return text;
+  }
+
+  function validateDebugLevel(value) {
+    const text = validatePlainText(value, 'Debuglevel');
+    if (text && !['DEBUG', 'TRACE'].includes(text)) {
+      throw new Error('Debuglevel muss DEBUG oder TRACE sein.');
     }
     return text;
   }
@@ -216,6 +225,11 @@
       }
     });
 
+    const debugLevel = validateDebugLevel(config.debuglevel);
+    if (debugLevel) {
+      url.search += `${url.search ? '&' : '?'}${encodeURIComponent(debugLevel)}`;
+    }
+
     return url.toString();
   }
 
@@ -270,6 +284,11 @@
         pairs.push(`${parameter}=${formattedValue}`);
       }
     });
+
+    const debugLevel = validateDebugLevel(config.debuglevel);
+    if (debugLevel) {
+      pairs.push(quoteCmdValue(debugLevel));
+    }
 
     const diagnostParameter = clean(config.diagnostParameter);
     const diagnostPath = validatePlainText(config.diagnostPath, 'Pfad zum DeepUnity-Ordner', MAX_PATH_LENGTH);

@@ -4,6 +4,8 @@
   const i18n = window.AppI18n;
   const t = (key, fallback) => (i18n && i18n.t ? i18n.t(key, fallback) : fallback || key);
   const hint = (key, fallback) => (i18n && i18n.hint ? i18n.hint(key, fallback) : fallback || '');
+  const FORM_DATA_START = '--- Authproxycaller-FormData v1 ---';
+  const FORM_DATA_END = '--- /Authproxycaller-FormData ---';
 
   const URL_OPTIONS = [
     ['viewer-study', 'scenario.viewerStudy', 'Viewer: Studie über StudyUID'],
@@ -38,7 +40,9 @@
 
   const FIELD_LABELS = {
     AccessionNumber: ['field.AccessionNumber', 'Auftragsnummer'],
+    browserChoice: ['field.browserChoice', 'Browserwahl'],
     companionPath: ['field.companionPath', 'Pfad zur Companion App'],
+    debugLevel: ['field.debugLevel', 'Debuglevel'],
     diagnostPath: ['field.diagnostPath', 'Pfad zum DeepUnity-Ordner'],
     dicomFqdn: ['field.dicomFqdn', 'FQDN DicomServices'],
     IssuerOfPatientID: ['field.IssuerOfPatientID', 'IssuerOfPatientID'],
@@ -95,6 +99,8 @@
   const clearButton = document.getElementById('clear-button');
   const serverTestButton = document.getElementById('server-test-button');
   const pdfExportButton = document.getElementById('pdf-export-button');
+  const txtImportButton = document.getElementById('txt-import-button');
+  const txtImportInput = document.getElementById('txt-import-input');
   const pdfDialog = document.getElementById('pdf-dialog');
   const pdfCancelButton = document.getElementById('pdf-cancel-button');
   const pdfCreateButton = document.getElementById('pdf-create-button');
@@ -298,6 +304,8 @@
       : '';
     config.diagnostParameter = 'diagnostPath';
     config.AccessionNumber = DUBuilder.normalizeAccessions(config.AccessionNumber);
+    config.browser = config.browserChoice;
+    config.debuglevel = config.debugLevel;
     config.remote = config.terminalKis ? '%' : '';
     config.encryptedSvf = Boolean(config.encryptedSvf);
     config.urlSharedUserEnabled = Boolean(config.urlSharedUserEnabled);
@@ -453,6 +461,13 @@
     return error;
   }
 
+  function svfCommonCallParameters(config) {
+    const browser = DUBuilder.validatePlainText(config.browser, 'Browserwahl');
+    return {
+      ...(browser ? { browser } : {})
+    };
+  }
+
   function buildSvfRisUrl(config, parameters, options = {}) {
     const credentialFields = config.urlSharedUserEnabled ? ['urlSharedUser', 'urlSharedPassword'] : [];
     const missing = ['server', ...credentialFields].filter((field) => !config[field]);
@@ -481,6 +496,7 @@
       ...(config.urlAuditUserEnabled ? { app_usr: auditCredentials.user } : {}),
       ...(config.idp ? { idp: config.idp } : {}),
       ...(config.IssuerOfPatientID ? { IssuerOfPatientID: config.IssuerOfPatientID } : {}),
+      ...svfCommonCallParameters(config),
       ...parameters
     };
 
@@ -504,6 +520,7 @@
       password: passwordPlaceholder,
       ...(config.idp ? { idp: config.idp } : {}),
       ...(includeIssuer && config.IssuerOfPatientID ? { IssuerOfPatientID: config.IssuerOfPatientID } : {}),
+      ...svfCommonCallParameters(config),
       ...(config.remote ? { remote: config.remote } : {}),
       ...parameters
     };
@@ -834,6 +851,61 @@
     showNotice(t('message.pdfPrepared', 'PDF Export wurde vorbereitet.'));
   }
 
+  function formDataPayload() {
+    const values = {};
+    const checked = {};
+    form.querySelectorAll('input[id], select[id], textarea[id]').forEach((control) => {
+      if (control.type === 'checkbox') {
+        checked[control.id] = control.checked;
+      } else if (control.type !== 'file') {
+        values[control.id] = control.value;
+      }
+    });
+    return {
+      type: 'authproxycaller-form-data',
+      version: 1,
+      appVersion: '0.2.13',
+      language: i18n && i18n.language ? i18n.language : 'de',
+      exportedAt: new Date().toISOString(),
+      values,
+      checked
+    };
+  }
+
+  function buildFormDataBlock() {
+    return [
+      FORM_DATA_START,
+      JSON.stringify(formDataPayload(), null, 2),
+      FORM_DATA_END
+    ].join('\n');
+  }
+
+  function filenameTimestamp(date = new Date()) {
+    const pad = (value) => String(value).padStart(2, '0');
+    return [
+      date.getFullYear(),
+      pad(date.getMonth() + 1),
+      pad(date.getDate())
+    ].join('') + '-' + [
+      pad(date.getHours()),
+      pad(date.getMinutes()),
+      pad(date.getSeconds())
+    ].join('');
+  }
+
+  function filenameFqdnPrefix() {
+    const value = String(document.getElementById('dicomFqdn').value || '').trim();
+    const host = value.replace(/^https?:\/\//i, '').split(/[/?#]/)[0];
+    return host
+      .replace(/\./g, '_')
+      .replace(/[^a-zA-Z0-9_-]+/g, '_')
+      .replace(/^_+|_+$/g, '') || 'authproxycaller';
+  }
+
+  function txtExportFilename() {
+    return `${filenameFqdnPrefix()}_authproxycaller-export_${filenameTimestamp()}.txt`;
+  }
+
   function createTxtExport() {
     const sections = selectedPdfSections();
     if (sections.length === 0) {
@@ -841,18 +913,71 @@
       return;
     }
 
-    const text = textFromSections(sections);
+    const text = `${buildFormDataBlock()}\n\n${textFromSections(sections)}`;
     const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'authproxycaller-export.txt';
+    link.download = txtExportFilename();
     document.body.append(link);
     link.click();
     link.remove();
     URL.revokeObjectURL(url);
     closePdfDialog();
     showNotice(t('message.txtCreated', 'TXT Export wurde erstellt.'));
+  }
+
+  function parseImportedFormData(text) {
+    const start = text.indexOf(FORM_DATA_START);
+    const end = text.indexOf(FORM_DATA_END);
+    if (start === -1 || end === -1 || end <= start) {
+      throw new Error('missing-form-data');
+    }
+    const jsonText = text.slice(start + FORM_DATA_START.length, end).trim();
+    const payload = JSON.parse(jsonText);
+    if (!payload || payload.type !== 'authproxycaller-form-data' || payload.version !== 1) {
+      throw new Error('invalid-form-data');
+    }
+    return payload;
+  }
+
+  function applyImportedFormData(payload) {
+    const values = payload.values && typeof payload.values === 'object' ? payload.values : {};
+    const checked = payload.checked && typeof payload.checked === 'object' ? payload.checked : {};
+    form.querySelectorAll('input[id], select[id], textarea[id]').forEach((control) => {
+      if (control.type === 'checkbox') {
+        if (Object.prototype.hasOwnProperty.call(checked, control.id)) {
+          control.checked = Boolean(checked[control.id]);
+        }
+      } else if (control.type !== 'file' && Object.prototype.hasOwnProperty.call(values, control.id)) {
+        control.value = String(values[control.id] ?? '');
+      }
+    });
+    state.testDataActive = false;
+    state.testDataSnapshot = null;
+    setTestButton(false);
+    updateServerFields();
+    updateKisFields();
+    renderOutput();
+  }
+
+  async function importTxtFile(file) {
+    if (!file) return;
+    try {
+      const payload = parseImportedFormData(await file.text());
+      applyImportedFormData(payload);
+      showNotice(t('message.txtImportSuccess', 'TXT Import wurde eingelesen.'));
+    } catch (error) {
+      const key = error && error.message === 'missing-form-data'
+        ? 'message.txtImportMissingData'
+        : 'message.txtImportFailed';
+      const fallback = error && error.message === 'missing-form-data'
+        ? 'Die TXT-Datei enthält keinen Authproxycaller-Formularblock.'
+        : 'TXT Import konnte nicht eingelesen werden.';
+      showNotice(t(key, fallback), 'error');
+    } finally {
+      txtImportInput.value = '';
+    }
   }
 
   function renderOutput() {
@@ -1001,6 +1126,8 @@
     'idp',
     'urlSharedUser',
     'urlSharedPassword',
+    'browserChoice',
+    'debugLevel',
     'user',
     'password',
     'companionPath',
@@ -1022,7 +1149,7 @@
   ];
 
   function setTestButton(active) {
-    serverTestButton.textContent = active ? t('button.testDataDisable', 'Testdaten deaktivieren') : t('button.testDataEnable', 'Testdaten aktivieren');
+    serverTestButton.textContent = active ? t('button.testDataDisable', 'Testdaten aus') : t('button.testDataEnable', 'Testdaten an');
   }
 
   function snapshotTestData() {
@@ -1070,6 +1197,8 @@
     document.getElementById('urlAuditUserEnabled').checked = true;
     document.getElementById('urlSharedUser').value = 'sammelbenutzer';
     document.getElementById('urlSharedPassword').value = 'sammelpasswort123';
+    document.getElementById('browserChoice').value = 'CHROME';
+    document.getElementById('debugLevel').value = 'DEBUG';
     document.getElementById('terminalKis').checked = true;
     document.getElementById('encryptedSvf').checked = true;
     document.getElementById('user').value = 'testuser';
@@ -1137,6 +1266,8 @@
   copySvfOpapButton.addEventListener('click', copySvfOpapOutput);
   copySvfLstmButton.addEventListener('click', copySvfLstmOutput);
   pdfExportButton.addEventListener('click', openPdfDialog);
+  txtImportButton.addEventListener('click', () => txtImportInput.click());
+  txtImportInput.addEventListener('change', () => importTxtFile(txtImportInput.files && txtImportInput.files[0]));
   pdfCancelButton.addEventListener('click', closePdfDialog);
   pdfCreateButton.addEventListener('click', createPdfExport);
   txtCreateButton.addEventListener('click', createTxtExport);
