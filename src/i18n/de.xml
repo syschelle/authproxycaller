@@ -17,6 +17,8 @@
   <text key="field.idp">IDP</text>
   <text key="field.urlSharedUserEnabled">URL Aufruf Sammelnutzer?</text>
   <text key="field.urlSharedUserEnabledShort">URL Aufruf Sammelnutzer</text>
+  <text key="field.urlSharedUserIdpEnabled">URL Sammelbenutzer im IDP?</text>
+  <text key="field.urlSharedUserIdpEnabledShort">URL Sammelbenutzer im IDP</text>
   <text key="field.urlSharedUser">Sammelbenutzer</text>
   <text key="field.urlSharedPassword">Sammelpasswort</text>
   <text key="field.urlAuditUserEnabled">Audit-Protokoll-Benutzer?</text>

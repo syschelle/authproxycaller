@@ -59,6 +59,7 @@
     urlAuditUserEnabled: ['field.urlAuditUserEnabledShort', 'Audit-Protokoll-Benutzer'],
     urlSharedPassword: ['field.urlSharedPassword', 'Sammelpasswort'],
     urlSharedUser: ['field.urlSharedUser', 'Sammelbenutzer'],
+    urlSharedUserIdpEnabled: ['field.urlSharedUserIdpEnabledShort', 'URL Sammelbenutzer im IDP'],
     urlSharedUserEnabled: ['field.urlSharedUserEnabled', 'URL Aufruf Sammelnutzer?'],
     user: ['field.user', 'Benutzername'],
     viewerFqdn: ['field.viewerFqdn', 'FQDN DU Viewer'],
@@ -142,6 +143,10 @@
     }
 
     const sharedUserActive = urlSharedUserEnabled.checked;
+    const sharedUserInput = document.getElementById('urlSharedUser');
+    if (sharedUserActive && sharedUserInput && !sharedUserInput.value.trim()) {
+      sharedUserInput.value = 'du.webviewer.rl';
+    }
     sharedUrlUserFields.forEach((field) => {
       const input = field.querySelector('input, select, textarea');
       field.classList.toggle('hidden', !sharedUserActive);
@@ -310,6 +315,7 @@
     config.remote = config.terminalKis ? '%' : '';
     config.encryptedSvf = Boolean(config.encryptedSvf);
     config.urlSharedUserEnabled = Boolean(config.urlSharedUserEnabled);
+    config.urlSharedUserIdpEnabled = Boolean(config.urlSharedUserIdpEnabled);
     config.urlAuditUserEnabled = Boolean(config.urlAuditUserEnabled);
     if (config.kisType === 'fremd') {
       config.PatientID = variablePlaceholder(config.foreignPatientIdVariable);
@@ -336,6 +342,22 @@
       };
     }
     return svfCredentials(config, userPlaceholder, passwordPlaceholder, encryptedPrefix, options);
+  }
+
+  function testUrlConfig(config) {
+    if (!config.urlSharedUserEnabled) {
+      return config;
+    }
+    const missing = ['urlSharedUser', 'urlSharedPassword'].filter((field) => !config[field]);
+    if (missing.length > 0) {
+      throw missingFieldsError(missing);
+    }
+    return {
+      ...config,
+      user: DUBuilder.validatePlainText(config.urlSharedUser, 'Sammelbenutzer'),
+      password: DUBuilder.validatePlainText(config.urlSharedPassword, 'Sammelpasswort'),
+      idp: config.urlSharedUserIdpEnabled ? config.idp : ''
+    };
   }
 
   function clearInvalidState() {
@@ -510,11 +532,12 @@
       options.encryptedPrefix || 'ENC_',
       { applyEncryption: options.applyEncryption }
     );
+    const includeIdp = !config.urlSharedUserEnabled || config.urlSharedUserIdpEnabled;
     const params = {
       user: credentials.user,
       password: credentials.password,
       ...(config.urlAuditUserEnabled ? { app_usr: auditCredentials.user } : {}),
-      ...(config.idp ? { idp: config.idp } : {}),
+      ...(includeIdp && config.idp ? { idp: config.idp } : {}),
       ...(config.IssuerOfPatientID ? { IssuerOfPatientID: config.IssuerOfPatientID } : {}),
       ...svfCommonCallParameters(config),
       ...parameters
@@ -826,7 +849,7 @@
     return {
       type: 'authproxycaller-form-data',
       version: 1,
-      appVersion: '0.2.26',
+      appVersion: '0.2.30',
       language: i18n && i18n.language ? i18n.language : 'de',
       exportedAt: new Date().toISOString(),
       values,
@@ -952,7 +975,7 @@
     URL_OPTIONS.forEach(([scenarioName, labelKey, fallbackLabel]) => {
       const label = t(labelKey, fallbackLabel);
       try {
-        const value = DUBuilder.buildUrl(scenarioName, config);
+        const value = DUBuilder.buildUrl(scenarioName, testUrlConfig(config));
         appendScenario(urlSection, label, value);
       } catch (error) {
         appendMissing(urlSection, label, error);
@@ -1103,6 +1126,7 @@
     'terminalKis',
     'encryptedSvf',
     'urlSharedUserEnabled',
+    'urlSharedUserIdpEnabled',
     'urlAuditUserEnabled'
   ];
 

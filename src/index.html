@@ -29,7 +29,7 @@
       </label>
       <button type="button" id="hint-download-button" class="feedback-link header-button" data-i18n="button.support">Unterstützen</button>
       <a class="feedback-link" href="mailto:sylvio.schelle@dedalus.com?subject=Feedback%20Authproxycaller">Feedback</a>
-      <span class="version">v0.2.26</span>
+      <span class="version">v0.2.30</span>
     </div>
   </header>
 
@@ -78,6 +78,11 @@
             <label class="switch-row switch-row-card field-wide">
               <input id="urlSharedUserEnabled" name="urlSharedUserEnabled" type="checkbox">
               <span data-i18n="field.urlSharedUserEnabled">URL Aufruf Sammelnutzer?</span>
+            </label>
+
+            <label class="switch-row switch-row-card field-wide shared-url-user-only hidden">
+              <input id="urlSharedUserIdpEnabled" name="urlSharedUserIdpEnabled" type="checkbox" disabled>
+              <span data-i18n="field.urlSharedUserIdpEnabled">URL Sammelbenutzer im IDP?</span>
             </label>
 
             <label class="field shared-url-user-only hidden" data-field="urlSharedUser">
@@ -239,7 +244,7 @@
   </main>
 
   <footer>
-    <span>Authproxycaller v0.2.26</span>
+    <span>Authproxycaller v0.2.30</span>
   </footer>
   <div id="export-dialog" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="export-dialog-title">
     <div class="modal-panel">

@@ -17,6 +17,8 @@
   <text key="field.idp">IDP</text>
   <text key="field.urlSharedUserEnabled">Shared user for URL calls?</text>
   <text key="field.urlSharedUserEnabledShort">Shared user for URL calls</text>
+  <text key="field.urlSharedUserIdpEnabled">URL shared user in IDP?</text>
+  <text key="field.urlSharedUserIdpEnabledShort">URL shared user in IDP</text>
   <text key="field.urlSharedUser">Shared user</text>
   <text key="field.urlSharedPassword">Shared password</text>
   <text key="field.urlAuditUserEnabled">Audit log user?</text>
