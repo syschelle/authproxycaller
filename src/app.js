@@ -139,6 +139,8 @@
   const guidePrevButton = document.getElementById('guide-prev-button');
   const guideNextButton = document.getElementById('guide-next-button');
   const guideFinishButton = document.getElementById('guide-finish-button');
+  const outputStep = document.getElementById('output-step');
+  const outputHeading = document.getElementById('output-heading');
   const formError = document.getElementById('form-error');
   const copyUrlButton = document.getElementById('copy-url-button');
   const copyCompanionButton = document.getElementById('copy-companion-button');
@@ -267,6 +269,8 @@
     copyStatus.classList.toggle('hidden', visible);
     txtExportButton.classList.toggle('hidden', visible);
     document.body.classList.toggle('guide-active', visible);
+    outputStep.textContent = visible ? 'G' : '3';
+    outputHeading.textContent = visible ? t('guide.heading', 'Geführte Eingabe') : t('section.output', 'Aufruf übernehmen');
     if (!visible) {
       restoreGuideField();
       clearGuideHighlight();
@@ -1055,7 +1059,7 @@
     return {
       type: 'authproxycaller-form-data',
       version: 1,
-      appVersion: '0.2.37',
+      appVersion: '0.2.38',
       language: i18n && i18n.language ? i18n.language : 'de',
       exportedAt: new Date().toISOString(),
       values,

@@ -520,9 +520,15 @@ textarea:focus {
 .guide-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 6px;
   justify-content: flex-end;
   margin-top: 6px;
+}
+
+.guide-actions .button {
+  min-height: 32px;
+  padding: 5px 10px;
+  font-size: 0.84rem;
 }
 
 .guide-highlight {

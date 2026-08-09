@@ -136,6 +136,7 @@
   <text key="message.languageXmlDownloaded">Sprach-XML wurde heruntergeladen.</text>
   <text key="message.languageXmlDownloadFailed">Sprach-XML konnte nicht heruntergeladen werden.</text>
   <text key="guide.mode">Geführte Eingabe</text>
+  <text key="guide.heading">Geführte Eingabe</text>
   <text key="guide.startTitle">Bring mich zum Licht</text>
   <text key="guide.startBody">Keine Panik. Wir bauen die Aufrufe Schritt für Schritt zusammen. Aber du brauchst auf alle Fälle ein Handtuch.</text>
   <text key="guide.dicomTitle">DicomServices finden</text>
