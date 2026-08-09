@@ -137,7 +137,7 @@
   <text key="message.languageXmlDownloadFailed">Sprach-XML konnte nicht heruntergeladen werden.</text>
   <text key="guide.mode">Geführte Eingabe</text>
   <text key="guide.startTitle">Bring mich zum Licht</text>
-  <text key="guide.startBody">Keine Panik. Wir bauen den Aufruf Schritt für Schritt zusammen.</text>
+  <text key="guide.startBody">Keine Panik. Wir bauen die Aufrufe Schritt für Schritt zusammen. Aber ich brauche auf alle Fälle ein Handtuch.</text>
   <text key="guide.dicomTitle">DicomServices finden</text>
   <text key="guide.dicomBody">Wo wohnt DicomServices? Ein sauberer FQDN, und wir sind im Geschäft.</text>
   <text key="guide.viewerTitle">Viewer-Adresse sortieren</text>

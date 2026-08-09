@@ -137,7 +137,7 @@
   <text key="message.languageXmlDownloadFailed">Le XML de langue n'a pas pu être téléchargé.</text>
   <text key="guide.mode">Saisie guidée</text>
   <text key="guide.startTitle">Mène-moi vers la lumière</text>
-  <text key="guide.startBody">Pas de panique. Nous construisons l'appel étape par étape.</text>
+  <text key="guide.startBody">Pas de panique. Nous construisons les appels étape par étape. Mais il me faut absolument une serviette.</text>
   <text key="guide.dicomTitle">Trouver DicomServices</text>
   <text key="guide.dicomBody">Où habite DicomServices ? Un FQDN propre, et nous sommes lancés.</text>
   <text key="guide.viewerTitle">Trier l'adresse du Viewer</text>

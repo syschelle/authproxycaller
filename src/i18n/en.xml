@@ -137,7 +137,7 @@
   <text key="message.languageXmlDownloadFailed">Language XML could not be downloaded.</text>
   <text key="guide.mode">Guided input</text>
   <text key="guide.startTitle">Bring me to the light</text>
-  <text key="guide.startBody">No panic. We build the call step by step.</text>
+  <text key="guide.startBody">No panic. We build the calls step by step. But I definitely need a towel.</text>
   <text key="guide.dicomTitle">Find DicomServices</text>
   <text key="guide.dicomBody">Where does DicomServices live? A clean FQDN, and we are in business.</text>
   <text key="guide.viewerTitle">Sort the Viewer address</text>

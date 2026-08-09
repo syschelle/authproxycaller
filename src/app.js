@@ -72,7 +72,7 @@
   };
 
   const GUIDE_STEPS = [
-    ['guide.startTitle', 'Bring mich zum Licht', 'guide.startBody', 'Keine Panik. Wir bauen den Aufruf Schritt für Schritt zusammen.'],
+    ['guide.startTitle', 'Bring mich zum Licht', 'guide.startBody', 'Keine Panik. Wir bauen die Aufrufe Schritt für Schritt zusammen. Aber ich brauche auf alle Fälle ein Handtuch.'],
     ['guide.dicomTitle', 'DicomServices finden', 'guide.dicomBody', 'Wo wohnt DicomServices? Ein sauberer FQDN, und wir sind im Geschäft.', 'dicomFqdn'],
     ['guide.viewerTitle', 'Viewer-Adresse sortieren', 'guide.viewerBody', 'Gleicher FQDN? Sehr schön. Falls nicht, bekommt der Viewer hier seine eigene Adresse.', 'sameViewerFqdn'],
     ['guide.viewerFqdnTitle', 'DU Viewer eintragen', 'guide.viewerFqdnBody', 'Wenn der Viewer anders heißt als DicomServices, kommt sein FQDN hier hinein.', 'viewerFqdn', (config) => !config.sameViewerFqdn],
@@ -1044,7 +1044,7 @@
     return {
       type: 'authproxycaller-form-data',
       version: 1,
-      appVersion: '0.2.32',
+      appVersion: '0.2.33',
       language: i18n && i18n.language ? i18n.language : 'de',
       exportedAt: new Date().toISOString(),
       values,
