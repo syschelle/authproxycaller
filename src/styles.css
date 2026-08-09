@@ -746,27 +746,27 @@ textarea:focus {
   margin-bottom: 10px;
 }
 
-.pdf-options {
+.export-options {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
 }
 
-.pdf-options-compact {
+.export-options-compact {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.pdf-option-group {
+.export-option-group {
   display: grid;
   gap: 7px;
   margin-top: 10px;
 }
 
-.pdf-option-group:first-of-type {
+.export-option-group:first-of-type {
   margin-top: 0;
 }
 
-.pdf-option-group h3 {
+.export-option-group h3 {
   margin: 0;
   color: #203564;
   font-size: 0.82rem;
@@ -874,7 +874,7 @@ footer {
 
   .field-grid,
   .button-row,
-  .pdf-options {
+  .export-options {
     grid-template-columns: 1fr;
   }
 

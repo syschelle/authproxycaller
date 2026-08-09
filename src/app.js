@@ -98,13 +98,15 @@
   const copySvfLstmButton = document.getElementById('copy-svf-lstm-button');
   const clearButton = document.getElementById('clear-button');
   const serverTestButton = document.getElementById('server-test-button');
-  const pdfExportButton = document.getElementById('pdf-export-button');
+  const txtExportButton = document.getElementById('txt-export-button');
   const txtImportButton = document.getElementById('txt-import-button');
   const txtImportInput = document.getElementById('txt-import-input');
-  const pdfDialog = document.getElementById('pdf-dialog');
-  const pdfCancelButton = document.getElementById('pdf-cancel-button');
-  const pdfCreateButton = document.getElementById('pdf-create-button');
+  const exportDialog = document.getElementById('export-dialog');
+  const exportCancelButton = document.getElementById('export-cancel-button');
   const txtCreateButton = document.getElementById('txt-create-button');
+  const txtImportDialog = document.getElementById('txt-import-dialog');
+  const txtImportCancelButton = document.getElementById('txt-import-cancel-button');
+  const txtImportContinueButton = document.getElementById('txt-import-continue-button');
   const hintDialog = document.getElementById('hint-dialog');
   const hintDialogTitle = document.getElementById('hint-dialog-title');
   const hintDialogBody = document.getElementById('hint-dialog-body');
@@ -114,12 +116,12 @@
   const hintDownloadCloseButton = document.getElementById('hint-download-close-button');
   const hintDownloadCreateButton = document.getElementById('hint-download-create-button');
   const languageDownloadCreateButton = document.getElementById('language-download-create-button');
-  const pdfChecks = pdfDialog.querySelectorAll('input[type="checkbox"]');
-  const exportCallTypeRadios = pdfDialog.querySelectorAll('input[name="export-call-type"]');
+  const exportChecks = exportDialog.querySelectorAll('input[type="checkbox"]');
+  const exportCallTypeRadios = exportDialog.querySelectorAll('input[name="export-call-type"]');
   const displayCallTypeRadios = document.querySelectorAll('input[name="display-call-type"]');
   const displayCompanionOption = document.querySelector('input[name="display-call-type"][value="companion"]').closest('label');
-  const exportCompanionOption = pdfDialog.querySelector('input[name="export-call-type"][value="companion"]').closest('label');
-  const svfExportLabel = pdfDialog.querySelector('input[value="svf"]').closest('label').querySelector('span');
+  const exportCompanionOption = exportDialog.querySelector('input[name="export-call-type"][value="companion"]').closest('label');
+  const svfExportLabel = exportDialog.querySelector('input[value="svf"]').closest('label').querySelector('span');
   const copyStatus = document.getElementById('copy-status');
   const copyToast = document.getElementById('copy-toast');
   const sameViewerFqdn = document.getElementById('sameViewerFqdn');
@@ -663,58 +665,10 @@
     }, 2400);
   }
 
-  function escapeHtml(value) {
-    return String(value)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
-  }
-
-  function sectionToPdfHtml(section) {
-    const items = section.items.map((item) => `
-      <div class="item">
-        <div class="label">${escapeHtml(item.label)}</div>
-        <pre class="${item.type === 'missing' ? 'missing' : 'call'}">${escapeHtml(item.value)}</pre>
-      </div>
-    `).join('');
-    return `
-      <section class="section">
-        <h2>${escapeHtml(section.title)}</h2>
-        ${items}
-      </section>
-    `;
-  }
-
-  function buildPdfDocument(sections) {
-    return `<!doctype html>
-<html lang="${i18n && i18n.language ? i18n.language : 'de'}">
-<head>
-  <meta charset="utf-8">
-  <title>${escapeHtml(t('dialog.pdfTitle', 'Authproxycaller PDF Export'))}</title>
-  <style>
-    body { margin: 24px; font-family: Arial, sans-serif; color: #172033; background: #fff; }
-    h1 { margin: 0 0 14px; font-size: 20px; }
-    .section { margin: 0 0 18px; page-break-inside: avoid; }
-    .section h2 { margin: 0 0 8px; padding: 5px 8px; border-left: 4px solid #3157d5; background: #edf1ff; color: #203564; font-size: 14px; }
-    .item { margin: 0 0 8px; }
-    .label { display: inline-block; margin: 0 0 4px; padding: 2px 7px; border: 1px solid #cfd9ea; border-radius: 999px; background: #f6f9fd; font-size: 11px; font-weight: 700; }
-    pre { margin: 0; padding: 7px 9px; border-radius: 7px; white-space: pre-wrap; overflow-wrap: anywhere; font: 11px/1.45 Consolas, monospace; }
-    .call { border: 1px solid #0f6f2a; background: #020403; color: #33ff66; }
-    .missing { border: 1px solid #f1bbb4; background: #fff0ee; color: #b42318; font-weight: 700; }
-  </style>
-</head>
-<body>
-  <h1>${escapeHtml(t('dialog.pdfTitle', 'Authproxycaller PDF Export'))}</h1>
-  ${sections.map(sectionToPdfHtml).join('')}
-</body>
-</html>`;
-  }
-
-  function openPdfDialog() {
+  function openExportDialog() {
     const availableKeys = state.sections.map((section) => section.key);
-    pdfDialog.classList.remove('hidden');
-    pdfChecks.forEach((input) => {
+    exportDialog.classList.remove('hidden');
+    exportChecks.forEach((input) => {
       const option = input.closest('label');
       const unavailable = input.value !== 'all' && !availableKeys.includes(input.value);
       option.classList.toggle('hidden', unavailable);
@@ -722,12 +676,25 @@
         input.checked = false;
       }
     });
-    pdfDialog.querySelector('input[value="all"]').checked = true;
-    pdfDialog.querySelector('input[name="export-call-type"][value="both"]').checked = true;
+    exportDialog.querySelector('input[value="all"]').checked = true;
+    exportDialog.querySelector('input[name="export-call-type"][value="both"]').checked = true;
   }
 
-  function closePdfDialog() {
-    pdfDialog.classList.add('hidden');
+  function closeExportDialog() {
+    exportDialog.classList.add('hidden');
+  }
+
+  function openTxtImportDialog() {
+    txtImportDialog.classList.remove('hidden');
+  }
+
+  function closeTxtImportDialog() {
+    txtImportDialog.classList.add('hidden');
+  }
+
+  function chooseTxtImportFile() {
+    closeTxtImportDialog();
+    txtImportInput.click();
   }
 
   function selectedRadioValue(radios, fallback) {
@@ -808,18 +775,18 @@
     exportCompanionOption.classList.toggle('hidden', !hasCompanionSection);
     if (!hasCompanionSection) {
       const selectedDisplayCompanion = document.querySelector('input[name="display-call-type"][value="companion"]:checked');
-      const selectedExportCompanion = pdfDialog.querySelector('input[name="export-call-type"][value="companion"]:checked');
+      const selectedExportCompanion = exportDialog.querySelector('input[name="export-call-type"][value="companion"]:checked');
       if (selectedDisplayCompanion) {
         document.querySelector('input[name="display-call-type"][value="both"]').checked = true;
       }
       if (selectedExportCompanion) {
-        pdfDialog.querySelector('input[name="export-call-type"][value="both"]').checked = true;
+        exportDialog.querySelector('input[name="export-call-type"][value="both"]').checked = true;
       }
     }
   }
 
-  function selectedPdfSections() {
-    const selected = Array.from(pdfChecks)
+  function selectedExportSections() {
+    const selected = Array.from(exportChecks)
       .filter((input) => input.checked)
       .map((input) => input.value);
     const selectedSections = selected.includes('all')
@@ -827,28 +794,6 @@
       : state.sections.filter((section) => selected.includes(section.key));
     const callType = selectedExportCallType();
     return sectionsForCallType(selectedSections, callType);
-  }
-
-  function createPdfExport() {
-    const sections = selectedPdfSections();
-    if (sections.length === 0) {
-      showNotice(t('message.selectPdfSection', 'Bitte mindestens eine Rubrik für den PDF Export auswählen.'), 'error');
-      return;
-    }
-
-    const pdfWindow = window.open('', '_blank');
-    if (!pdfWindow) {
-      showNotice(t('message.pdfBlocked', 'PDF Export wurde vom Browser blockiert.'), 'error');
-      return;
-    }
-
-    pdfWindow.document.open();
-    pdfWindow.document.write(buildPdfDocument(sections));
-    pdfWindow.document.close();
-    pdfWindow.focus();
-    window.setTimeout(() => pdfWindow.print(), 250);
-    closePdfDialog();
-    showNotice(t('message.pdfPrepared', 'PDF Export wurde vorbereitet.'));
   }
 
   function formDataPayload() {
@@ -864,7 +809,7 @@
     return {
       type: 'authproxycaller-form-data',
       version: 1,
-      appVersion: '0.2.16',
+      appVersion: '0.2.18',
       language: i18n && i18n.language ? i18n.language : 'de',
       exportedAt: new Date().toISOString(),
       values,
@@ -907,7 +852,7 @@
   }
 
   function createTxtExport() {
-    const sections = selectedPdfSections();
+    const sections = selectedExportSections();
     if (sections.length === 0) {
       showNotice(t('message.selectTxtSection', 'Bitte mindestens eine Rubrik für den TXT Export auswählen.'), 'error');
       return;
@@ -923,7 +868,7 @@
     link.click();
     link.remove();
     URL.revokeObjectURL(url);
-    closePdfDialog();
+    closeExportDialog();
     showNotice(t('message.txtCreated', 'TXT Export wurde erstellt.'));
   }
 
@@ -1265,15 +1210,21 @@
   copySvfFrauButton.addEventListener('click', copySvfFrauOutput);
   copySvfOpapButton.addEventListener('click', copySvfOpapOutput);
   copySvfLstmButton.addEventListener('click', copySvfLstmOutput);
-  pdfExportButton.addEventListener('click', openPdfDialog);
-  txtImportButton.addEventListener('click', () => txtImportInput.click());
+  txtExportButton.addEventListener('click', openExportDialog);
+  txtImportButton.addEventListener('click', openTxtImportDialog);
   txtImportInput.addEventListener('change', () => importTxtFile(txtImportInput.files && txtImportInput.files[0]));
-  pdfCancelButton.addEventListener('click', closePdfDialog);
-  pdfCreateButton.addEventListener('click', createPdfExport);
+  exportCancelButton.addEventListener('click', closeExportDialog);
   txtCreateButton.addEventListener('click', createTxtExport);
-  pdfDialog.addEventListener('click', (event) => {
-    if (event.target === pdfDialog) {
-      closePdfDialog();
+  exportDialog.addEventListener('click', (event) => {
+    if (event.target === exportDialog) {
+      closeExportDialog();
+    }
+  });
+  txtImportCancelButton.addEventListener('click', closeTxtImportDialog);
+  txtImportContinueButton.addEventListener('click', chooseTxtImportFile);
+  txtImportDialog.addEventListener('click', (event) => {
+    if (event.target === txtImportDialog) {
+      closeTxtImportDialog();
     }
   });
   hintCloseButton.addEventListener('click', closeHintDialog);
@@ -1295,17 +1246,18 @@
     if (event.key === 'Escape') {
       closeHintDialog();
       closeHintDownloadDialog();
-      closePdfDialog();
+      closeExportDialog();
+      closeTxtImportDialog();
     }
   });
-  pdfChecks.forEach((input) => {
+  exportChecks.forEach((input) => {
     input.addEventListener('change', () => {
       if (input.value === 'all' && input.checked) {
-        pdfChecks.forEach((item) => {
+        exportChecks.forEach((item) => {
           if (item.value !== 'all') item.checked = false;
         });
       } else if (input.value !== 'all' && input.checked) {
-        pdfDialog.querySelector('input[value="all"]').checked = false;
+        exportDialog.querySelector('input[value="all"]').checked = false;
       }
     });
   });

@@ -29,7 +29,7 @@
       </label>
       <button type="button" id="hint-download-button" class="feedback-link header-button" data-i18n="button.support">Unterstützen</button>
       <a class="feedback-link" href="mailto:sylvio.schelle@dedalus.com?subject=Feedback%20Authproxycaller">Feedback</a>
-      <span class="version">v0.2.16</span>
+      <span class="version">v0.2.18</span>
     </div>
   </header>
 
@@ -211,7 +211,7 @@
             <p class="step">3</p>
             <h2 data-i18n="section.output">Aufruf übernehmen</h2>
           </div>
-          <button type="button" id="pdf-export-button" class="button button-ghost" data-i18n="button.export">PDF/TXT Export</button>
+          <button type="button" id="txt-export-button" class="button button-ghost" data-i18n="button.export">Export</button>
         </div>
 
         <div class="button-row">
@@ -240,26 +240,26 @@
   </main>
 
   <footer>
-    <span>Authproxycaller v0.2.16</span>
+    <span>Authproxycaller v0.2.18</span>
   </footer>
-  <div id="pdf-dialog" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="pdf-dialog-title">
+  <div id="export-dialog" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="export-dialog-title">
     <div class="modal-panel">
       <div class="modal-heading">
-        <h2 id="pdf-dialog-title" data-i18n="dialog.exportTitle">PDF/TXT Export</h2>
-        <button type="button" id="pdf-cancel-button" class="button button-ghost" data-i18n="button.close">Schließen</button>
+        <h2 id="export-dialog-title" data-i18n="dialog.exportTitle">TXT Export</h2>
+        <button type="button" id="export-cancel-button" class="button button-ghost" data-i18n="button.close">Schließen</button>
       </div>
-      <div class="pdf-option-group">
+      <div class="export-option-group">
         <h3 data-i18n="dialog.callType">Aufruf-Typ</h3>
-        <div class="pdf-options pdf-options-compact">
+        <div class="export-options export-options-compact">
           <label class="check-row"><input type="radio" name="export-call-type" value="both" checked> <span data-i18n="dialog.both">Beides</span></label>
           <label class="check-row"><input type="radio" name="export-call-type" value="url"> <span data-i18n="dialog.urlCallsOnly">Nur URL-Aufrufe</span></label>
           <label class="check-row"><input type="radio" name="export-call-type" value="companion"> <span data-i18n="filter.companionOnly">Nur Companion App</span></label>
         </div>
       </div>
 
-      <div class="pdf-option-group">
+      <div class="export-option-group">
         <h3 data-i18n="dialog.sections">Rubriken</h3>
-        <div class="pdf-options">
+        <div class="export-options">
           <label class="check-row"><input type="checkbox" value="all" checked> <span data-i18n="button.copyAll">Alle Aufrufe</span></label>
           <label class="check-row"><input type="checkbox" value="url"> <span data-i18n="label.urlCall">URL-Aufruf</span></label>
           <label class="check-row"><input type="checkbox" value="companion"> <span>Companion App</span></label>
@@ -272,7 +272,20 @@
       </div>
       <div class="modal-actions">
         <button type="button" id="txt-create-button" class="button button-secondary" data-i18n="button.createTxt">TXT erstellen</button>
-        <button type="button" id="pdf-create-button" class="button button-primary" data-i18n="button.createPdf">PDF erstellen</button>
+      </div>
+    </div>
+  </div>
+  <div id="txt-import-dialog" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="txt-import-dialog-title">
+    <div class="modal-panel hint-panel">
+      <div class="modal-heading">
+        <h2 id="txt-import-dialog-title" data-i18n="dialog.importTitle">Import</h2>
+        <button type="button" id="txt-import-cancel-button" class="button button-ghost" data-i18n="button.close">Schließen</button>
+      </div>
+      <div class="hint-body">
+        <p data-i18n="dialog.importBody">Es werden nur TXT-Dateien akzeptiert, die mit diesem Tool erzeugt wurden.</p>
+      </div>
+      <div class="modal-actions">
+        <button type="button" id="txt-import-continue-button" class="button button-primary" data-i18n="button.chooseFile">Datei auswählen</button>
       </div>
     </div>
   </div>
