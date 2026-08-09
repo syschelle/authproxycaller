@@ -144,6 +144,8 @@
   <text key="guide.viewerBody">Gleicher FQDN? Sehr schön. Falls nicht, bekommt der Viewer hier seine eigene Adresse.</text>
   <text key="guide.viewerFqdnTitle">DU Viewer eintragen</text>
   <text key="guide.viewerFqdnBody">Wenn der Viewer anders heißt als DicomServices, kommt sein FQDN hier hinein.</text>
+  <text key="guide.issuerTitle">IssuerOfPatientID</text>
+  <text key="guide.issuerBody">Wenn der Issuer gebraucht wird, bekommt er hier seinen Wert. Sonst bleibt das Feld leer.</text>
   <text key="guide.idpTitle">IDP, falls einer mitspielt</text>
   <text key="guide.idpBody">Wenn ein Identity Provider beteiligt ist, bekommt er hier seinen Namen. Sonst darf das Feld leer bleiben.</text>
   <text key="guide.sharedTitle">Sammelnutzer: ja oder nein?</text>
@@ -154,6 +156,8 @@
   <text key="guide.sharedIdpBody">Nur anhaken, wenn der Sammelnutzer wirklich im IDP wohnt. Sonst bleibt die Tür lieber zu.</text>
   <text key="guide.sharedPasswordTitle">Secret für den Sammelnutzer</text>
   <text key="guide.sharedPasswordBody">Hier kommt das Sammelpasswort hinein. Nicht poetisch, aber wichtig.</text>
+  <text key="guide.auditTitle">Audit-Protokoll-Benutzer?</text>
+  <text key="guide.auditBody">Wenn ein Audit-Benutzer im URL-Aufruf mitlaufen soll, aktivierst du ihn hier.</text>
   <text key="guide.browserTitle">Browser wählen</text>
   <text key="guide.browserBody">Systemdefault ist entspannt. Chrome oder Edge nur auswählen, wenn der Aufruf bewusst dorthin soll.</text>
   <text key="guide.companionTitle">Companion App am Start?</text>
@@ -162,8 +166,18 @@
   <text key="guide.kisBody">ORBIS oder Fremd-KIS? Diese Auswahl entscheidet, welche Spezialfelder später auftauchen.</text>
   <text key="guide.terminalTitle">Terminal-KIS?</text>
   <text key="guide.terminalBody">Wenn ORBIS im Terminal, Citrix oder RDP läuft, setzen wir den Remote-Hinweis und den passenden Parameter.</text>
-  <text key="guide.foreignTitle">Fremd-RIS Variablen</text>
-  <text key="guide.foreignBody">Beim Fremd-KIS brauchen die Variablen klare Namen. Sonst weiß der Aufruf nicht, was er ersetzen soll.</text>
+  <text key="guide.foreignTitle">Variablenname Benutzername</text>
+  <text key="guide.foreignBody">Beim Fremd-KIS brauchen die Variablen klare Namen. Hier beginnt es mit dem Benutzernamen.</text>
+  <text key="guide.foreignPasswordTitle">Variablenname Passwort</text>
+  <text key="guide.foreignPasswordBody">Hier steht der Variablenname für das Passwort im Fremd-KIS-Aufruf.</text>
+  <text key="guide.foreignPatientTitle">Variablenname Patienten-ID</text>
+  <text key="guide.foreignPatientBody">Hier steht der Variablenname für die Patienten-ID im Fremd-KIS-Aufruf.</text>
+  <text key="guide.foreignOrderTitle">Variablenname Auftragsnummer</text>
+  <text key="guide.foreignOrderBody">Hier steht der Variablenname für die Auftragsnummer im Fremd-KIS-Aufruf.</text>
+  <text key="guide.encryptedTitle">ORBIS Verschlüsselung?</text>
+  <text key="guide.encryptedBody">Wenn ORBIS verschlüsselte SVF-Platzhalter erwartet, schaltest du das hier ein.</text>
+  <text key="guide.diagnostTitle">DeepUnity-Ordner</text>
+  <text key="guide.diagnostBody">Optionaler Ordnerpfad zum DeepUnity-Client. Leer lassen, wenn die Companion App den Client automatisch finden soll.</text>
   <text key="guide.userTitle">Testbenutzer</text>
   <text key="guide.userBody">Damit du Aufrufe direkt prüfen kannst, brauchen die Testaufrufe einen Benutzer.</text>
   <text key="guide.passwordTitle">Testpasswort</text>
@@ -174,6 +188,8 @@
   <text key="guide.orderBody">Hier kommt die Auftragsnummer hinein. Mehrere Werte gehen per Komma, Semikolon oder eigener Zeile.</text>
   <text key="guide.studyTitle">SUID</text>
   <text key="guide.studyBody">Zum Schluss die StudyUID, damit der Studienaufruf punktgenau landen kann.</text>
+  <text key="guide.debugTitle">Debuglevel</text>
+  <text key="guide.debugBody">DEBUG oder TRACE wird nur in den Testaufrufen als zusätzlicher Test-String ausgegeben.</text>
   <text key="guide.doneTitle">Licht erreicht</text>
   <text key="guide.doneBody">Alles bereit. Ich zeige dir jetzt die fertigen Aufrufe.</text>
 </translations>
