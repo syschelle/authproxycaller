@@ -78,6 +78,11 @@ button {
   max-width: 100%;
 }
 
+.guide-header-button {
+  flex: 0 0 auto;
+  margin-right: auto;
+}
+
 .eyebrow {
   margin: 0;
   color: #93c5fd;
@@ -195,9 +200,17 @@ h2 {
   align-items: start;
 }
 
+.guide-active .workspace {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 #builder-form {
   display: grid;
   gap: 10px;
+}
+
+.guide-active #builder-form {
+  display: none;
 }
 
 .card {
@@ -212,6 +225,10 @@ h2 {
 .output-card {
   position: sticky;
   top: 22px;
+}
+
+.guide-active .output-card {
+  position: static;
 }
 
 .card-heading {
@@ -418,6 +435,100 @@ textarea:focus {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: #fff;
+}
+
+.guide-panel {
+  display: grid;
+  gap: 10px;
+  min-height: 280px;
+  margin-top: 8px;
+  padding: 14px;
+  border: 1px solid #c8d5f7;
+  border-radius: 8px;
+  background: #f8fbff;
+}
+
+.guide-topline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 850;
+}
+
+.guide-progress,
+.guide-mode {
+  width: fit-content;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: #e4ecff;
+  color: #203564;
+}
+
+.guide-title {
+  margin: 0;
+  color: #172033;
+  font-size: 1.05rem;
+}
+
+.guide-body {
+  margin: 0;
+  color: #2c374b;
+  font-size: 0.94rem;
+  line-height: 1.5;
+}
+
+.guide-hint {
+  padding: 10px;
+  border: 1px solid #d7e1ff;
+  border-left: 4px solid var(--primary);
+  border-radius: 8px;
+  background: #fff;
+  color: #33415c;
+  font-size: 0.86rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.guide-field-slot {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid #d7e1ff;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.guide-field-slot .field,
+.guide-field-slot .switch-row {
+  width: 100%;
+  max-width: 760px;
+  margin: 0;
+}
+
+.guide-field-slot .field-wide {
+  grid-column: auto;
+}
+
+.guide-field-current {
+  border-color: rgba(49, 87, 213, 0.78) !important;
+  background: #f7faff !important;
+}
+
+.guide-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 6px;
+}
+
+.guide-highlight {
+  border-color: rgba(49, 87, 213, 0.78) !important;
+  background: #f7faff !important;
+  box-shadow: 0 0 0 3px rgba(49, 87, 213, 0.14);
 }
 
 .output-content {
@@ -914,6 +1025,11 @@ footer {
   .topbar {
     flex-direction: column;
     padding-bottom: 20px;
+  }
+
+  .guide-header-button {
+    margin-right: 0;
+    align-self: flex-start;
   }
 
   h1 {

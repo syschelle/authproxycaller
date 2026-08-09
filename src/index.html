@@ -18,6 +18,7 @@
       <h1>Authproxycaller</h1>
       <p class="subtitle" data-i18n="app.subtitle">Klickybuntie Aufrufe erstellen! 🙂</p>
     </div>
+    <button type="button" id="guide-start-button" class="feedback-link header-button guide-header-button" data-i18n="button.guideStart">Bring mich zum Licht</button>
     <div class="topbar-actions">
       <label class="language-switch" for="language-select">
         <span data-i18n="language.label">Sprache</span>
@@ -29,7 +30,7 @@
       </label>
       <button type="button" id="hint-download-button" class="feedback-link header-button" data-i18n="button.support">Unterstützen</button>
       <a class="feedback-link" href="mailto:sylvio.schelle@dedalus.com?subject=Feedback%20Authproxycaller">Feedback</a>
-      <span class="version">v0.2.30</span>
+      <span class="version">v0.2.32</span>
     </div>
   </header>
 
@@ -219,6 +220,22 @@
           <button type="button" id="txt-export-button" class="button button-ghost" data-i18n="button.export">Export</button>
         </div>
 
+        <div id="guide-panel" class="guide-panel hidden" aria-live="polite">
+          <div class="guide-topline">
+            <span id="guide-progress" class="guide-progress">1/1</span>
+            <span class="guide-mode" data-i18n="guide.mode">Geführte Eingabe</span>
+          </div>
+          <h3 id="guide-title" class="guide-title">Bring mich zum Licht</h3>
+          <p id="guide-body" class="guide-body">Keine Panik. Wir bauen den Aufruf Schritt für Schritt zusammen.</p>
+          <div id="guide-hint" class="guide-hint hidden"></div>
+          <div id="guide-field-slot" class="guide-field-slot hidden"></div>
+          <div class="guide-actions">
+            <button type="button" id="guide-prev-button" class="button button-secondary" data-i18n="button.guideBack">Zurück</button>
+            <button type="button" id="guide-next-button" class="button button-primary" data-i18n="button.guideNext">Weiter</button>
+            <button type="button" id="guide-finish-button" class="button button-ghost" data-i18n="button.guideFinish">Aufrufe anzeigen</button>
+          </div>
+        </div>
+
         <div class="button-row">
           <button type="button" id="copy-url-button" class="button button-primary" disabled data-i18n="label.urlCall">URL-Aufruf</button>
           <button type="button" id="copy-companion-button" class="button button-primary" disabled>Companion App</button>
@@ -244,7 +261,7 @@
   </main>
 
   <footer>
-    <span>Authproxycaller v0.2.30</span>
+    <span>Authproxycaller v0.2.32</span>
   </footer>
   <div id="export-dialog" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="export-dialog-title">
     <div class="modal-panel">

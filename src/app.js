@@ -71,6 +71,33 @@
     foreignPasswordVariable: ['field.foreignPasswordVariable', 'Variablenname Passwort']
   };
 
+  const GUIDE_STEPS = [
+    ['guide.startTitle', 'Bring mich zum Licht', 'guide.startBody', 'Keine Panik. Wir bauen den Aufruf Schritt für Schritt zusammen.'],
+    ['guide.dicomTitle', 'DicomServices finden', 'guide.dicomBody', 'Wo wohnt DicomServices? Ein sauberer FQDN, und wir sind im Geschäft.', 'dicomFqdn'],
+    ['guide.viewerTitle', 'Viewer-Adresse sortieren', 'guide.viewerBody', 'Gleicher FQDN? Sehr schön. Falls nicht, bekommt der Viewer hier seine eigene Adresse.', 'sameViewerFqdn'],
+    ['guide.viewerFqdnTitle', 'DU Viewer eintragen', 'guide.viewerFqdnBody', 'Wenn der Viewer anders heißt als DicomServices, kommt sein FQDN hier hinein.', 'viewerFqdn', (config) => !config.sameViewerFqdn],
+    ['guide.idpTitle', 'IDP, falls einer mitspielt', 'guide.idpBody', 'Wenn ein Identity Provider beteiligt ist, bekommt er hier seinen Namen. Sonst darf das Feld leer bleiben.', 'idp'],
+    ['guide.sharedTitle', 'Sammelnutzer: ja oder nein?', 'guide.sharedBody', 'Nutzt du einen URL-Sammelnutzer? Dann bekommt er hier seinen Auftritt.', 'urlSharedUserEnabled'],
+    ['guide.sharedUserTitle', 'Der Sammelnutzer selbst', 'guide.sharedUserBody', 'Wenn das Feld leer ist, setzen wir du.webviewer.rl ein. Praktisch, aber bitte bewusst verwenden.', 'urlSharedUser', (config) => config.urlSharedUserEnabled],
+    ['guide.sharedIdpTitle', 'Liegt der Sammelnutzer im IDP?', 'guide.sharedIdpBody', 'Nur anhaken, wenn der Sammelnutzer wirklich im IDP wohnt. Sonst bleibt die Tür lieber zu.', 'urlSharedUserIdpEnabled', (config) => config.urlSharedUserEnabled],
+    ['guide.sharedPasswordTitle', 'Secret für den Sammelnutzer', 'guide.sharedPasswordBody', 'Hier kommt das Sammelpasswort hinein. Nicht poetisch, aber wichtig.', 'urlSharedPassword', (config) => config.urlSharedUserEnabled],
+    ['guide.browserTitle', 'Browser wählen', 'guide.browserBody', 'Systemdefault ist entspannt. Chrome oder Edge nur auswählen, wenn der Aufruf bewusst dorthin soll.', 'browserChoice'],
+    ['guide.companionTitle', 'Companion App am Start?', 'guide.companionBody', 'Wenn Companion-App-Aufrufe gebraucht werden, braucht sie hier ihren Ordnerpfad ins Glück.', 'companionPath'],
+    ['guide.kisTitle', 'Welches System ruft?', 'guide.kisBody', 'ORBIS oder Fremd-KIS? Diese Auswahl entscheidet, welche Spezialfelder später auftauchen.', 'kisType'],
+    ['guide.terminalTitle', 'Terminal-KIS?', 'guide.terminalBody', 'Wenn ORBIS im Terminal, Citrix oder RDP läuft, setzen wir den Remote-Hinweis und den passenden Parameter.', 'terminalKis', (config) => config.kisType !== 'fremd'],
+    ['guide.foreignTitle', 'Fremd-RIS Variablen', 'guide.foreignBody', 'Beim Fremd-KIS brauchen die Variablen klare Namen. Sonst weiß der Aufruf nicht, was er ersetzen soll.', 'foreignUserVariable', (config) => config.kisType === 'fremd'],
+    ['guide.userTitle', 'Testbenutzer', 'guide.userBody', 'Damit du Aufrufe direkt prüfen kannst, brauchen die Testaufrufe einen Benutzer.', 'user'],
+    ['guide.patientTitle', 'Patient und Auftrag', 'guide.patientBody', 'Patienten-ID, Auftragsnummer und SUID sind die Wegweiser zu den richtigen Studien.', 'PatientID'],
+    ['guide.doneTitle', 'Licht erreicht', 'guide.doneBody', 'Alles bereit. Ich zeige dir jetzt die fertigen Aufrufe.']
+  ].map(([titleKey, titleFallback, bodyKey, bodyFallback, fieldId, condition]) => ({
+    titleKey,
+    titleFallback,
+    bodyKey,
+    bodyFallback,
+    fieldId,
+    condition
+  }));
+
   const state = {
     rawOutput: '',
     urlOutput: '',
@@ -83,11 +110,24 @@
     sections: [],
     noticeTimeout: 0,
     testDataActive: false,
-    testDataSnapshot: null
+    testDataSnapshot: null,
+    guideActive: false,
+    guideIndex: 0,
+    guideMovedField: null
   };
 
   const form = document.getElementById('builder-form');
   const output = document.getElementById('output');
+  const guideStartButton = document.getElementById('guide-start-button');
+  const guidePanel = document.getElementById('guide-panel');
+  const guideProgress = document.getElementById('guide-progress');
+  const guideTitle = document.getElementById('guide-title');
+  const guideBody = document.getElementById('guide-body');
+  const guideHint = document.getElementById('guide-hint');
+  const guideFieldSlot = document.getElementById('guide-field-slot');
+  const guidePrevButton = document.getElementById('guide-prev-button');
+  const guideNextButton = document.getElementById('guide-next-button');
+  const guideFinishButton = document.getElementById('guide-finish-button');
   const formError = document.getElementById('form-error');
   const copyUrlButton = document.getElementById('copy-url-button');
   const copyCompanionButton = document.getElementById('copy-companion-button');
@@ -119,6 +159,9 @@
   const exportChecks = exportDialog.querySelectorAll('input[type="checkbox"]');
   const exportCallTypeRadios = exportDialog.querySelectorAll('input[name="export-call-type"]');
   const displayCallTypeRadios = document.querySelectorAll('input[name="display-call-type"]');
+  const buttonRow = document.querySelector('.button-row');
+  const displayFilter = document.querySelector('.display-filter');
+  const outputWrap = document.querySelector('.output-wrap');
   const displayCompanionOption = document.querySelector('input[name="display-call-type"][value="companion"]').closest('label');
   const exportCompanionOption = exportDialog.querySelector('input[name="export-call-type"][value="companion"]').closest('label');
   const svfExportLabel = exportDialog.querySelector('input[value="svf"]').closest('label').querySelector('span');
@@ -133,6 +176,158 @@
   const orbisKisFields = document.querySelectorAll('.orbis-kis-only');
   const sharedUrlUserFields = document.querySelectorAll('.shared-url-user-only');
   const svfOnlyElements = document.querySelectorAll('.svf-only');
+
+  function guideFieldElement(fieldId) {
+    const control = fieldId ? document.getElementById(fieldId) : null;
+    return control ? control.closest('label') : null;
+  }
+
+  function activeGuideSteps() {
+    let config = {};
+    try {
+      config = collectConfig();
+    } catch {
+      config = {};
+    }
+    return GUIDE_STEPS.filter((step) => !step.condition || step.condition(config));
+  }
+
+  function clearGuideHighlight() {
+    document.querySelectorAll('.guide-highlight').forEach((element) => {
+      element.classList.remove('guide-highlight');
+    });
+  }
+
+  function restoreGuideField() {
+    if (!state.guideMovedField) {
+      guideFieldSlot.classList.add('hidden');
+      return;
+    }
+    const { field, placeholder, formAttributes } = state.guideMovedField;
+    formAttributes.forEach(({ control, value, hadAttribute }) => {
+      if (hadAttribute) {
+        control.setAttribute('form', value);
+      } else {
+        control.removeAttribute('form');
+      }
+    });
+    field.classList.remove('guide-field-current', 'guide-highlight');
+    if (placeholder.parentNode) {
+      placeholder.parentNode.insertBefore(field, placeholder);
+      placeholder.remove();
+    }
+    state.guideMovedField = null;
+    guideFieldSlot.replaceChildren();
+    guideFieldSlot.classList.add('hidden');
+  }
+
+  function moveGuideField(field) {
+    if (state.guideMovedField && state.guideMovedField.field === field) {
+      field.classList.add('guide-field-current', 'guide-highlight');
+      guideFieldSlot.classList.remove('hidden');
+      return;
+    }
+    restoreGuideField();
+    if (!field || !field.parentNode) {
+      return;
+    }
+    const placeholder = document.createComment('guide-field-placeholder');
+    const controls = field.querySelectorAll('input, select, textarea');
+    const formAttributes = Array.from(controls).map((control) => ({
+      control,
+      value: control.getAttribute('form'),
+      hadAttribute: control.hasAttribute('form')
+    }));
+    field.parentNode.insertBefore(placeholder, field);
+    formAttributes.forEach(({ control }) => {
+      control.setAttribute('form', 'builder-form');
+    });
+    field.classList.add('guide-field-current', 'guide-highlight');
+    guideFieldSlot.append(field);
+    guideFieldSlot.classList.remove('hidden');
+    state.guideMovedField = { field, placeholder, formAttributes };
+  }
+
+  function setGuideVisible(visible) {
+    guidePanel.classList.toggle('hidden', !visible);
+    buttonRow.classList.toggle('hidden', visible);
+    displayFilter.classList.toggle('hidden', visible);
+    outputWrap.classList.toggle('hidden', visible);
+    copyStatus.classList.toggle('hidden', visible);
+    txtExportButton.classList.toggle('hidden', visible);
+    document.body.classList.toggle('guide-active', visible);
+    if (!visible) {
+      restoreGuideField();
+      clearGuideHighlight();
+    }
+  }
+
+  function renderGuide() {
+    if (!state.guideActive) {
+      setGuideVisible(false);
+      return;
+    }
+    const steps = activeGuideSteps();
+    state.guideIndex = Math.min(Math.max(state.guideIndex, 0), steps.length - 1);
+    const step = steps[state.guideIndex];
+    setGuideVisible(true);
+    clearGuideHighlight();
+
+    guideProgress.textContent = `${state.guideIndex + 1}/${steps.length}`;
+    guideTitle.textContent = t(step.titleKey, step.titleFallback);
+    guideBody.textContent = t(step.bodyKey, step.bodyFallback);
+
+    const hintText = step.fieldId ? hint(step.fieldId, '') : '';
+    guideHint.textContent = hintText;
+    guideHint.classList.toggle('hidden', !hintText);
+
+    const field = guideFieldElement(step.fieldId);
+    if (field) {
+      moveGuideField(field);
+      const control = field.querySelector('input, select, textarea');
+      if (control) {
+        control.focus({ preventScroll: true });
+      }
+    } else {
+      restoreGuideField();
+    }
+    guidePanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    guidePrevButton.disabled = state.guideIndex === 0;
+    guideNextButton.disabled = state.guideIndex >= steps.length - 1;
+    guideFinishButton.textContent = state.guideIndex >= steps.length - 1
+      ? t('button.guideShowCalls', 'Aufrufe anzeigen')
+      : t('button.guideFinish', 'Guide beenden');
+  }
+
+  function startGuide() {
+    state.guideActive = true;
+    state.guideIndex = 0;
+    renderGuide();
+    guideNextButton.focus();
+  }
+
+  function closeGuide() {
+    state.guideActive = false;
+    renderGuide();
+    renderOutputSections(selectedDisplaySections());
+    updateCopyButtonStates();
+  }
+
+  function nextGuideStep() {
+    const steps = activeGuideSteps();
+    if (state.guideIndex >= steps.length - 1) {
+      closeGuide();
+      return;
+    }
+    state.guideIndex += 1;
+    renderGuide();
+  }
+
+  function previousGuideStep() {
+    state.guideIndex = Math.max(0, state.guideIndex - 1);
+    renderGuide();
+  }
 
   function updateServerFields() {
     const sameFqdn = sameViewerFqdn.checked;
@@ -849,7 +1044,7 @@
     return {
       type: 'authproxycaller-form-data',
       version: 1,
-      appVersion: '0.2.30',
+      appVersion: '0.2.32',
       language: i18n && i18n.language ? i18n.language : 'de',
       exportedAt: new Date().toISOString(),
       values,
@@ -943,6 +1138,7 @@
     setTestButton(false);
     updateServerFields();
     updateKisFields();
+    closeGuide();
     renderOutput();
   }
 
@@ -1232,13 +1428,32 @@
   sameViewerFqdn.addEventListener('change', () => {
     updateServerFields();
     renderOutput();
+    renderGuide();
   });
-  form.addEventListener('input', renderOutput);
+  form.addEventListener('input', () => {
+    renderOutput();
+    renderGuide();
+  });
   form.addEventListener('change', () => {
     updateServerFields();
     updateKisFields();
     renderOutput();
+    renderGuide();
   });
+  guideFieldSlot.addEventListener('input', () => {
+    renderOutput();
+    renderGuide();
+  });
+  guideFieldSlot.addEventListener('change', () => {
+    updateServerFields();
+    updateKisFields();
+    renderOutput();
+    renderGuide();
+  });
+  guideStartButton.addEventListener('click', startGuide);
+  guidePrevButton.addEventListener('click', previousGuideStep);
+  guideNextButton.addEventListener('click', nextGuideStep);
+  guideFinishButton.addEventListener('click', closeGuide);
   copyUrlButton.addEventListener('click', copyUrlOutput);
   copyCompanionButton.addEventListener('click', copyCompanionOutput);
   copySvfButton.addEventListener('click', copySvfOutput);
@@ -1280,6 +1495,7 @@
   });
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
+      closeGuide();
       closeHintDialog();
       closeHintDownloadDialog();
       closeExportDialog();
@@ -1325,12 +1541,14 @@
     updateKisFields();
     refreshHintButtons();
     renderOutput();
+    renderGuide();
   });
   window.addEventListener('i18n:change', () => {
     setTestButton(state.testDataActive);
     updateKisFields();
     refreshHintButtons();
     renderOutput();
+    renderGuide();
   });
 
   updateServerFields();
