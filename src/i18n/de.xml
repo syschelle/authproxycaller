@@ -109,6 +109,7 @@
   <text key="scenario.systemPatientOrder">Systemaufruf für Anzeige mit Patienten-ID und Auftragsnummer</text>
   <text key="message.parametersMissing">Parameter fehlen</text>
   <text key="message.noticePrefix">Hinweis</text>
+  <text key="message.terminalCompanionNotice">REMOTE KIS. Der DeepUnity Client muss gestartet sein und mindestens in der Anmeldemaske stehen.</text>
   <text key="message.unknownError">Unbekannter Fehler.</text>
   <text key="message.singleCopied">{label} wurde in die Zwischenablage kopiert.</text>
   <text key="message.selectTxtSection">Bitte mindestens eine Rubrik für den TXT Export auswählen.</text>

@@ -109,6 +109,7 @@
   <text key="scenario.systemPatientOrder">System call to display by patient ID and order number</text>
   <text key="message.parametersMissing">Missing parameters</text>
   <text key="message.noticePrefix">Note</text>
+  <text key="message.terminalCompanionNotice">REMOTE HIS. The DeepUnity Client must be started and at least be on the login screen.</text>
   <text key="message.unknownError">Unknown error.</text>
   <text key="message.singleCopied">{label} was copied to the clipboard.</text>
   <text key="message.selectTxtSection">Please select at least one section for the TXT export.</text>

@@ -477,6 +477,20 @@ textarea:focus {
   overflow-wrap: anywhere;
 }
 
+.output-item-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.output-label-notice {
+  color: var(--danger);
+  font-size: 0.76rem;
+  font-weight: 850;
+  overflow-wrap: anywhere;
+}
+
 .output-call,
 .output-missing {
   max-width: 100%;

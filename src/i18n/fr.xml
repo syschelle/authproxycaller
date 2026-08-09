@@ -109,6 +109,7 @@
   <text key="scenario.systemPatientOrder">Appel système pour afficher par ID patient et numéro de commande</text>
   <text key="message.parametersMissing">Paramètres manquants</text>
   <text key="message.noticePrefix">Remarque</text>
+  <text key="message.terminalCompanionNotice">SIH distant. Le client DeepUnity doit être démarré et au moins afficher l'écran de connexion.</text>
   <text key="message.unknownError">Erreur inconnue.</text>
   <text key="message.singleCopied">{label} a été copié dans le presse-papiers.</text>
   <text key="message.selectTxtSection">Veuillez sélectionner au moins une rubrique pour l'export TXT.</text>

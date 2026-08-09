@@ -366,8 +366,8 @@
     };
   }
 
-  function appendScenario(section, label, value) {
-    section.items.push({ label, value, type: 'call' });
+  function appendScenario(section, label, value, options = {}) {
+    section.items.push({ label, value, type: 'call', notice: options.notice || '' });
   }
 
   function appendMissing(section, label, error) {
@@ -381,9 +381,16 @@
   function sectionToText(section) {
     const lines = [section.title, ''];
     section.items.forEach((item) => {
-      lines.push(`[${item.label}]`, item.value, '');
+      const label = item.notice ? `${item.label} - ${item.notice}` : item.label;
+      lines.push(`[${label}]`, item.value, '');
     });
     return lines.join('\n').trim();
+  }
+
+  function terminalCompanionNotice(config) {
+    return config.terminalKis
+      ? t('message.terminalCompanionNotice', 'REMOTE KIS. Der DeepUnity Client muss gestartet sein und mindestens in der Anmeldemaske stehen.')
+      : '';
   }
 
   function renderOutputSections(sections) {
@@ -402,10 +409,22 @@
         const itemElement = document.createElement('div');
         itemElement.className = 'output-item';
 
+        const heading = document.createElement('div');
+        heading.className = 'output-item-heading';
+
         const label = document.createElement('div');
         label.className = 'output-item-label';
         label.textContent = item.label;
-        itemElement.append(label);
+        heading.append(label);
+
+        if (item.notice) {
+          const notice = document.createElement('div');
+          notice.className = 'output-label-notice';
+          notice.textContent = item.notice;
+          heading.append(notice);
+        }
+
+        itemElement.append(heading);
 
         const value = document.createElement('div');
         value.className = item.type === 'missing' ? 'output-missing' : 'output-call';
@@ -612,7 +631,7 @@
       }
       if (includeCompanion) {
         try {
-          appendScenario(section, `Companion App - ${label}`, companionBuilder(config, parameters, options));
+          appendScenario(section, `Companion App - ${label}`, companionBuilder(config, parameters, options), { notice: terminalCompanionNotice(config) });
         } catch (error) {
           appendMissing(section, `Companion App - ${label}`, error);
         }
@@ -645,7 +664,7 @@
       }
       if (includeCompanion) {
         try {
-          appendScenario(section, `Companion App - ${label}`, buildSvfCardCompanion(config, parameters));
+          appendScenario(section, `Companion App - ${label}`, buildSvfCardCompanion(config, parameters), { notice: terminalCompanionNotice(config) });
         } catch (error) {
           appendMissing(section, `Companion App - ${label}`, error);
         }
@@ -807,7 +826,7 @@
     return {
       type: 'authproxycaller-form-data',
       version: 1,
-      appVersion: '0.2.22',
+      appVersion: '0.2.25',
       language: i18n && i18n.language ? i18n.language : 'de',
       exportedAt: new Date().toISOString(),
       values,
@@ -948,7 +967,7 @@
         const label = t(labelKey, fallbackLabel);
         try {
           const value = DUBuilder.buildCompanion(scenarioName, config, 'single-line');
-          appendScenario(companionSection, label, value);
+          appendScenario(companionSection, label, value, { notice: terminalCompanionNotice(config) });
         } catch (error) {
           appendMissing(companionSection, label, error);
         }
