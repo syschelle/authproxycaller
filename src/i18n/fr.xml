@@ -118,7 +118,6 @@
   <text key="message.txtImportMissingData">Le fichier TXT ne contient pas de bloc de formulaire Authproxycaller.</text>
   <text key="message.copyBlocked">La copie a été bloquée par le navigateur.</text>
   <text key="message.urlCopied">Les appels URL ont été copiés dans le presse-papiers.</text>
-  <text key="message.allCopied">Tous les appels visibles ont été copiés dans le presse-papiers.</text>
   <text key="message.companionCopied">Les appels Companion App ont été copiés dans le presse-papiers.</text>
   <text key="message.sectionCopied">Les appels {section} ont été copiés dans le presse-papiers.</text>
   <text key="message.testDataEnabled">Les données de test ont été activées.</text>

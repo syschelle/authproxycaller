@@ -88,7 +88,6 @@
   const form = document.getElementById('builder-form');
   const output = document.getElementById('output');
   const formError = document.getElementById('form-error');
-  const copyAllButton = document.getElementById('copy-all-button');
   const copyUrlButton = document.getElementById('copy-url-button');
   const copyCompanionButton = document.getElementById('copy-companion-button');
   const copySvfButton = document.getElementById('copy-svf-button');
@@ -759,7 +758,6 @@
   function updateCopyButtonStates() {
     const hasCompanionSection = state.sections.some((section) => section.key === 'companion');
     copyCompanionButton.classList.toggle('hidden', !hasCompanionSection);
-    copyAllButton.disabled = !visibleOutput();
     copyUrlButton.disabled = !outputForSectionKey('url');
     copyCompanionButton.disabled = !outputForSectionKey('companion');
     const svfDisabled = kisType.value === 'fremd';
@@ -809,7 +807,7 @@
     return {
       type: 'authproxycaller-form-data',
       version: 1,
-      appVersion: '0.2.21',
+      appVersion: '0.2.22',
       language: i18n && i18n.language ? i18n.language : 'de',
       exportedAt: new Date().toISOString(),
       values,
@@ -1035,10 +1033,6 @@
     copyText(outputForSectionKey('url'), t('message.urlCopied', 'URL-Aufrufe wurden in die Zwischenablage kopiert.'));
   }
 
-  function copyAllOutput() {
-    copyText(visibleOutput(), t('message.allCopied', 'Alle sichtbaren Aufrufe wurden in die Zwischenablage kopiert.'));
-  }
-
   function copyCompanionOutput() {
     copyText(outputForSectionKey('companion'), t('message.companionCopied', 'Companion-App-Aufrufe wurden in die Zwischenablage kopiert.'));
   }
@@ -1202,7 +1196,6 @@
     updateKisFields();
     renderOutput();
   });
-  copyAllButton.addEventListener('click', copyAllOutput);
   copyUrlButton.addEventListener('click', copyUrlOutput);
   copyCompanionButton.addEventListener('click', copyCompanionOutput);
   copySvfButton.addEventListener('click', copySvfOutput);

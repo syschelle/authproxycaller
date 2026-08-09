@@ -118,7 +118,6 @@
   <text key="message.txtImportMissingData">The TXT file does not contain an Authproxycaller form block.</text>
   <text key="message.copyBlocked">Copying was blocked by the browser.</text>
   <text key="message.urlCopied">URL calls were copied to the clipboard.</text>
-  <text key="message.allCopied">All visible calls were copied to the clipboard.</text>
   <text key="message.companionCopied">Companion App calls were copied to the clipboard.</text>
   <text key="message.sectionCopied">{section} calls were copied to the clipboard.</text>
   <text key="message.testDataEnabled">Test data has been enabled.</text>

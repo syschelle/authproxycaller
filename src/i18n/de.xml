@@ -118,7 +118,6 @@
   <text key="message.txtImportMissingData">Die TXT-Datei enthält keinen Authproxycaller-Formularblock.</text>
   <text key="message.copyBlocked">Kopieren wurde vom Browser blockiert.</text>
   <text key="message.urlCopied">URL-Aufrufe wurden in die Zwischenablage kopiert.</text>
-  <text key="message.allCopied">Alle sichtbaren Aufrufe wurden in die Zwischenablage kopiert.</text>
   <text key="message.companionCopied">Companion-App-Aufrufe wurden in die Zwischenablage kopiert.</text>
   <text key="message.sectionCopied">{section}-Aufrufe wurden in die Zwischenablage kopiert.</text>
   <text key="message.testDataEnabled">Testdaten wurden aktiviert.</text>
