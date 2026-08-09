@@ -137,7 +137,7 @@
   <text key="message.languageXmlDownloadFailed">Le XML de langue n'a pas pu être téléchargé.</text>
   <text key="guide.mode">Saisie guidée</text>
   <text key="guide.startTitle">Mène-moi vers la lumière</text>
-  <text key="guide.startBody">Pas de panique. Nous construisons les appels étape par étape. Mais il me faut absolument une serviette.</text>
+  <text key="guide.startBody">Pas de panique. Nous construisons les appels étape par étape. Mais il te faut absolument une serviette.</text>
   <text key="guide.dicomTitle">Trouver DicomServices</text>
   <text key="guide.dicomBody">Où habite DicomServices ? Un FQDN propre, et nous sommes lancés.</text>
   <text key="guide.viewerTitle">Trier l'adresse du Viewer</text>
@@ -166,8 +166,14 @@
   <text key="guide.foreignBody">Pour un SIH externe, les variables ont besoin de noms clairs. Sinon l'appel ne sait pas quoi remplacer.</text>
   <text key="guide.userTitle">Utilisateur de test</text>
   <text key="guide.userBody">Pour tester les appels directement, les appels de test ont besoin d'un utilisateur.</text>
-  <text key="guide.patientTitle">Patient et commande</text>
-  <text key="guide.patientBody">ID patient, numéro de commande et SUID sont les repères vers les bonnes études.</text>
+  <text key="guide.passwordTitle">Mot de passe de test</text>
+  <text key="guide.passwordBody">Et voici le mot de passe de l'utilisateur de test. Il reste visible pour pouvoir le vérifier.</text>
+  <text key="guide.patientTitle">ID patient</text>
+  <text key="guide.patientBody">L'ID patient est le premier repère vers les bonnes études.</text>
+  <text key="guide.orderTitle">Numéro de commande</text>
+  <text key="guide.orderBody">Indiquer ici le numéro de commande. Plusieurs valeurs peuvent être séparées par virgule, point-virgule ou une ligne chacune.</text>
+  <text key="guide.studyTitle">SUID</text>
+  <text key="guide.studyBody">Enfin la StudyUID, pour que l'appel de l'étude arrive exactement au bon endroit.</text>
   <text key="guide.doneTitle">Lumière atteinte</text>
   <text key="guide.doneBody">Tout est prêt. J'affiche maintenant les appels terminés.</text>
 </translations>

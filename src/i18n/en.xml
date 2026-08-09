@@ -137,7 +137,7 @@
   <text key="message.languageXmlDownloadFailed">Language XML could not be downloaded.</text>
   <text key="guide.mode">Guided input</text>
   <text key="guide.startTitle">Bring me to the light</text>
-  <text key="guide.startBody">No panic. We build the calls step by step. But I definitely need a towel.</text>
+  <text key="guide.startBody">No panic. We build the calls step by step. But you definitely need a towel.</text>
   <text key="guide.dicomTitle">Find DicomServices</text>
   <text key="guide.dicomBody">Where does DicomServices live? A clean FQDN, and we are in business.</text>
   <text key="guide.viewerTitle">Sort the Viewer address</text>
@@ -166,8 +166,14 @@
   <text key="guide.foreignBody">For an external HIS, variables need clear names. Otherwise the call does not know what to replace.</text>
   <text key="guide.userTitle">Test user</text>
   <text key="guide.userBody">To test calls directly, the test calls need a user.</text>
-  <text key="guide.patientTitle">Patient and order</text>
-  <text key="guide.patientBody">Patient ID, order number and SUID are the signposts to the right studies.</text>
+  <text key="guide.passwordTitle">Test password</text>
+  <text key="guide.passwordBody">And here is the password for the test user. Visible, so you can check it.</text>
+  <text key="guide.patientTitle">Patient ID</text>
+  <text key="guide.patientBody">The patient ID is the first signpost to the right studies.</text>
+  <text key="guide.orderTitle">Order number</text>
+  <text key="guide.orderBody">Put the order number here. Multiple values work by comma, semicolon or one per line.</text>
+  <text key="guide.studyTitle">SUID</text>
+  <text key="guide.studyBody">Finally the StudyUID, so the study call lands exactly where it should.</text>
   <text key="guide.doneTitle">Light reached</text>
   <text key="guide.doneBody">All set. I will show you the finished calls now.</text>
 </translations>

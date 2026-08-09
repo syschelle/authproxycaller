@@ -137,7 +137,7 @@
   <text key="message.languageXmlDownloadFailed">Sprach-XML konnte nicht heruntergeladen werden.</text>
   <text key="guide.mode">Geführte Eingabe</text>
   <text key="guide.startTitle">Bring mich zum Licht</text>
-  <text key="guide.startBody">Keine Panik. Wir bauen die Aufrufe Schritt für Schritt zusammen. Aber ich brauche auf alle Fälle ein Handtuch.</text>
+  <text key="guide.startBody">Keine Panik. Wir bauen die Aufrufe Schritt für Schritt zusammen. Aber du brauchst auf alle Fälle ein Handtuch.</text>
   <text key="guide.dicomTitle">DicomServices finden</text>
   <text key="guide.dicomBody">Wo wohnt DicomServices? Ein sauberer FQDN, und wir sind im Geschäft.</text>
   <text key="guide.viewerTitle">Viewer-Adresse sortieren</text>
@@ -166,8 +166,14 @@
   <text key="guide.foreignBody">Beim Fremd-KIS brauchen die Variablen klare Namen. Sonst weiß der Aufruf nicht, was er ersetzen soll.</text>
   <text key="guide.userTitle">Testbenutzer</text>
   <text key="guide.userBody">Damit du Aufrufe direkt prüfen kannst, brauchen die Testaufrufe einen Benutzer.</text>
-  <text key="guide.patientTitle">Patient und Auftrag</text>
-  <text key="guide.patientBody">Patienten-ID, Auftragsnummer und SUID sind die Wegweiser zu den richtigen Studien.</text>
+  <text key="guide.passwordTitle">Testpasswort</text>
+  <text key="guide.passwordBody">Und hier das Passwort zum Testbenutzer. Sichtbar, damit du es kontrollieren kannst.</text>
+  <text key="guide.patientTitle">Patienten-ID</text>
+  <text key="guide.patientBody">Die Patienten-ID ist der erste Wegweiser zu den richtigen Studien.</text>
+  <text key="guide.orderTitle">Auftragsnummer</text>
+  <text key="guide.orderBody">Hier kommt die Auftragsnummer hinein. Mehrere Werte gehen per Komma, Semikolon oder eigener Zeile.</text>
+  <text key="guide.studyTitle">SUID</text>
+  <text key="guide.studyBody">Zum Schluss die StudyUID, damit der Studienaufruf punktgenau landen kann.</text>
   <text key="guide.doneTitle">Licht erreicht</text>
   <text key="guide.doneBody">Alles bereit. Ich zeige dir jetzt die fertigen Aufrufe.</text>
 </translations>

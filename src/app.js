@@ -72,7 +72,7 @@
   };
 
   const GUIDE_STEPS = [
-    ['guide.startTitle', 'Bring mich zum Licht', 'guide.startBody', 'Keine Panik. Wir bauen die Aufrufe Schritt für Schritt zusammen. Aber ich brauche auf alle Fälle ein Handtuch.'],
+    ['guide.startTitle', 'Bring mich zum Licht', 'guide.startBody', 'Keine Panik. Wir bauen die Aufrufe Schritt für Schritt zusammen. Aber du brauchst auf alle Fälle ein Handtuch.'],
     ['guide.dicomTitle', 'DicomServices finden', 'guide.dicomBody', 'Wo wohnt DicomServices? Ein sauberer FQDN, und wir sind im Geschäft.', 'dicomFqdn'],
     ['guide.viewerTitle', 'Viewer-Adresse sortieren', 'guide.viewerBody', 'Gleicher FQDN? Sehr schön. Falls nicht, bekommt der Viewer hier seine eigene Adresse.', 'sameViewerFqdn'],
     ['guide.viewerFqdnTitle', 'DU Viewer eintragen', 'guide.viewerFqdnBody', 'Wenn der Viewer anders heißt als DicomServices, kommt sein FQDN hier hinein.', 'viewerFqdn', (config) => !config.sameViewerFqdn],
@@ -87,7 +87,10 @@
     ['guide.terminalTitle', 'Terminal-KIS?', 'guide.terminalBody', 'Wenn ORBIS im Terminal, Citrix oder RDP läuft, setzen wir den Remote-Hinweis und den passenden Parameter.', 'terminalKis', (config) => config.kisType !== 'fremd'],
     ['guide.foreignTitle', 'Fremd-RIS Variablen', 'guide.foreignBody', 'Beim Fremd-KIS brauchen die Variablen klare Namen. Sonst weiß der Aufruf nicht, was er ersetzen soll.', 'foreignUserVariable', (config) => config.kisType === 'fremd'],
     ['guide.userTitle', 'Testbenutzer', 'guide.userBody', 'Damit du Aufrufe direkt prüfen kannst, brauchen die Testaufrufe einen Benutzer.', 'user'],
-    ['guide.patientTitle', 'Patient und Auftrag', 'guide.patientBody', 'Patienten-ID, Auftragsnummer und SUID sind die Wegweiser zu den richtigen Studien.', 'PatientID'],
+    ['guide.passwordTitle', 'Testpasswort', 'guide.passwordBody', 'Und hier das Passwort zum Testbenutzer. Sichtbar, damit du es kontrollieren kannst.', 'password'],
+    ['guide.patientTitle', 'Patienten-ID', 'guide.patientBody', 'Die Patienten-ID ist der erste Wegweiser zu den richtigen Studien.', 'PatientID'],
+    ['guide.orderTitle', 'Auftragsnummer', 'guide.orderBody', 'Hier kommt die Auftragsnummer hinein. Mehrere Werte gehen per Komma, Semikolon oder eigener Zeile.', 'AccessionNumber'],
+    ['guide.studyTitle', 'SUID', 'guide.studyBody', 'Zum Schluss die StudyUID, damit der Studienaufruf punktgenau landen kann.', 'studyUID'],
     ['guide.doneTitle', 'Licht erreicht', 'guide.doneBody', 'Alles bereit. Ich zeige dir jetzt die fertigen Aufrufe.']
   ].map(([titleKey, titleFallback, bodyKey, bodyFallback, fieldId, condition]) => ({
     titleKey,
@@ -1044,7 +1047,7 @@
     return {
       type: 'authproxycaller-form-data',
       version: 1,
-      appVersion: '0.2.33',
+      appVersion: '0.2.34',
       language: i18n && i18n.language ? i18n.language : 'de',
       exportedAt: new Date().toISOString(),
       values,
