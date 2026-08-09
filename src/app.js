@@ -99,7 +99,7 @@
     ['guide.orderTitle', 'Auftragsnummer', 'guide.orderBody', 'Hier kommt die Auftragsnummer hinein. Mehrere Werte gehen per Komma, Semikolon oder eigener Zeile.', 'AccessionNumber'],
     ['guide.studyTitle', 'SUID', 'guide.studyBody', 'Zum Schluss die StudyUID, damit der Studienaufruf punktgenau landen kann.', 'studyUID'],
     ['guide.debugTitle', 'Debuglevel', 'guide.debugBody', 'DEBUG oder TRACE wird nur in den Testaufrufen als zusätzlicher String ausgegeben.', 'debugLevel'],
-    ['guide.doneTitle', 'Licht erreicht', 'guide.doneBody', 'Alles bereit. Ich zeige dir jetzt die fertigen Aufrufe.']
+    ['guide.doneTitle', 'Geschafft', 'guide.doneBody', 'Alles bereit. Ich zeige dir jetzt die fertigen Aufrufe.']
   ].map(([titleKey, titleFallback, bodyKey, bodyFallback, fieldId, condition]) => ({
     titleKey,
     titleFallback,
@@ -1055,7 +1055,7 @@
     return {
       type: 'authproxycaller-form-data',
       version: 1,
-      appVersion: '0.2.36',
+      appVersion: '0.2.37',
       language: i18n && i18n.language ? i18n.language : 'de',
       exportedAt: new Date().toISOString(),
       values,

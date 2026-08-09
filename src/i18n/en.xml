@@ -190,6 +190,6 @@
   <text key="guide.studyBody">Finally the StudyUID, so the study call lands exactly where it should.</text>
   <text key="guide.debugTitle">Debug level</text>
   <text key="guide.debugBody">DEBUG or TRACE is only emitted in test calls as an additional string.</text>
-  <text key="guide.doneTitle">Light reached</text>
+  <text key="guide.doneTitle">Done</text>
   <text key="guide.doneBody">All set. I will show you the finished calls now.</text>
 </translations>
