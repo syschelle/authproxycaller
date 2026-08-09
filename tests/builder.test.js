@@ -81,7 +81,8 @@ test('builds multiline Companion App command', () => {
     '  idp=ldap_IDP ^',
     '  PatientID=123456 ^',
     '  IssuerOfPatientID=9509KBT ^',
-    '  remote=CITRIX-01'
+    '  remote=CITRIX-01 ^',
+    '  //'
   ].join('\n'));
 });
 
@@ -97,7 +98,7 @@ test('adds browser and raw debug level to Companion App commands', () => {
   }, 'single-line');
 
   assert.match(result, / browser=CHROME /);
-  assert.match(result, / DEBUG$/);
+  assert.match(result, / DEBUG \/\/$/);
   assert.doesNotMatch(result, /debuglevel=/);
 });
 
@@ -113,7 +114,7 @@ test('quotes Companion App values containing spaces', () => {
     diagnostPath: 'C:\\Program Files\\Dedalus\\DeepUnity'
   }, 'single-line');
 
-  assert.match(result, /diagnostPath="C:\\Program Files\\Dedalus\\DeepUnity"$/);
+  assert.match(result, /diagnostPath="C:\\Program Files\\Dedalus\\DeepUnity" \/\/$/);
 });
 
 test('omits optional DeepUnity folder path when empty', () => {
@@ -141,7 +142,7 @@ test('adds terminal KIS remote marker to Companion App commands', () => {
     remote: '%'
   }, 'single-line');
 
-  assert.match(result, / remote=%$/);
+  assert.match(result, / remote=% \/\/$/);
 });
 
 test('adds encrypted prefix to SVF credential placeholders', () => {

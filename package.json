@@ -1,6 +1,6 @@
 {
   "name": "authproxycaller",
-  "version": "0.2.25",
+  "version": "0.2.26",
   "private": true,
   "description": "Authproxycaller: stateless browser-side builder for DeepUnity Auth Proxy and Companion App calls",
   "scripts": {

@@ -298,10 +298,10 @@
     }
 
     if (format === 'single-line') {
-      return [quoteCmdValue(appName), ...pairs].join(' ');
+      return `${[quoteCmdValue(appName), ...pairs].join(' ')} //`;
     }
 
-    const lines = [quoteCmdValue(appName), ...pairs.map((pair) => `  ${pair}`)];
+    const lines = [quoteCmdValue(appName), ...pairs.map((pair) => `  ${pair}`), '  //'];
     return lines
       .map((line, index) => (index < lines.length - 1 ? `${line} ^` : line))
       .join('\n');

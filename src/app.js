@@ -553,7 +553,7 @@
     if (config.diagnostPath) {
       parts.push(`diagnostPath=${DUBuilder.quoteCmdValue(config.diagnostPath)}`);
     }
-    return parts.join(' ');
+    return `${parts.join(' ')} //`;
   }
 
   function buildSvfRisCompanion(config, parameters, options) {
@@ -826,7 +826,7 @@
     return {
       type: 'authproxycaller-form-data',
       version: 1,
-      appVersion: '0.2.25',
+      appVersion: '0.2.26',
       language: i18n && i18n.language ? i18n.language : 'de',
       exportedAt: new Date().toISOString(),
       values,
