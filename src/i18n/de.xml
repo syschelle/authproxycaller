@@ -189,7 +189,7 @@
   <text key="guide.studyTitle">SUID</text>
   <text key="guide.studyBody">Zum Schluss die StudyUID, damit der Studienaufruf punktgenau landen kann.</text>
   <text key="guide.debugTitle">Debuglevel</text>
-  <text key="guide.debugBody">DEBUG oder TRACE wird nur in den Testaufrufen als zusätzlicher Test-String ausgegeben.</text>
+  <text key="guide.debugBody">DEBUG oder TRACE wird nur in den Testaufrufen als zusätzlicher String ausgegeben.</text>
   <text key="guide.doneTitle">Licht erreicht</text>
   <text key="guide.doneBody">Alles bereit. Ich zeige dir jetzt die fertigen Aufrufe.</text>
 </translations>

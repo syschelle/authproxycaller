@@ -189,7 +189,7 @@
   <text key="guide.studyTitle">SUID</text>
   <text key="guide.studyBody">Enfin la StudyUID, pour que l'appel de l'étude arrive exactement au bon endroit.</text>
   <text key="guide.debugTitle">Niveau de debug</text>
-  <text key="guide.debugBody">DEBUG ou TRACE est émis uniquement dans les appels de test comme chaîne de test supplémentaire.</text>
+  <text key="guide.debugBody">DEBUG ou TRACE est émis uniquement dans les appels de test comme chaîne supplémentaire.</text>
   <text key="guide.doneTitle">Lumière atteinte</text>
   <text key="guide.doneBody">Tout est prêt. J'affiche maintenant les appels terminés.</text>
 </translations>
