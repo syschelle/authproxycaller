@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <translations lang="en">
   <text key="app.eyebrow">DeepUnity Auth Proxy &amp; Companion App</text>
-  <text key="app.subtitle">Makes configuring DeepUnity Auth Proxy calls easier! :)</text>
+  <text key="app.subtitle">Create Klickybuntie calls! 🙂</text>
   <text key="language.label">Language</text>
   <text key="section.serverData">Server data</text>
   <text key="section.testParameters">Test parameters</text>
