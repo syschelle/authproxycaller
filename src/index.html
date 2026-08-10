@@ -12,7 +12,10 @@
   <script defer src="app.js"></script>
 </head>
 <body>
-  <!-- Kopfbereich mit App-Titel, Sprachwahl, Support/Feedback und Repo-Link. -->
+  <!--
+    Header actions stay outside the form so language switching, support downloads,
+    feedback and the repository version link remain available from every workflow.
+  -->
   <header class="topbar">
     <div class="topbar-title">
       <p class="eyebrow" data-i18n="app.eyebrow">DeepUnity Auth Proxy &amp; Companion App</p>
@@ -31,13 +34,16 @@
       </label>
       <button type="button" id="hint-download-button" class="feedback-link header-button" data-i18n="button.support">Unterstützen</button>
       <a class="feedback-link" href="mailto:sylvio.schelle@dedalus.com?subject=Feedback%20Authproxycaller">Feedback</a>
-      <a class="version version-link" href="https://github.com/syschelle/authproxycaller" target="_blank" rel="noopener noreferrer" aria-label="Authproxycaller Repository auf GitHub öffnen">v0.2.39</a>
+      <a class="version version-link" href="https://github.com/syschelle/authproxycaller" target="_blank" rel="noopener noreferrer" aria-label="Authproxycaller Repository auf GitHub öffnen">v0.2.40</a>
     </div>
   </header>
 
   <main class="layout">
     <section class="workspace">
-      <!-- Linke Spalte: alle Eingaben, aus denen die Aufrufe clientseitig erzeugt werden. -->
+      <!--
+        The form is the only source of user-provided configuration. JavaScript reads
+        these values client-side and never submits them to a backend.
+      -->
       <form id="builder-form" autocomplete="off" novalidate>
         <div class="card">
           <div class="card-heading">
@@ -213,7 +219,10 @@
         </div>
       </form>
 
-      <!-- Rechte Spalte: geführte Eingabe, erzeugte Aufrufe, Kopieren und TXT-Export. -->
+      <!--
+        The output card either shows the guided input flow or the generated call
+        sections, including filtering, copy actions and TXT export/import support.
+      -->
       <aside class="card output-card" aria-live="polite">
         <div class="card-heading">
           <div>
@@ -264,7 +273,7 @@
   </main>
 
   <footer>
-    <span>Authproxycaller v0.2.39</span>
+    <span>Authproxycaller v0.2.40</span>
   </footer>
   <div id="export-dialog" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="export-dialog-title">
     <div class="modal-panel">

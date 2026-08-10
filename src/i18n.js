@@ -7,7 +7,8 @@
   const hints = new Map();
   let currentLanguage = DEFAULT_LANGUAGE;
 
-  // Sprachcodes werden bewusst auf die vorhandenen XML-Kataloge begrenzt.
+  // Browser language values are normalized to the language catalogs shipped with
+  // the app, falling back to German whenever an unsupported locale is requested.
   function normalizeLanguage(language) {
     const value = String(language || '').toLowerCase().split('-')[0];
     return SUPPORTED_LANGUAGES.includes(value) ? value : DEFAULT_LANGUAGE;
@@ -35,7 +36,8 @@
     return values;
   }
 
-  // XML-Kataloge werden einmal geladen und danach aus dem Map-Cache gelesen.
+  // Language and hint XML files are fetched lazily and cached in memory so changing
+  // languages does not repeatedly reload already parsed catalogs.
   async function loadXmlCatalog(language, catalog, pathFactory) {
     const normalized = normalizeLanguage(language);
     if (catalog.has(normalized)) {
@@ -70,7 +72,8 @@
     return active[key] || defaults[key] || fallback || '';
   }
 
-  // Aktualisiert sichtbare Texte und Placeholder, ohne die Formularwerte anzufassen.
+  // Localization updates text nodes and placeholders only. Form values remain
+  // untouched so a language change cannot alter the generated call configuration.
   function localizeDocument() {
     document.documentElement.lang = currentLanguage;
     document.querySelectorAll('[data-i18n]').forEach((element) => {
@@ -93,7 +96,8 @@
     root.dispatchEvent(new CustomEvent('i18n:change', { detail: { language: currentLanguage } }));
   }
 
-  // Initialisiert die Sprache anhand des Browsers und verdrahtet den Sprachumschalter.
+  // Startup loads German first as the fallback catalog, then the best browser
+  // language match, wires the selector and announces readiness to app.js.
   async function init() {
     await loadLanguage(DEFAULT_LANGUAGE);
     await loadHints(DEFAULT_LANGUAGE);

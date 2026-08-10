@@ -7,7 +7,8 @@
   const FORM_DATA_START = '--- Authproxycaller-FormData v1 ---';
   const FORM_DATA_END = '--- /Authproxycaller-FormData ---';
 
-  // Szenario-Listen steuern, welche Beispielaufrufe rechts erzeugt und kopiert werden.
+  // Scenario lists define the examples shown in the output card. Each entry maps a
+  // builder scenario to a translation key and a fallback label for copy/export UI.
   const URL_OPTIONS = [
     ['viewer-study', 'scenario.viewerStudy', 'Viewer: Studie über StudyUID'],
     ['viewer-patient', 'scenario.viewerPatient', 'Viewer: alle Studien eines Patienten'],
@@ -72,7 +73,9 @@
     foreignPasswordVariable: ['field.foreignPasswordVariable', 'Variablenname Passwort']
   };
 
-  // Jeder Guide-Schritt zeigt Text, optional ein echtes Formularfeld und optional eine Sichtbarkeitsregel.
+  // Guided-input steps are data-driven: each step provides localized copy, can
+  // temporarily move a real form field into the guide, and may be skipped when its
+  // condition does not match the current form configuration.
   const GUIDE_STEPS = [
     ['guide.startTitle', 'Bring mich zum Licht', 'guide.startBody', 'Keine Panik. Wir bauen die Aufrufe Schritt für Schritt zusammen. Aber du brauchst auf alle Fälle ein Handtuch.'],
     ['guide.dicomTitle', 'DicomServices finden', 'guide.dicomBody', 'Wo wohnt DicomServices? Ein sauberer FQDN, und wir sind im Geschäft.', 'dicomFqdn'],
@@ -111,7 +114,8 @@
     condition
   }));
 
-  // Zentraler UI-Zustand: letzte Ausgaben, Testdaten-Snapshot und aktuell verschobenes Guide-Feld.
+  // Central UI state keeps the latest rendered outputs, generated section model,
+  // temporary test-data snapshot and the field currently moved into the guide.
   const state = {
     rawOutput: '',
     urlOutput: '',
@@ -193,7 +197,8 @@
   const sharedUrlUserFields = document.querySelectorAll('.shared-url-user-only');
   const svfOnlyElements = document.querySelectorAll('.svf-only');
 
-  // Guide-Helfer: sichtbare Schritte bestimmen, echte Felder ins Guide-Panel verschieben und wiederherstellen.
+  // Guide helpers calculate the active step list, move the real form control into
+  // the guide panel for editing, and restore it to its original DOM position.
   function guideFieldElement(fieldId) {
     const control = fieldId ? document.getElementById(fieldId) : null;
     return control ? control.closest('label') : null;
@@ -370,7 +375,8 @@
     });
   }
 
-  // Sichtbarkeitslogik fuer abhaengige Formularbereiche wie ORBIS/Fremd-KIS und Sammelnutzer.
+  // Dependent form areas share the same visibility rules as the call builder: ORBIS
+  // fields, foreign-HIS fields and shared-user options are enabled only when useful.
   function updateKisFields() {
     const isForeignKis = kisType.value === 'fremd';
     foreignKisFields.forEach((field) => {
@@ -448,7 +454,8 @@
     }
   }
 
-  // Support-Dialog: aktuelle XML-Dateien herunterladen, damit Texte und Hinweise extern gepflegt werden koennen.
+  // The support dialog exports the active language and hint XML files so wording can
+  // be reviewed outside the app and sent back through the feedback link.
   function downloadCurrentHintXml() {
     const language = i18n && i18n.language ? i18n.language : 'de';
     downloadXml(
@@ -481,7 +488,8 @@
     });
   }
 
-  // Hinweis-Icons werden aus den XML-Hints erzeugt und direkt an passende Formularfelder gesetzt.
+  // Hint buttons are created from the loaded XML hint catalog and attached to their
+  // matching controls, keeping explanatory text out of the static HTML.
   function createHintButtons() {
     form.querySelectorAll('input[id], select[id], textarea[id]').forEach((control) => {
       const fieldId = control.id;
@@ -512,7 +520,8 @@
     return `%${DUBuilder.validateParameterName(unwrapped)}%`;
   }
 
-  // Liest das Formular in die technische Konfiguration ein, die der Builder fuer URL/CMD-Aufrufe erwartet.
+  // collectConfig translates raw form controls into the normalized configuration
+  // shape expected by builder.js, including derived hosts, paths and feature flags.
   function collectConfig() {
     const data = new FormData(form);
     const config = {};
@@ -598,7 +607,8 @@
     return t('message.unknownError', 'Unbekannter Fehler.');
   }
 
-  // Ausgabe-Modell: Abschnitte enthalten Eintraege, fehlende Pflichtfelder und Metadaten fuer Filter/Kopie.
+  // The output model separates generated sections from rendering. Sections keep the
+  // call text, missing-field messages and metadata used by filters and copy buttons.
   function createOutputSection(key, title) {
     return {
       key,
@@ -634,7 +644,8 @@
       : '';
   }
 
-  // Wandelt das Ausgabe-Modell in sichtbare Rubriken mit Einzel-Kopierbuttons um.
+  // Rendering converts the output model into visible call groups and adds per-call
+  // copy buttons only for real generated commands, not for warning rows.
   function renderOutputSections(sections) {
     output.innerHTML = '';
     const fragment = document.createDocumentFragment();
@@ -723,7 +734,8 @@
     return error;
   }
 
-  // SVF- und Fremd-RIS-Helfer bauen projektspezifische URL- und Companion-App-Aufrufe.
+  // SVF and foreign-RIS helpers add the project-specific placeholder variables and
+  // audit/shared-user rules on top of the generic Auth Proxy and Companion builders.
   function svfCommonCallParameters(config) {
     const browser = DUBuilder.validatePlainText(config.browser, 'Browserwahl');
     return {
@@ -927,7 +939,8 @@
     }, 2400);
   }
 
-  // Dialog- und Filterfunktionen fuer TXT-Export, TXT-Import und sichtbare Aufrufarten.
+  // Export/import and display filters share section metadata so the visible output,
+  // copied text and TXT export all respect the same URL/Companion selection.
   function openExportDialog() {
     const availableKeys = state.sections.map((section) => section.key);
     exportDialog.classList.remove('hidden');
@@ -1047,7 +1060,8 @@
     }
   }
 
-  // TXT-Export/Import speichert neben den lesbaren Aufrufen einen JSON-Formularblock fuer spaeteres Wiederladen.
+  // TXT exports contain human-readable calls plus a guarded JSON form-data block.
+  // Imports accept only that block format and restore known controls by field name.
   function selectedExportSections() {
     const selected = Array.from(exportChecks)
       .filter((input) => input.checked)
@@ -1072,7 +1086,7 @@
     return {
       type: 'authproxycaller-form-data',
       version: 1,
-      appVersion: '0.2.39',
+      appVersion: '0.2.40',
       language: i18n && i18n.language ? i18n.language : 'de',
       exportedAt: new Date().toISOString(),
       values,
@@ -1189,7 +1203,8 @@
     }
   }
 
-  // Haupt-Renderlauf: validiert Eingaben, erzeugt alle Aufrufgruppen und synchronisiert Buttons/Fehler.
+  // renderOutput is the main synchronization pass: validate inputs, rebuild every
+  // output section, update errors and keep copy/export button states in sync.
   function renderOutput() {
     clearInvalidState();
     copyStatus.textContent = '';
@@ -1355,7 +1370,8 @@
     'urlAuditUserEnabled'
   ];
 
-  // Testdaten lassen sich als Toggle aktivieren und danach auf den vorherigen Formularstand zuruecksetzen.
+  // Test data behaves as a reversible toggle. Before applying demo values, the
+  // current form state is snapshotted so users can return to their own input.
   function setTestButton(active) {
     serverTestButton.textContent = active ? t('button.testDataDisable', 'Testdaten aus') : t('button.testDataEnable', 'Testdaten an');
   }

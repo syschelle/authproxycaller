@@ -90,7 +90,8 @@
   const CONTROL_CHARS = /[\u0000-\u001F\u007F]/u;
   const HOST_PATTERN = /^(?:localhost|[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)*|\d{1,3}(?:\.\d{1,3}){3})(?::\d{1,5})?$/u;
 
-  // Eingaben werden zentral bereinigt und begrenzt, bevor sie in URLs oder CMD-Zeilen landen.
+  // All public builders pass values through these validation helpers before a value
+  // can become part of a URL, command line or project-specific parameter.
   function clean(value) {
     return typeof value === 'string' ? value.trim() : '';
   }
@@ -149,7 +150,8 @@
     }
   }
 
-  // URL-Server duerfen nur Host/IP plus optional Port sein; Pfade, Querys und Credentials sind verboten.
+  // URL targets are intentionally limited to host/IP plus optional port. Paths,
+  // query strings, fragments and credentials are rejected before URLs are built.
   function normalizeServer(input) {
     let value = validatePlainText(input, 'Server');
     if (!value) {
@@ -194,7 +196,8 @@
     return validateHost(value.replace(/^\/+|\/+$/g, ''), 'Loginserver');
   }
 
-  // Aus einem Ordnerpfad wird der vollstaendige Companion-App-Pfad zu du-proxy-app.exe.
+  // Users enter only the Companion App directory. This helper appends the executable
+  // name unless the full du-proxy-app.exe path was already provided.
   function companionExecutablePath(path) {
     const value = validatePlainText(path, 'Pfad zur Companion App', MAX_PATH_LENGTH);
     if (!value) {
@@ -212,7 +215,8 @@
     return `${value}${separator}du-proxy-app.exe`;
   }
 
-  // Baut DeepUnity Auth-Proxy-URLs fuer die in URL_SCENARIOS beschriebenen Viewer/Search-Faelle.
+  // buildUrl applies the selected URL_SCENARIOS definition, validates required
+  // fields and appends only non-empty parameters to the DeepUnity Auth Proxy URL.
   function buildUrl(scenarioName, config) {
     const scenario = URL_SCENARIOS[scenarioName];
     if (!scenario) {
@@ -257,7 +261,8 @@
     return text;
   }
 
-  // Platzhalter wie %USER% werden bei Bedarf auf verschluesselte Varianten wie %ENC_USER% umgestellt.
+  // SVF credential placeholders keep their surrounding percent syntax. When
+  // encryption is enabled, only the placeholder name receives the configured prefix.
   function svfCredentialPlaceholder(value, encrypted, encryptedPrefix = 'enc_') {
     const text = clean(value);
     if (!encrypted) {
@@ -266,7 +271,9 @@
     return text.replace(/^%/, `%${encryptedPrefix}`);
   }
 
-  // Baut Windows-CMD-Aufrufe fuer die Companion App, inklusive optionalem Debuglevel und DeepUnity-Pfad.
+  // buildCompanion creates Windows command lines for du-proxy-app.exe. It quotes
+  // unsafe shell values, appends optional debug/deepUnity parameters and supports
+  // both single-line and caret-wrapped multiline output.
   function buildCompanion(scenarioName, config, format) {
     const scenario = COMPANION_SCENARIOS[scenarioName];
     if (!scenario) {
