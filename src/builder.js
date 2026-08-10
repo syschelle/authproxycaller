@@ -90,6 +90,7 @@
   const CONTROL_CHARS = /[\u0000-\u001F\u007F]/u;
   const HOST_PATTERN = /^(?:localhost|[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)*|\d{1,3}(?:\.\d{1,3}){3})(?::\d{1,5})?$/u;
 
+  // Eingaben werden zentral bereinigt und begrenzt, bevor sie in URLs oder CMD-Zeilen landen.
   function clean(value) {
     return typeof value === 'string' ? value.trim() : '';
   }
@@ -148,6 +149,7 @@
     }
   }
 
+  // URL-Server duerfen nur Host/IP plus optional Port sein; Pfade, Querys und Credentials sind verboten.
   function normalizeServer(input) {
     let value = validatePlainText(input, 'Server');
     if (!value) {
@@ -192,6 +194,7 @@
     return validateHost(value.replace(/^\/+|\/+$/g, ''), 'Loginserver');
   }
 
+  // Aus einem Ordnerpfad wird der vollstaendige Companion-App-Pfad zu du-proxy-app.exe.
   function companionExecutablePath(path) {
     const value = validatePlainText(path, 'Pfad zur Companion App', MAX_PATH_LENGTH);
     if (!value) {
@@ -209,6 +212,7 @@
     return `${value}${separator}du-proxy-app.exe`;
   }
 
+  // Baut DeepUnity Auth-Proxy-URLs fuer die in URL_SCENARIOS beschriebenen Viewer/Search-Faelle.
   function buildUrl(scenarioName, config) {
     const scenario = URL_SCENARIOS[scenarioName];
     if (!scenario) {
@@ -253,6 +257,7 @@
     return text;
   }
 
+  // Platzhalter wie %USER% werden bei Bedarf auf verschluesselte Varianten wie %ENC_USER% umgestellt.
   function svfCredentialPlaceholder(value, encrypted, encryptedPrefix = 'enc_') {
     const text = clean(value);
     if (!encrypted) {
@@ -261,6 +266,7 @@
     return text.replace(/^%/, `%${encryptedPrefix}`);
   }
 
+  // Baut Windows-CMD-Aufrufe fuer die Companion App, inklusive optionalem Debuglevel und DeepUnity-Pfad.
   function buildCompanion(scenarioName, config, format) {
     const scenario = COMPANION_SCENARIOS[scenarioName];
     if (!scenario) {

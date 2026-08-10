@@ -130,6 +130,17 @@ h2 {
   font-weight: 800;
 }
 
+.version-link {
+  text-decoration: none;
+}
+
+.version-link:hover,
+.version-link:focus-visible {
+  border-color: rgba(147, 197, 253, 0.75);
+  background: rgba(49, 87, 213, 0.35);
+  color: #eff6ff;
+}
+
 .feedback-link {
   display: inline-flex;
   min-height: 31px;

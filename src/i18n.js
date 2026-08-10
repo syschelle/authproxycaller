@@ -7,6 +7,7 @@
   const hints = new Map();
   let currentLanguage = DEFAULT_LANGUAGE;
 
+  // Sprachcodes werden bewusst auf die vorhandenen XML-Kataloge begrenzt.
   function normalizeLanguage(language) {
     const value = String(language || '').toLowerCase().split('-')[0];
     return SUPPORTED_LANGUAGES.includes(value) ? value : DEFAULT_LANGUAGE;
@@ -34,6 +35,7 @@
     return values;
   }
 
+  // XML-Kataloge werden einmal geladen und danach aus dem Map-Cache gelesen.
   async function loadXmlCatalog(language, catalog, pathFactory) {
     const normalized = normalizeLanguage(language);
     if (catalog.has(normalized)) {
@@ -68,6 +70,7 @@
     return active[key] || defaults[key] || fallback || '';
   }
 
+  // Aktualisiert sichtbare Texte und Placeholder, ohne die Formularwerte anzufassen.
   function localizeDocument() {
     document.documentElement.lang = currentLanguage;
     document.querySelectorAll('[data-i18n]').forEach((element) => {
@@ -90,6 +93,7 @@
     root.dispatchEvent(new CustomEvent('i18n:change', { detail: { language: currentLanguage } }));
   }
 
+  // Initialisiert die Sprache anhand des Browsers und verdrahtet den Sprachumschalter.
   async function init() {
     await loadLanguage(DEFAULT_LANGUAGE);
     await loadHints(DEFAULT_LANGUAGE);

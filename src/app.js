@@ -7,6 +7,7 @@
   const FORM_DATA_START = '--- Authproxycaller-FormData v1 ---';
   const FORM_DATA_END = '--- /Authproxycaller-FormData ---';
 
+  // Szenario-Listen steuern, welche Beispielaufrufe rechts erzeugt und kopiert werden.
   const URL_OPTIONS = [
     ['viewer-study', 'scenario.viewerStudy', 'Viewer: Studie über StudyUID'],
     ['viewer-patient', 'scenario.viewerPatient', 'Viewer: alle Studien eines Patienten'],
@@ -71,6 +72,7 @@
     foreignPasswordVariable: ['field.foreignPasswordVariable', 'Variablenname Passwort']
   };
 
+  // Jeder Guide-Schritt zeigt Text, optional ein echtes Formularfeld und optional eine Sichtbarkeitsregel.
   const GUIDE_STEPS = [
     ['guide.startTitle', 'Bring mich zum Licht', 'guide.startBody', 'Keine Panik. Wir bauen die Aufrufe Schritt für Schritt zusammen. Aber du brauchst auf alle Fälle ein Handtuch.'],
     ['guide.dicomTitle', 'DicomServices finden', 'guide.dicomBody', 'Wo wohnt DicomServices? Ein sauberer FQDN, und wir sind im Geschäft.', 'dicomFqdn'],
@@ -109,6 +111,7 @@
     condition
   }));
 
+  // Zentraler UI-Zustand: letzte Ausgaben, Testdaten-Snapshot und aktuell verschobenes Guide-Feld.
   const state = {
     rawOutput: '',
     urlOutput: '',
@@ -190,6 +193,7 @@
   const sharedUrlUserFields = document.querySelectorAll('.shared-url-user-only');
   const svfOnlyElements = document.querySelectorAll('.svf-only');
 
+  // Guide-Helfer: sichtbare Schritte bestimmen, echte Felder ins Guide-Panel verschieben und wiederherstellen.
   function guideFieldElement(fieldId) {
     const control = fieldId ? document.getElementById(fieldId) : null;
     return control ? control.closest('label') : null;
@@ -366,6 +370,7 @@
     });
   }
 
+  // Sichtbarkeitslogik fuer abhaengige Formularbereiche wie ORBIS/Fremd-KIS und Sammelnutzer.
   function updateKisFields() {
     const isForeignKis = kisType.value === 'fremd';
     foreignKisFields.forEach((field) => {
@@ -443,6 +448,7 @@
     }
   }
 
+  // Support-Dialog: aktuelle XML-Dateien herunterladen, damit Texte und Hinweise extern gepflegt werden koennen.
   function downloadCurrentHintXml() {
     const language = i18n && i18n.language ? i18n.language : 'de';
     downloadXml(
@@ -475,6 +481,7 @@
     });
   }
 
+  // Hinweis-Icons werden aus den XML-Hints erzeugt und direkt an passende Formularfelder gesetzt.
   function createHintButtons() {
     form.querySelectorAll('input[id], select[id], textarea[id]').forEach((control) => {
       const fieldId = control.id;
@@ -505,6 +512,7 @@
     return `%${DUBuilder.validateParameterName(unwrapped)}%`;
   }
 
+  // Liest das Formular in die technische Konfiguration ein, die der Builder fuer URL/CMD-Aufrufe erwartet.
   function collectConfig() {
     const data = new FormData(form);
     const config = {};
@@ -590,6 +598,7 @@
     return t('message.unknownError', 'Unbekannter Fehler.');
   }
 
+  // Ausgabe-Modell: Abschnitte enthalten Eintraege, fehlende Pflichtfelder und Metadaten fuer Filter/Kopie.
   function createOutputSection(key, title) {
     return {
       key,
@@ -625,6 +634,7 @@
       : '';
   }
 
+  // Wandelt das Ausgabe-Modell in sichtbare Rubriken mit Einzel-Kopierbuttons um.
   function renderOutputSections(sections) {
     output.innerHTML = '';
     const fragment = document.createDocumentFragment();
@@ -713,6 +723,7 @@
     return error;
   }
 
+  // SVF- und Fremd-RIS-Helfer bauen projektspezifische URL- und Companion-App-Aufrufe.
   function svfCommonCallParameters(config) {
     const browser = DUBuilder.validatePlainText(config.browser, 'Browserwahl');
     return {
@@ -916,6 +927,7 @@
     }, 2400);
   }
 
+  // Dialog- und Filterfunktionen fuer TXT-Export, TXT-Import und sichtbare Aufrufarten.
   function openExportDialog() {
     const availableKeys = state.sections.map((section) => section.key);
     exportDialog.classList.remove('hidden');
@@ -1035,6 +1047,7 @@
     }
   }
 
+  // TXT-Export/Import speichert neben den lesbaren Aufrufen einen JSON-Formularblock fuer spaeteres Wiederladen.
   function selectedExportSections() {
     const selected = Array.from(exportChecks)
       .filter((input) => input.checked)
@@ -1059,7 +1072,7 @@
     return {
       type: 'authproxycaller-form-data',
       version: 1,
-      appVersion: '0.2.38',
+      appVersion: '0.2.39',
       language: i18n && i18n.language ? i18n.language : 'de',
       exportedAt: new Date().toISOString(),
       values,
@@ -1176,6 +1189,7 @@
     }
   }
 
+  // Haupt-Renderlauf: validiert Eingaben, erzeugt alle Aufrufgruppen und synchronisiert Buttons/Fehler.
   function renderOutput() {
     clearInvalidState();
     copyStatus.textContent = '';
@@ -1341,6 +1355,7 @@
     'urlAuditUserEnabled'
   ];
 
+  // Testdaten lassen sich als Toggle aktivieren und danach auf den vorherigen Formularstand zuruecksetzen.
   function setTestButton(active) {
     serverTestButton.textContent = active ? t('button.testDataDisable', 'Testdaten aus') : t('button.testDataEnable', 'Testdaten an');
   }
