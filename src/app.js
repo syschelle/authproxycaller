@@ -571,6 +571,14 @@
     return svfCredentials(config, userPlaceholder, passwordPlaceholder, encryptedPrefix, options);
   }
 
+  function testUrlMissingFields(config) {
+    const missing = ['loginserver'].filter((field) => !config[field]);
+    if (config.urlSharedUserEnabled) {
+      missing.push(...['urlSharedUser', 'urlSharedPassword'].filter((field) => !config[field]));
+    }
+    return missing;
+  }
+
   function testUrlConfig(config) {
     if (!config.urlSharedUserEnabled) {
       return config;
@@ -585,6 +593,22 @@
       password: DUBuilder.validatePlainText(config.urlSharedPassword, 'Sammelpasswort'),
       idp: config.urlSharedUserIdpEnabled ? config.idp : ''
     };
+  }
+
+  function buildTestUrl(scenarioName, config) {
+    const missing = testUrlMissingFields(config);
+    try {
+      const value = DUBuilder.buildUrl(scenarioName, testUrlConfig(config));
+      if (missing.length > 0) {
+        throw missingFieldsError(missing);
+      }
+      return value;
+    } catch (error) {
+      if (error && error.code === 'MISSING_FIELDS' && Array.isArray(error.fields)) {
+        throw missingFieldsError([...new Set([...missing, ...error.fields])]);
+      }
+      throw error;
+    }
   }
 
   function clearInvalidState() {
@@ -1086,7 +1110,7 @@
     return {
       type: 'authproxycaller-form-data',
       version: 1,
-      appVersion: '0.2.40',
+      appVersion: '0.2.41',
       language: i18n && i18n.language ? i18n.language : 'de',
       exportedAt: new Date().toISOString(),
       values,
@@ -1215,7 +1239,7 @@
     URL_OPTIONS.forEach(([scenarioName, labelKey, fallbackLabel]) => {
       const label = t(labelKey, fallbackLabel);
       try {
-        const value = DUBuilder.buildUrl(scenarioName, testUrlConfig(config));
+        const value = buildTestUrl(scenarioName, config);
         appendScenario(urlSection, label, value);
       } catch (error) {
         appendMissing(urlSection, label, error);
