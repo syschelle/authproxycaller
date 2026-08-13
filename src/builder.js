@@ -320,6 +320,25 @@
       .join('\n');
   }
 
+  function buildInfo4UPacsParameters(config) {
+    requireFields(config, ['loginserver', 'server', 'urlSharedUser', 'urlSharedPassword', 'IssuerOfPatientID']);
+    const viewerUrl = new URL('/du-auth-proxy/viewer', normalizeServer(config.server)).toString();
+
+    return [
+      ['URL', viewerUrl],
+      ['Deep Unity Viewer Authentifizierungsserver', normalizeLoginServer(config.server)],
+      [
+        'Deep Unity Viewer Authentifizierungsserver Client',
+        validatePlainText(config.urlSharedUser, 'Sammelbenutzer')
+      ],
+      [
+        'Deep Unity Viewer Authentifizierungsserver Client Secret',
+        validatePlainText(config.urlSharedPassword, 'Sammelpasswort')
+      ],
+      ['Deep Unity Viewer Issuer', validatePlainText(config.IssuerOfPatientID, 'IssuerOfPatientID')]
+    ];
+  }
+
   function splitAccessions(value) {
     return clean(value)
       .split(/[;,\r\n]+/)
@@ -336,6 +355,7 @@
     COMPANION_SCENARIOS,
     buildUrl,
     buildCompanion,
+    buildInfo4UPacsParameters,
     validatePlainText,
     normalizeServer,
     normalizeLoginServer,

@@ -10,6 +10,7 @@
   <text key="section.testCompanionApp">Test Companion App</text>
   <text key="section.foreignKis">Fremd-KIS</text>
   <text key="section.foreignRis">Fremd-RIS</text>
+  <text key="section.info4u">Info4U</text>
   <text key="field.dicomFqdn">FQDN DicomServices</text>
   <text key="field.sameViewerFqdn">FQDN für DicomServices und DU Viewer gleich?</text>
   <text key="field.viewerFqdn">FQDN DU Viewer</text>
@@ -114,6 +115,7 @@
   <text key="scenario.systemAllStudies">Systemaufruf für Anzeige aller Studien</text>
   <text key="scenario.systemPatientStudies">Systemaufruf für Anzeige aller Studien eines Patienten</text>
   <text key="scenario.systemPatientOrder">Systemaufruf für Anzeige mit Patienten-ID und Auftragsnummer</text>
+  <text key="scenario.info4uPacs">Status -&gt; Einstellungen &gt; PACS</text>
   <text key="message.parametersMissing">Parameter fehlen</text>
   <text key="message.noticePrefix">Hinweis</text>
   <text key="message.terminalCompanionNotice">REMOTE KIS. Der DeepUnity Client muss gestartet sein und mindestens in der Anmeldemaske stehen.</text>

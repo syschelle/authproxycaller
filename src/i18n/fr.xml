@@ -10,6 +10,7 @@
   <text key="section.testCompanionApp">Test Companion App</text>
   <text key="section.foreignKis">SIH externe</text>
   <text key="section.foreignRis">RIS externe</text>
+  <text key="section.info4u">Info4U</text>
   <text key="field.dicomFqdn">FQDN DicomServices</text>
   <text key="field.sameViewerFqdn">Même FQDN pour DicomServices et DU Viewer ?</text>
   <text key="field.viewerFqdn">FQDN DU Viewer</text>
@@ -114,6 +115,7 @@
   <text key="scenario.systemAllStudies">Appel système pour afficher toutes les études</text>
   <text key="scenario.systemPatientStudies">Appel système pour afficher toutes les études d'un patient</text>
   <text key="scenario.systemPatientOrder">Appel système pour afficher par ID patient et numéro de commande</text>
+  <text key="scenario.info4uPacs">Statut -&gt; Paramètres &gt; PACS</text>
   <text key="message.parametersMissing">Paramètres manquants</text>
   <text key="message.noticePrefix">Remarque</text>
   <text key="message.terminalCompanionNotice">SIH distant. Le client DeepUnity doit être démarré et au moins afficher l'écran de connexion.</text>

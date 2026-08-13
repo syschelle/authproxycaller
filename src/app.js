@@ -125,6 +125,7 @@
     svfFrauOutput: '',
     svfOpapOutput: '',
     svfLstmOutput: '',
+    info4uOutput: '',
     sections: [],
     noticeTimeout: 0,
     testDataActive: false,
@@ -156,6 +157,7 @@
   const copySvfFrauButton = document.getElementById('copy-svf-frau-button');
   const copySvfOpapButton = document.getElementById('copy-svf-opap-button');
   const copySvfLstmButton = document.getElementById('copy-svf-lstm-button');
+  const copyInfo4UButton = document.getElementById('copy-info4u-button');
   const clearButton = document.getElementById('clear-button');
   const serverTestButton = document.getElementById('server-test-button');
   const txtExportButton = document.getElementById('txt-export-button');
@@ -611,6 +613,17 @@
     }
   }
 
+  function buildInfo4USection(config) {
+    const section = createOutputSection('info4u', t('section.info4u', 'Info4U'));
+    const label = t('scenario.info4uPacs', 'Status -> Einstellungen > PACS');
+    try {
+      appendInfo4UParameters(section, label, DUBuilder.buildInfo4UPacsParameters(config));
+    } catch (error) {
+      appendMissing(section, label, error);
+    }
+    return section;
+  }
+
   function clearInvalidState() {
     document.querySelectorAll('.field.invalid').forEach((element) => element.classList.remove('invalid'));
     formError.classList.add('hidden');
@@ -650,6 +663,14 @@
       label,
       value: `${t('message.noticePrefix', 'Hinweis')}: ${missingFieldsFrom(error)}`,
       type: 'missing'
+    });
+  }
+
+  function appendInfo4UParameters(section, label, parameters) {
+    section.items.push({
+      label,
+      value: parameters.map(([name, value]) => `${name}: ${value}`).join('\n'),
+      type: 'call'
     });
   }
 
@@ -1067,6 +1088,7 @@
     copySvfFrauButton.disabled = svfDisabled || !outputForSectionKey('svfFrau');
     copySvfOpapButton.disabled = svfDisabled || !outputForSectionKey('svfOpap');
     copySvfLstmButton.disabled = svfDisabled || !outputForSectionKey('svfLstm');
+    copyInfo4UButton.disabled = !outputForSectionKey('info4u');
   }
 
   function updateCompanionOptions(hasCompanionSection) {
@@ -1110,7 +1132,7 @@
     return {
       type: 'authproxycaller-form-data',
       version: 1,
-      appVersion: '0.2.41',
+      appVersion: '0.2.44',
       language: i18n && i18n.language ? i18n.language : 'de',
       exportedAt: new Date().toISOString(),
       values,
@@ -1281,6 +1303,8 @@
       svfSection = buildRisSection(t('section.foreignRis', 'Fremd-RIS'), config, includeCompanion, buildForeignRisUrl, buildForeignRisCompanion);
       sections.push(svfSection);
     }
+    const info4uSection = buildInfo4USection(config);
+    sections.push(info4uSection);
     state.sections = sections;
     updateCompanionOptions(Boolean(companionSection));
 
@@ -1299,6 +1323,7 @@
       state.svfOpapOutput = sectionToText(svfOpapSection);
       state.svfLstmOutput = sectionToText(svfLstmSection);
     }
+    state.info4uOutput = sectionToText(info4uSection);
     state.rawOutput = [
       state.urlOutput,
       state.companionOutput,
@@ -1306,7 +1331,8 @@
       state.svfCardOutput,
       state.svfFrauOutput,
       state.svfOpapOutput,
-      state.svfLstmOutput
+      state.svfLstmOutput,
+      state.info4uOutput
     ].filter(Boolean).join('\n\n');
     renderOutputSections(selectedDisplaySections());
     updateCopyButtonStates();
@@ -1362,6 +1388,10 @@
 
   function copySvfLstmOutput() {
     copyText(outputForSectionKey('svfLstm'), t('message.sectionCopied', '{section}-Aufrufe wurden in die Zwischenablage kopiert.').replace('{section}', 'SVF-LSTM'));
+  }
+
+  function copyInfo4UOutput() {
+    copyText(outputForSectionKey('info4u'), t('message.sectionCopied', '{section}-Aufrufe wurden in die Zwischenablage kopiert.').replace('{section}', 'Info4U'));
   }
 
   const TEST_DATA_FIELDS = [
@@ -1531,6 +1561,7 @@
   copySvfFrauButton.addEventListener('click', copySvfFrauOutput);
   copySvfOpapButton.addEventListener('click', copySvfOpapOutput);
   copySvfLstmButton.addEventListener('click', copySvfLstmOutput);
+  copyInfo4UButton.addEventListener('click', copyInfo4UOutput);
   txtExportButton.addEventListener('click', openExportDialog);
   txtImportButton.addEventListener('click', openTxtImportDialog);
   txtImportInput.addEventListener('change', () => importTxtFile(txtImportInput.files && txtImportInput.files[0]));

@@ -5,6 +5,7 @@ const assert = require('node:assert/strict');
 const {
   buildUrl,
   buildCompanion,
+  buildInfo4UPacsParameters,
   normalizeAccessions,
   companionExecutablePath,
   svfCredentialPlaceholder,
@@ -314,4 +315,22 @@ test('omits IssuerOfPatientID from Companion App calls when empty', () => {
 
   assert.match(result, /PatientID=12345/);
   assert.doesNotMatch(result, /IssuerOfPatientID/);
+});
+
+test('builds Info4U PACS parameter list from existing server fields', () => {
+  const result = buildInfo4UPacsParameters({
+    loginserver: 'dicomservices.example.local',
+    server: 'https://viewer.example.local',
+    urlSharedUser: 'du.webviewer.rl',
+    urlSharedPassword: 'secret',
+    IssuerOfPatientID: '4060KSR'
+  });
+
+  assert.deepEqual(result, [
+    ['URL', 'https://viewer.example.local/du-auth-proxy/viewer'],
+    ['Deep Unity Viewer Authentifizierungsserver', 'viewer.example.local'],
+    ['Deep Unity Viewer Authentifizierungsserver Client', 'du.webviewer.rl'],
+    ['Deep Unity Viewer Authentifizierungsserver Client Secret', 'secret'],
+    ['Deep Unity Viewer Issuer', '4060KSR']
+  ]);
 });
