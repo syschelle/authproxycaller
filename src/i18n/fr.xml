@@ -115,6 +115,7 @@
   <text key="scenario.systemAllStudies">Appel système pour afficher toutes les études</text>
   <text key="scenario.systemPatientStudies">Appel système pour afficher toutes les études d'un patient</text>
   <text key="scenario.systemPatientOrder">Appel système pour afficher par ID patient et numéro de commande</text>
+  <text key="scenario.systemPatientOnly">Appel système pour afficher par ID patient</text>
   <text key="scenario.info4uPacs">Statut -&gt; Paramètres &gt; PACS</text>
   <text key="message.parametersMissing">Paramètres manquants</text>
   <text key="message.noticePrefix">Remarque</text>

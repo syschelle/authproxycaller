@@ -115,6 +115,7 @@
   <text key="scenario.systemAllStudies">Systemaufruf für Anzeige aller Studien</text>
   <text key="scenario.systemPatientStudies">Systemaufruf für Anzeige aller Studien eines Patienten</text>
   <text key="scenario.systemPatientOrder">Systemaufruf für Anzeige mit Patienten-ID und Auftragsnummer</text>
+  <text key="scenario.systemPatientOnly">Systemaufruf für Anzeige mit Patienten-ID</text>
   <text key="scenario.info4uPacs">Status -&gt; Einstellungen &gt; PACS</text>
   <text key="message.parametersMissing">Parameter fehlen</text>
   <text key="message.noticePrefix">Hinweis</text>

@@ -115,6 +115,7 @@
   <text key="scenario.systemAllStudies">System call to display all studies</text>
   <text key="scenario.systemPatientStudies">System call to display all studies for one patient</text>
   <text key="scenario.systemPatientOrder">System call to display by patient ID and order number</text>
+  <text key="scenario.systemPatientOnly">System call to display by patient ID</text>
   <text key="scenario.info4uPacs">Status -&gt; Settings &gt; PACS</text>
   <text key="message.parametersMissing">Missing parameters</text>
   <text key="message.noticePrefix">Note</text>

@@ -40,6 +40,12 @@
     }]
   ];
 
+  const SVF_FRAU_OPTIONS = [
+    ['scenario.systemPatientOnly', 'Systemaufruf für Anzeige mit Patienten-ID', {
+      PatientID: '%patid'
+    }]
+  ];
+
   const FIELD_LABELS = {
     AccessionNumber: ['field.AccessionNumber', 'Auftragsnummer'],
     browserChoice: ['field.browserChoice', 'Browserwahl'],
@@ -954,9 +960,9 @@
     return buildExternalCompanion(config, credentials.user, credentials.password, parameters);
   }
 
-  function buildSvfCardSection(key, title, config, includeCompanion) {
+  function buildSvfCardSection(key, title, config, includeCompanion, options = SVF_CARD_OPTIONS) {
     const section = createOutputSection(key, title);
-    SVF_CARD_OPTIONS.forEach(([labelKey, fallbackLabel, parameters]) => {
+    options.forEach(([labelKey, fallbackLabel, parameters]) => {
       const label = t(labelKey, fallbackLabel);
       try {
         appendScenario(section, `${t('label.urlCall', 'URL-Aufruf')} - ${label}`, buildSvfCardUrl(config, parameters));
@@ -1132,7 +1138,7 @@
     return {
       type: 'authproxycaller-form-data',
       version: 1,
-      appVersion: '0.2.44',
+      appVersion: '0.2.45',
       language: i18n && i18n.language ? i18n.language : 'de',
       exportedAt: new Date().toISOString(),
       values,
@@ -1295,7 +1301,7 @@
     if (config.kisType !== 'fremd') {
       svfSection = buildRisSection('SVF-RIS', config, includeCompanion, buildSvfRisUrl, buildSvfRisCompanion);
       svfCardSection = buildSvfCardSection('svfCard', 'SVF CARD', config, includeCompanion);
-      svfFrauSection = buildSvfCardSection('svfFrau', 'SVF-FRAU', config, includeCompanion);
+      svfFrauSection = buildSvfCardSection('svfFrau', 'SVF-FRAU', config, includeCompanion, SVF_FRAU_OPTIONS);
       svfOpapSection = buildSvfCardSection('svfOpap', 'SVF-OPAP', config, includeCompanion);
       svfLstmSection = buildSvfCardSection('svfLstm', 'SVF LSTM', config, includeCompanion);
       sections.push(svfSection, svfCardSection, svfFrauSection, svfOpapSection, svfLstmSection);
