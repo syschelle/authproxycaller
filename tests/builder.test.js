@@ -118,6 +118,20 @@ test('quotes Companion App values containing spaces', () => {
   assert.match(result, /path="C:\\Program Files\\Dedalus\\DeepUnity" \/\/$/);
 });
 
+test('always quotes Companion App path value', () => {
+  const result = buildCompanion('companion-diagnost', {
+    appName: 'du-proxy-app.exe',
+    loginserver: 'deepunity.example.local',
+    user: 'web',
+    password: 'PW',
+    PatientID: '123456',
+    diagnostParameter: 'path',
+    diagnostPath: 'C:\\DeepUnity'
+  }, 'single-line');
+
+  assert.match(result, /path="C:\\DeepUnity" \/\/$/);
+});
+
 test('omits optional DeepUnity folder path when empty', () => {
   const result = buildCompanion('companion-diagnost', {
     appName: 'du-proxy-app.exe',

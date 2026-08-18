@@ -261,6 +261,11 @@
     return text;
   }
 
+  function quoteCmdPathValue(value) {
+    const text = validatePlainText(String(value), 'Kommando-Wert', MAX_PATH_LENGTH);
+    return `"${text.replace(/"/g, '""')}"`;
+  }
+
   // SVF credential placeholders keep their surrounding percent syntax. When
   // encryption is enabled, only the placeholder name receives the configured prefix.
   function svfCredentialPlaceholder(value, encrypted, encryptedPrefix = 'enc_') {
@@ -307,7 +312,7 @@
     const diagnostPath = validatePlainText(config.diagnostPath, 'Pfad zum DeepUnity-Ordner', MAX_PATH_LENGTH);
     if (diagnostParameter && diagnostPath) {
       requireFields(config, ['diagnostParameter', 'diagnostPath']);
-      pairs.push(`${validateParameterName(diagnostParameter)}=${quoteCmdValue(diagnostPath)}`);
+      pairs.push(`${validateParameterName(diagnostParameter)}=${quoteCmdPathValue(diagnostPath)}`);
     }
 
     if (format === 'single-line') {
@@ -362,6 +367,7 @@
     companionExecutablePath,
     normalizeAccessions,
     quoteCmdValue,
+    quoteCmdPathValue,
     svfCredentialPlaceholder,
     validateParameterName
   };

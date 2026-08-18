@@ -858,7 +858,7 @@
     });
 
     if (config.diagnostPath) {
-      parts.push(`path=${DUBuilder.quoteCmdValue(config.diagnostPath)}`);
+      parts.push(`path=${DUBuilder.quoteCmdPathValue(config.diagnostPath)}`);
     }
     return `${parts.join(' ')} //`;
   }
@@ -1138,7 +1138,7 @@
     return {
       type: 'authproxycaller-form-data',
       version: 1,
-      appVersion: '0.2.46',
+      appVersion: '0.2.47',
       language: i18n && i18n.language ? i18n.language : 'de',
       exportedAt: new Date().toISOString(),
       values,
