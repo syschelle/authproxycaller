@@ -543,7 +543,7 @@
     config.appName = config.companionPath
       ? DUBuilder.companionExecutablePath(config.companionPath)
       : '';
-    config.diagnostParameter = 'diagnostPath';
+    config.diagnostParameter = 'path';
     config.AccessionNumber = DUBuilder.normalizeAccessions(config.AccessionNumber);
     config.browser = config.browserChoice;
     config.debuglevel = config.debugLevel;
@@ -858,7 +858,7 @@
     });
 
     if (config.diagnostPath) {
-      parts.push(`diagnostPath=${DUBuilder.quoteCmdValue(config.diagnostPath)}`);
+      parts.push(`path=${DUBuilder.quoteCmdValue(config.diagnostPath)}`);
     }
     return `${parts.join(' ')} //`;
   }
@@ -1138,7 +1138,7 @@
     return {
       type: 'authproxycaller-form-data',
       version: 1,
-      appVersion: '0.2.45',
+      appVersion: '0.2.46',
       language: i18n && i18n.language ? i18n.language : 'de',
       exportedAt: new Date().toISOString(),
       values,

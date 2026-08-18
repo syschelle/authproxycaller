@@ -20,7 +20,7 @@
   <text key="foreignOrderNumberVariable">Variable name for the order number in the external RIS. Safe parameter names may contain letters, numbers, dots, underscores or hyphens.</text>
   <text key="terminalKis">Only for the Companion App. Enable this when ORBIS runs in a terminal, Citrix or RDP context. Companion App calls then include remote=%.</text>
   <text key="encryptedSvf">Enable this when ORBIS SVF user and password placeholders should be passed encrypted, for example %ENC_USER%.</text>
-  <text key="diagnostPath">Optional DeepUnity folder path. When set, it is passed to the Companion App as diagnostPath. Without input, the Companion App searches the default directories defined in the Companion App.</text>
+  <text key="diagnostPath">Optional DeepUnity folder path. When set, it is passed to the Companion App as path. Without input, the Companion App searches the default directories defined in the Companion App.</text>
   <text key="user">This is intended for initially testing calls in CMD. Test username for normal URL and Companion App calls. SVF calls use their placeholders or shared-user settings.</text>
   <text key="password">This is intended for initially testing calls in CMD. Test password for normal URL and Companion App calls. It is shown visibly in these test calls.</text>
   <text key="PatientID">This is intended for initially testing calls in CMD. Test patient ID for scenarios that require a patient reference.</text>

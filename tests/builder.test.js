@@ -111,11 +111,11 @@ test('quotes Companion App values containing spaces', () => {
     password: 'PW',
     PatientID: '123456',
     IssuerOfPatientID: '9509KBT',
-    diagnostParameter: 'diagnostPath',
+    diagnostParameter: 'path',
     diagnostPath: 'C:\\Program Files\\Dedalus\\DeepUnity'
   }, 'single-line');
 
-  assert.match(result, /diagnostPath="C:\\Program Files\\Dedalus\\DeepUnity" \/\/$/);
+  assert.match(result, /path="C:\\Program Files\\Dedalus\\DeepUnity" \/\/$/);
 });
 
 test('omits optional DeepUnity folder path when empty', () => {
@@ -126,11 +126,11 @@ test('omits optional DeepUnity folder path when empty', () => {
     password: 'PW',
     PatientID: '123456',
     IssuerOfPatientID: '9509KBT',
-    diagnostParameter: 'diagnostPath',
+    diagnostParameter: 'path',
     diagnostPath: ''
   }, 'single-line');
 
-  assert.doesNotMatch(result, /diagnostPath=/);
+  assert.doesNotMatch(result, /path=/);
 });
 
 test('adds terminal KIS remote marker to Companion App commands', () => {
@@ -286,7 +286,7 @@ test('builds every documented Companion App scenario', () => {
     IssuerOfPatientID: '4060KSR',
     AccessionNumber: 'RAD-1,RAD-2',
     remote: 'CITRIX-01',
-    diagnostParameter: 'diagnostPath',
+    diagnostParameter: 'path',
     diagnostPath: 'C:\\Program Files\\Dedalus\\DeepUnity'
   };
 
