@@ -57,7 +57,7 @@
     PatientID: ['field.PatientID', 'Patienten-ID'],
     appName: ['field.companionPath', 'Pfad zur Companion App'],
     encryptedSvf: ['field.encryptedSvf', 'ORBIS Verschlüsselung'],
-    idp: ['field.idp', 'IDP'],
+    idp: ['field.idp', 'Realm'],
     loginserver: ['field.dicomFqdn', 'FQDN DicomServices'],
     password: ['field.password', 'Passwort'],
     remote: ['field.remote', 'Terminal-KIS'],
@@ -67,7 +67,7 @@
     urlAuditUserEnabled: ['field.urlAuditUserEnabledShort', 'Audit-Protokoll-Benutzer'],
     urlSharedPassword: ['field.urlSharedPassword', 'Sammelpasswort'],
     urlSharedUser: ['field.urlSharedUser', 'Sammelbenutzer'],
-    urlSharedUserIdpEnabled: ['field.urlSharedUserIdpEnabledShort', 'URL Sammelbenutzer im IDP'],
+    urlSharedUserIdpEnabled: ['field.urlSharedUserIdpEnabledShort', 'URL Sammelbenutzer im Realm'],
     urlSharedUserEnabled: ['field.urlSharedUserEnabled', 'URL Aufruf Sammelnutzer?'],
     user: ['field.user', 'Benutzername'],
     viewerFqdn: ['field.viewerFqdn', 'FQDN DU Viewer'],
@@ -88,9 +88,9 @@
     ['guide.viewerTitle', 'Viewer-Adresse sortieren', 'guide.viewerBody', 'Gleicher FQDN? Sehr schön. Falls nicht, bekommt der Viewer hier seine eigene Adresse.', 'sameViewerFqdn'],
     ['guide.viewerFqdnTitle', 'DU Viewer eintragen', 'guide.viewerFqdnBody', 'Wenn der Viewer anders heißt als DicomServices, kommt sein FQDN hier hinein.', 'viewerFqdn', (config) => !config.sameViewerFqdn],
     ['guide.issuerTitle', 'IssuerOfPatientID', 'guide.issuerBody', 'Wenn der Issuer gebraucht wird, bekommt er hier seinen Wert. Sonst bleibt das Feld leer.', 'IssuerOfPatientID'],
-    ['guide.idpTitle', 'IDP, falls einer mitspielt', 'guide.idpBody', 'Wenn ein Identity Provider beteiligt ist, bekommt er hier seinen Namen. Sonst darf das Feld leer bleiben.', 'idp'],
+    ['guide.idpTitle', 'Realm, falls einer mitspielt', 'guide.idpBody', 'Wenn ein Realm beteiligt ist, bekommt er hier seinen Namen. Sonst darf das Feld leer bleiben.', 'idp'],
     ['guide.sharedTitle', 'Sammelnutzer: ja oder nein?', 'guide.sharedBody', 'Nutzt du einen URL-Sammelnutzer? Dann bekommt er hier seinen Auftritt.', 'urlSharedUserEnabled'],
-    ['guide.sharedIdpTitle', 'Liegt der Sammelnutzer im IDP?', 'guide.sharedIdpBody', 'Nur anhaken, wenn der Sammelnutzer wirklich im IDP wohnt. Sonst bleibt die Tür lieber zu.', 'urlSharedUserIdpEnabled', (config) => config.urlSharedUserEnabled],
+    ['guide.sharedIdpTitle', 'Liegt der Sammelnutzer im Realm?', 'guide.sharedIdpBody', 'Nur anhaken, wenn der Sammelnutzer wirklich im Realm liegt. Sonst bleibt die Tür lieber zu.', 'urlSharedUserIdpEnabled', (config) => config.urlSharedUserEnabled],
     ['guide.sharedUserTitle', 'Der Sammelnutzer selbst', 'guide.sharedUserBody', 'Wenn das Feld leer ist, setzen wir du.webviewer.rl ein. Praktisch, aber bitte bewusst verwenden.', 'urlSharedUser', (config) => config.urlSharedUserEnabled],
     ['guide.sharedPasswordTitle', 'Secret für den Sammelnutzer', 'guide.sharedPasswordBody', 'Hier kommt das Sammelpasswort hinein. Nicht poetisch, aber wichtig.', 'urlSharedPassword', (config) => config.urlSharedUserEnabled],
     ['guide.auditTitle', 'Audit-Protokoll-Benutzer?', 'guide.auditBody', 'Wenn ein Audit-Benutzer im URL-Aufruf mitlaufen soll, aktivierst du ihn hier.', 'urlAuditUserEnabled', (config) => config.urlSharedUserEnabled],
@@ -821,7 +821,7 @@
       user: credentials.user,
       password: credentials.password,
       ...(config.urlAuditUserEnabled ? { app_usr: auditCredentials.user } : {}),
-      ...(includeIdp && config.idp ? { idp: config.idp } : {}),
+      ...(includeIdp && config.idp ? { realm: config.idp } : {}),
       ...(config.IssuerOfPatientID ? { IssuerOfPatientID: config.IssuerOfPatientID } : {}),
       ...svfCommonCallParameters(config),
       ...parameters
@@ -845,7 +845,7 @@
       loginserver: DUBuilder.normalizeLoginServer(config.loginserver),
       user: userPlaceholder,
       password: passwordPlaceholder,
-      ...(config.idp ? { idp: config.idp } : {}),
+      ...(config.idp ? { realm: config.idp } : {}),
       ...(includeIssuer && config.IssuerOfPatientID ? { IssuerOfPatientID: config.IssuerOfPatientID } : {}),
       ...svfCommonCallParameters(config),
       ...(config.remote ? { remote: config.remote } : {}),
@@ -1476,7 +1476,7 @@
     document.getElementById('dicomFqdn').value = 'dicomservices.test.local';
     viewerFqdn.value = 'viewer.test.local';
     document.getElementById('IssuerOfPatientID').value = 'TESTISSUER';
-    document.getElementById('idp').value = 'ldap_IDP';
+    document.getElementById('idp').value = 'ldap_REALM';
     document.getElementById('urlSharedUserEnabled').checked = true;
     document.getElementById('urlAuditUserEnabled').checked = true;
     document.getElementById('urlSharedUser').value = 'sammelbenutzer';

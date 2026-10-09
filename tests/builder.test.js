@@ -18,13 +18,13 @@ test('builds viewer URL by StudyUID with encoded parameters', () => {
     server: 'deepunity.example.local',
     user: 'web user',
     password: 'p&ss',
-    idp: 'ldap_IDP',
+    idp: 'ldap_REALM',
     studyUID: '1.2.3.4'
   });
 
   assert.equal(
     result,
-    'https://deepunity.example.local/du-auth-proxy/viewer?user=web+user&password=p%26ss&idp=ldap_IDP&studyUID=1.2.3.4'
+    'https://deepunity.example.local/du-auth-proxy/viewer?user=web+user&password=p%26ss&realm=ldap_REALM&studyUID=1.2.3.4'
   );
 });
 
@@ -68,7 +68,7 @@ test('builds multiline Companion App command', () => {
     loginserver: 'https://deepunity.example.local',
     user: 'web',
     password: 'PW',
-    idp: 'ldap_IDP',
+    idp: 'ldap_REALM',
     PatientID: '123456',
     IssuerOfPatientID: '9509KBT',
     remote: 'CITRIX-01'
@@ -79,7 +79,7 @@ test('builds multiline Companion App command', () => {
     '  loginserver=deepunity.example.local ^',
     '  user=web ^',
     '  password=PW ^',
-    '  idp=ldap_IDP ^',
+    '  realm=ldap_REALM ^',
     '  PatientID=123456 ^',
     '  IssuerOfPatientID=9509KBT ^',
     '  remote=CITRIX-01 ^',

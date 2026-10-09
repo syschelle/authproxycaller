@@ -12,50 +12,50 @@
     'viewer-study': {
       path: '/du-auth-proxy/viewer',
       required: ['server', 'user', 'password', 'studyUID'],
-      params: ['user', 'password', 'idp', 'browser', 'studyUID']
+      params: ['user', 'password', 'realm', 'browser', 'studyUID']
     },
     'viewer-patient': {
       path: '/du-auth-proxy/viewer',
       required: ['server', 'user', 'password', 'PatientID'],
-      params: ['user', 'password', 'idp', 'browser', 'PatientID', 'IssuerOfPatientID']
+      params: ['user', 'password', 'realm', 'browser', 'PatientID', 'IssuerOfPatientID']
     },
     'viewer-accession': {
       path: '/du-auth-proxy/viewer',
       required: ['server', 'user', 'password', 'PatientID', 'AccessionNumber'],
-      params: ['user', 'password', 'idp', 'browser', 'PatientID', 'IssuerOfPatientID', 'AccessionNumber']
+      params: ['user', 'password', 'realm', 'browser', 'PatientID', 'IssuerOfPatientID', 'AccessionNumber']
     },
     'studysearch-empty': {
       path: '/du-auth-proxy/api/v1/viewer/studysearch',
       required: ['server', 'user', 'password'],
-      params: ['user', 'password', 'idp', 'browser']
+      params: ['user', 'password', 'realm', 'browser']
     },
     'studysearch-filtered': {
       path: '/du-auth-proxy/api/v1/viewer/studysearch',
       required: ['server', 'user', 'password'],
-      params: ['user', 'password', 'idp', 'browser', 'ModalitiesInStudy', 'PatientID', 'StudyDateTime']
+      params: ['user', 'password', 'realm', 'browser', 'ModalitiesInStudy', 'PatientID', 'StudyDateTime']
     }
   });
 
   const COMPANION_SCENARIOS = Object.freeze({
     'companion-study': {
       required: ['appName', 'loginserver', 'user', 'password', 'studyUID'],
-      params: ['loginserver', 'user', 'password', 'idp', 'browser', 'studyUID', 'remote']
+      params: ['loginserver', 'user', 'password', 'realm', 'browser', 'studyUID', 'remote']
     },
     'companion-patient': {
       required: ['appName', 'loginserver', 'user', 'password', 'PatientID'],
-      params: ['loginserver', 'user', 'password', 'idp', 'browser', 'PatientID', 'IssuerOfPatientID', 'remote']
+      params: ['loginserver', 'user', 'password', 'realm', 'browser', 'PatientID', 'IssuerOfPatientID', 'remote']
     },
     'companion-accession': {
       required: ['appName', 'loginserver', 'user', 'password', 'PatientID', 'AccessionNumber'],
-      params: ['loginserver', 'user', 'password', 'idp', 'browser', 'PatientID', 'IssuerOfPatientID', 'AccessionNumber', 'remote']
+      params: ['loginserver', 'user', 'password', 'realm', 'browser', 'PatientID', 'IssuerOfPatientID', 'AccessionNumber', 'remote']
     },
     'companion-multi-accession': {
       required: ['appName', 'loginserver', 'user', 'password', 'AccessionNumber'],
-      params: ['loginserver', 'user', 'password', 'idp', 'browser', 'IssuerOfPatientID', 'AccessionNumber', 'remote']
+      params: ['loginserver', 'user', 'password', 'realm', 'browser', 'IssuerOfPatientID', 'AccessionNumber', 'remote']
     },
     'companion-remote': {
       required: ['appName', 'loginserver', 'user', 'password', 'PatientID', 'remote'],
-      params: ['loginserver', 'user', 'password', 'idp', 'browser', 'PatientID', 'IssuerOfPatientID', 'remote']
+      params: ['loginserver', 'user', 'password', 'realm', 'browser', 'PatientID', 'IssuerOfPatientID', 'remote']
     },
     'companion-diagnost': {
       required: [
@@ -65,7 +65,7 @@
         'password',
         'PatientID'
       ],
-      params: ['loginserver', 'user', 'password', 'idp', 'browser', 'PatientID', 'IssuerOfPatientID', 'remote']
+      params: ['loginserver', 'user', 'password', 'realm', 'browser', 'PatientID', 'IssuerOfPatientID', 'remote']
     },
     'companion-custom': {
       required: ['appName', 'loginserver', 'user', 'password'],
@@ -73,7 +73,7 @@
         'loginserver',
         'user',
         'password',
-        'idp',
+        'realm',
         'browser',
         'studyUID',
         'PatientID',
@@ -225,9 +225,13 @@
 
     requireFields(config, scenario.required);
     const url = new URL(scenario.path, normalizeServer(config.server));
+    const normalizedConfig = {
+      ...config,
+      realm: config.realm ?? config.idp
+    };
 
     scenario.params.forEach((parameter) => {
-      const value = validatePlainText(config[parameter], parameter);
+      const value = validatePlainText(normalizedConfig[parameter], parameter);
       if (value !== '') {
         url.searchParams.append(parameter, value);
       }
@@ -291,6 +295,7 @@
 
     const normalizedConfig = {
       ...config,
+      realm: config.realm ?? config.idp,
       loginserver: normalizeLoginServer(config.loginserver)
     };
 
