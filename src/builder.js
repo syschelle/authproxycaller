@@ -225,13 +225,8 @@
 
     requireFields(config, scenario.required);
     const url = new URL(scenario.path, normalizeServer(config.server));
-    const normalizedConfig = {
-      ...config,
-      realm: config.realm ?? config.idp
-    };
-
     scenario.params.forEach((parameter) => {
-      const value = validatePlainText(normalizedConfig[parameter], parameter);
+      const value = validatePlainText(config[parameter], parameter);
       if (value !== '') {
         url.searchParams.append(parameter, value);
       }
@@ -295,7 +290,6 @@
 
     const normalizedConfig = {
       ...config,
-      realm: config.realm ?? config.idp,
       loginserver: normalizeLoginServer(config.loginserver)
     };
 

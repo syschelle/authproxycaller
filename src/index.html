@@ -34,7 +34,7 @@
       </label>
       <button type="button" id="hint-download-button" class="feedback-link header-button" data-i18n="button.support">Unterstützen</button>
       <a class="feedback-link" href="mailto:sylvio.schelle@dedalus.com?subject=Feedback%20Authproxycaller">Feedback</a>
-      <a class="version version-link" href="https://github.com/syschelle/authproxycaller" target="_blank" rel="noopener noreferrer" aria-label="Authproxycaller Repository auf GitHub öffnen">v0.2.47</a>
+      <a class="version version-link" href="https://github.com/syschelle/authproxycaller" target="_blank" rel="noopener noreferrer" aria-label="Authproxycaller Repository auf GitHub öffnen">v0.2.49</a>
     </div>
   </header>
 
@@ -79,9 +79,9 @@
               <input id="IssuerOfPatientID" name="IssuerOfPatientID" type="text" placeholder="4060KSR" data-i18n-placeholder="placeholder.IssuerOfPatientID" spellcheck="false" autocomplete="off">
             </label>
 
-            <label class="field" data-field="idp">
+            <label class="field" data-field="realm">
               <span>Realm</span>
-              <input id="idp" name="idp" type="text" placeholder="ldap_REALM" data-i18n-placeholder="placeholder.idp" spellcheck="false" autocomplete="off">
+              <input id="realm" name="realm" type="text" placeholder="REALM" data-i18n-placeholder="placeholder.realm" spellcheck="false" autocomplete="off">
             </label>
 
             <label class="switch-row switch-row-card field-wide">
@@ -90,8 +90,8 @@
             </label>
 
             <label class="switch-row switch-row-card field-wide shared-url-user-only hidden">
-              <input id="urlSharedUserIdpEnabled" name="urlSharedUserIdpEnabled" type="checkbox" disabled>
-              <span data-i18n="field.urlSharedUserIdpEnabled">URL Sammelbenutzer im Realm?</span>
+              <input id="urlSharedUserRealmEnabled" name="urlSharedUserRealmEnabled" type="checkbox" disabled>
+              <span data-i18n="field.urlSharedUserRealmEnabled">URL Sammelbenutzer im Realm?</span>
             </label>
 
             <label class="field shared-url-user-only hidden" data-field="urlSharedUser">
@@ -274,7 +274,7 @@
   </main>
 
   <footer>
-    <span>Authproxycaller v0.2.47</span>
+    <span>Authproxycaller v0.2.49</span>
   </footer>
   <div id="export-dialog" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="export-dialog-title">
     <div class="modal-panel">
