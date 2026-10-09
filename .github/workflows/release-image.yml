@@ -88,7 +88,15 @@ jobs:
         run: |
           NOTES_FILE="RELEASE_NOTES_${TAG_NAME}.md"
           if [ -f "$NOTES_FILE" ]; then
-            gh release create "$TAG_NAME" --notes-file "$NOTES_FILE" --verify-tag
+            if gh release view "$TAG_NAME" >/dev/null 2>&1; then
+              gh release edit "$TAG_NAME" --notes-file "$NOTES_FILE" --verify-tag
+            else
+              gh release create "$TAG_NAME" --notes-file "$NOTES_FILE" --verify-tag
+            fi
           else
-            gh release create "$TAG_NAME" --generate-notes --verify-tag
+            if gh release view "$TAG_NAME" >/dev/null 2>&1; then
+              gh release view "$TAG_NAME" >/dev/null
+            else
+              gh release create "$TAG_NAME" --generate-notes --verify-tag
+            fi
           fi
