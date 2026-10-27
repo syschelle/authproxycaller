@@ -14,10 +14,10 @@
   <text key="debugLevel">Legt das Debuglevel für die Testaufrufe fest. Der Wert wird als String DEBUG oder TRACE in Test-URL- und Test-Companion-App-Aufrufe übernommen. Außerhalb der Testaufrufe muss der Parameter ggf. von Hand testweise eingesetzt werden.</text>
   <text key="companionPath">Optionaler Ordnerpfad zur Companion App. Nur den Ordner angeben; du-proxy-app.exe wird intern ergänzt. Ohne Pfad werden keine Companion-App-Aufrufe erzeugt.</text>
   <text key="kisType">Legt fest, ob ORBIS-spezifische SVF-Aufrufe oder Fremd-RIS-Aufrufe erzeugt werden. Bei Fremd-RIS-Aufrufen werden frei wählbare Variablen verwendet. Ohne diese Platzhaltervariablen macht es wenig Sinn, die Aufrufe hier überhaupt bauen zu lassen.</text>
-  <text key="foreignUserVariable">Herstellerdefinierte Variable für den Benutzer im Fremd-RIS. Der eingegebene Wert wird unverändert und ohne automatisch ergänzte Prozentzeichen übernommen.</text>
-  <text key="foreignPasswordVariable">Herstellerdefinierte Variable für das Passwort im Fremd-RIS. Der eingegebene Wert wird unverändert und ohne automatisch ergänzte Prozentzeichen übernommen.</text>
-  <text key="foreignPatientIdVariable">Herstellerdefinierte Variable für die Patienten-ID im Fremd-RIS. Der eingegebene Wert wird unverändert und ohne automatisch ergänzte Prozentzeichen übernommen.</text>
-  <text key="foreignOrderNumberVariable">Herstellerdefinierte Variable für die Auftragsnummer im Fremd-RIS. Der eingegebene Wert wird unverändert und ohne automatisch ergänzte Prozentzeichen übernommen.</text>
+  <text key="foreignUserVariable">Herstellerdefinierte Variable für den Benutzer im Fremd-RIS. Der eingegebene Wert wird unverändert übernommen.</text>
+  <text key="foreignPasswordVariable">Herstellerdefinierte Variable für das Passwort im Fremd-RIS. Der eingegebene Wert wird unverändert übernommen.</text>
+  <text key="foreignPatientIdVariable">Herstellerdefinierte Variable für die Patienten-ID im Fremd-RIS. Der eingegebene Wert wird unverändert übernommen.</text>
+  <text key="foreignOrderNumberVariable">Herstellerdefinierte Variable für die Auftragsnummer im Fremd-RIS. Der eingegebene Wert wird unverändert übernommen.</text>
   <text key="terminalKis">Nur für die Companion App. Aktivieren, wenn ORBIS im Terminal-/Citrix-/RDP-Kontext läuft. Companion-App-Aufrufe enthalten dann remote=%.</text>
   <text key="encryptedSvf">Aktivieren, wenn ORBIS-SVF-Benutzer- und Passwortplatzhalter verschlüsselt übergeben werden sollen, z. B. %ENC_USER%.</text>
   <text key="diagnostPath">Optionaler DeepUnity-Ordnerpfad. Wenn gesetzt, wird er als path an die Companion App übergeben. Ohne Eingabe sucht die Companion App Standardverzeichnisse, die in der Companion App definiert sind.</text>
