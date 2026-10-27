@@ -32,6 +32,7 @@
   <text key="field.foreignPasswordVariable">Variablenname Passwort</text>
   <text key="field.foreignPatientIdVariable">Variablenname Patienten-ID</text>
   <text key="field.foreignOrderNumberVariable">Variablenname Auftragsnummer</text>
+  <text key="field.foreignStudyUidVariable">Variablenname SUID</text>
   <text key="field.terminalKis">KIS läuft im Terminal?</text>
   <text key="field.encryptedSvf">ORBIS Verschlüsselung</text>
   <text key="field.diagnostPath">Pfad zum DeepUnity-Ordner</text>
@@ -54,6 +55,7 @@
   <text key="placeholder.foreignPasswordVariable">parameter</text>
   <text key="placeholder.foreignPatientIdVariable">parameter</text>
   <text key="placeholder.foreignOrderNumberVariable">parameter</text>
+  <text key="placeholder.foreignStudyUidVariable">parameter</text>
   <text key="placeholder.diagnostPath">C:\Program Files\Dedalus\DeepUnity</text>
   <text key="placeholder.user">testbenutzer</text>
   <text key="placeholder.password">testpasswort123</text>
@@ -178,6 +180,8 @@
   <text key="guide.foreignPatientBody">Hier steht der Variablenname für die Patienten-ID im Fremd-KIS-Aufruf.</text>
   <text key="guide.foreignOrderTitle">Variablenname Auftragsnummer</text>
   <text key="guide.foreignOrderBody">Hier steht der Variablenname für die Auftragsnummer im Fremd-KIS-Aufruf.</text>
+  <text key="guide.foreignStudyTitle">Variablenname SUID</text>
+  <text key="guide.foreignStudyBody">Hier steht der Variablenname für die StudyUID im Fremd-KIS-Aufruf.</text>
   <text key="guide.encryptedTitle">ORBIS Verschlüsselung?</text>
   <text key="guide.encryptedBody">Wenn ORBIS verschlüsselte SVF-Platzhalter erwartet, schaltest du das hier ein.</text>
   <text key="guide.diagnostTitle">DeepUnity-Ordner</text>

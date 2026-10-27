@@ -13,6 +13,7 @@ const {
   validatePlainText,
   validateParameterName,
   externalVariableValue,
+  mapExternalRisParameters,
   preserveUrlTemplateValues
 } = require('../src/builder.js');
 
@@ -79,13 +80,13 @@ test('builds multiline Companion App command', () => {
 
   assert.equal(result, [
     'du-proxy-app ^',
-    '  loginserver=deepunity.example.local ^',
-    '  user=web ^',
-    '  password=PW ^',
-    '  realm=REALM ^',
-    '  PatientID=123456 ^',
-    '  IssuerOfPatientID=9509KBT ^',
-    '  remote=CITRIX-01 ^',
+    '  loginserver="deepunity.example.local" ^',
+    '  user="web" ^',
+    '  password="PW" ^',
+    '  realm="REALM" ^',
+    '  PatientID="123456" ^',
+    '  IssuerOfPatientID="9509KBT" ^',
+    '  remote="CITRIX-01" ^',
     '  //'
   ].join('\n'));
 });
@@ -101,7 +102,7 @@ test('adds browser and raw debug level to Companion App commands', () => {
     studyUID: '1.2.3'
   }, 'single-line');
 
-  assert.match(result, / browser=CHROME /);
+  assert.match(result, / browser="CHROME" /);
   assert.match(result, / DEBUG \/\/$/);
   assert.doesNotMatch(result, /debuglevel=/);
 });
@@ -118,7 +119,7 @@ test('keeps app_usr out of generic test Companion App commands', () => {
 
   assert.equal(
     result,
-    'du-proxy-app.exe loginserver=deepunity.example.local user=test-user password=test-password studyUID=1.2.3 //'
+    'du-proxy-app.exe loginserver="deepunity.example.local" user="test-user" password="test-password" studyUID="1.2.3" //'
   );
   assert.doesNotMatch(result, /app_usr=/);
 });
@@ -140,7 +141,7 @@ test('adds app_usr in exact order to special SVF Companion App commands', () => 
 
   assert.equal(
     result,
-    'O:\\orbis\\admin\\du-proxy-app.exe path="C:\\Program Files\\Dedalus\\DeepUnity" loginserver=deepunity.example.local user="%ENC_USER%" password="%ENC_PWD%" app_usr="%ENC_USER%" realm=ORBIS IssuerOfPatientID=9509KBT browser=EDGE remote=% PatientID="%PATIENTID%" studyUID="%STUDYUID%" //'
+    'O:\\orbis\\admin\\du-proxy-app.exe path="C:\\Program Files\\Dedalus\\DeepUnity" loginserver="deepunity.example.local" user="%ENC_USER%" password="%ENC_PWD%" app_usr="%ENC_USER%" realm="ORBIS" IssuerOfPatientID="9509KBT" browser="EDGE" remote=% PatientID="%PATIENTID%" studyUID="%STUDYUID%" //'
   );
 });
 
@@ -155,7 +156,7 @@ test('preserves external RIS audit variable in special Companion App commands', 
 
   assert.equal(
     result,
-    'du-proxy-app.exe loginserver=deepunity.example.local user=${external.user} password="%HERSTELLER_PWD%" app_usr=${external.user} PatientID=[patient-id] //'
+    'du-proxy-app.exe loginserver="deepunity.example.local" user="${external.user}" password="%HERSTELLER_PWD%" app_usr="${external.user}" PatientID="[patient-id]" //'
   );
 });
 
@@ -173,7 +174,7 @@ test('quotes Companion App values containing spaces', () => {
 
   assert.match(
     result,
-    /^du-proxy-app\.exe path="C:\\Program Files\\Dedalus\\DeepUnity" loginserver=deepunity\.example\.local /
+    /^du-proxy-app\.exe path="C:\\Program Files\\Dedalus\\DeepUnity" loginserver="deepunity\.example\.local" /
   );
 });
 
@@ -188,7 +189,7 @@ test('always quotes Companion App path value', () => {
     diagnostPath: 'C:\\DeepUnity'
   }, 'single-line');
 
-  assert.match(result, /^du-proxy-app\.exe path="C:\\DeepUnity" loginserver=deepunity\.example\.local /);
+  assert.match(result, /^du-proxy-app\.exe path="C:\\DeepUnity" loginserver="deepunity\.example\.local" /);
 });
 
 test('omits optional DeepUnity folder path when empty', () => {
@@ -258,6 +259,25 @@ test('keeps manufacturer-defined external RIS variables unchanged', () => {
   assert.equal(externalVariableValue('%HERSTELLER_USER%'), '%HERSTELLER_USER%');
   assert.equal(externalVariableValue('${patient.id}'), '${patient.id}');
   assert.equal(externalVariableValue('[order-number]'), '[order-number]');
+});
+
+test('maps all manufacturer-defined external RIS variables including SUID unchanged', () => {
+  assert.deepEqual(
+    mapExternalRisParameters({
+      PatientID: '%PATIENTID%',
+      AccessionNumber: '%ORDERNR%',
+      studyUID: '%STUDYUID%'
+    }, {
+      PatientID: '${patient.id}',
+      AccessionNumber: '[order-number]',
+      studyUID: '%HERSTELLER_SUID%'
+    }),
+    {
+      PatientID: '${patient.id}',
+      AccessionNumber: '[order-number]',
+      studyUID: '%HERSTELLER_SUID%'
+    }
+  );
 });
 
 test('preserves manufacturer-defined external RIS variables in URL templates', () => {
@@ -404,7 +424,7 @@ test('omits IssuerOfPatientID from Companion App calls when empty', () => {
     IssuerOfPatientID: ''
   }, 'single-line');
 
-  assert.match(result, /PatientID=12345/);
+  assert.match(result, /PatientID="12345"/);
   assert.doesNotMatch(result, /IssuerOfPatientID/);
 });
 

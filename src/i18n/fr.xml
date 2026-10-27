@@ -32,6 +32,7 @@
   <text key="field.foreignPasswordVariable">Nom de variable mot de passe</text>
   <text key="field.foreignPatientIdVariable">Nom de variable ID patient</text>
   <text key="field.foreignOrderNumberVariable">Nom de variable numéro de commande</text>
+  <text key="field.foreignStudyUidVariable">Nom de variable SUID</text>
   <text key="field.terminalKis">Le SIH fonctionne dans un terminal ?</text>
   <text key="field.encryptedSvf">Chiffrement ORBIS</text>
   <text key="field.diagnostPath">Chemin du dossier DeepUnity</text>
@@ -54,6 +55,7 @@
   <text key="placeholder.foreignPasswordVariable">paramètre</text>
   <text key="placeholder.foreignPatientIdVariable">paramètre</text>
   <text key="placeholder.foreignOrderNumberVariable">paramètre</text>
+  <text key="placeholder.foreignStudyUidVariable">paramètre</text>
   <text key="placeholder.diagnostPath">C:\Program Files\Dedalus\DeepUnity</text>
   <text key="placeholder.user">utilisateurtest</text>
   <text key="placeholder.password">motdepasse123</text>
@@ -178,6 +180,8 @@
   <text key="guide.foreignPatientBody">C'est le nom de variable pour l'ID patient dans l'appel SIH externe.</text>
   <text key="guide.foreignOrderTitle">Nom de variable numéro de commande</text>
   <text key="guide.foreignOrderBody">C'est le nom de variable pour le numéro de commande dans l'appel SIH externe.</text>
+  <text key="guide.foreignStudyTitle">Nom de variable SUID</text>
+  <text key="guide.foreignStudyBody">C'est le nom de variable pour la StudyUID dans l'appel SIH externe.</text>
   <text key="guide.encryptedTitle">Chiffrement ORBIS ?</text>
   <text key="guide.encryptedBody">Si ORBIS attend des espaces réservés SVF chiffrés, l'activer ici.</text>
   <text key="guide.diagnostTitle">Dossier DeepUnity</text>

@@ -32,6 +32,7 @@
   <text key="field.foreignPasswordVariable">Password variable name</text>
   <text key="field.foreignPatientIdVariable">Patient ID variable name</text>
   <text key="field.foreignOrderNumberVariable">Order number variable name</text>
+  <text key="field.foreignStudyUidVariable">SUID variable name</text>
   <text key="field.terminalKis">HIS runs in a terminal?</text>
   <text key="field.encryptedSvf">ORBIS encryption</text>
   <text key="field.diagnostPath">DeepUnity folder path</text>
@@ -54,6 +55,7 @@
   <text key="placeholder.foreignPasswordVariable">parameter</text>
   <text key="placeholder.foreignPatientIdVariable">parameter</text>
   <text key="placeholder.foreignOrderNumberVariable">parameter</text>
+  <text key="placeholder.foreignStudyUidVariable">parameter</text>
   <text key="placeholder.diagnostPath">C:\Program Files\Dedalus\DeepUnity</text>
   <text key="placeholder.user">testuser</text>
   <text key="placeholder.password">testpassword123</text>
@@ -178,6 +180,8 @@
   <text key="guide.foreignPatientBody">This is the variable name for the patient ID in the external HIS call.</text>
   <text key="guide.foreignOrderTitle">Variable name order number</text>
   <text key="guide.foreignOrderBody">This is the variable name for the order number in the external HIS call.</text>
+  <text key="guide.foreignStudyTitle">SUID variable name</text>
+  <text key="guide.foreignStudyBody">This is the variable name for the StudyUID in the external HIS call.</text>
   <text key="guide.encryptedTitle">ORBIS encryption?</text>
   <text key="guide.encryptedBody">If ORBIS expects encrypted SVF placeholders, enable that here.</text>
   <text key="guide.diagnostTitle">DeepUnity folder</text>

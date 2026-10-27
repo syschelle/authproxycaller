@@ -18,6 +18,7 @@
   <text key="foreignPasswordVariable">Manufacturer-defined variable for the external RIS password. The entered value is used unchanged without automatically adding percent signs.</text>
   <text key="foreignPatientIdVariable">Manufacturer-defined variable for the external RIS patient ID. The entered value is used unchanged without automatically adding percent signs.</text>
   <text key="foreignOrderNumberVariable">Manufacturer-defined variable for the external RIS order number. The entered value is used unchanged without automatically adding percent signs.</text>
+  <text key="foreignStudyUidVariable">Manufacturer-defined variable for the external RIS SUID. The entered value is used unchanged without automatically adding percent signs.</text>
   <text key="terminalKis">Only for the Companion App. Enable this when ORBIS runs in a terminal, Citrix or RDP context. Companion App calls then include remote=%.</text>
   <text key="encryptedSvf">Enable this when ORBIS SVF user and password placeholders should be passed encrypted, for example %ENC_USER%.</text>
   <text key="diagnostPath">Optional DeepUnity folder path. When set, it is passed to the Companion App as path. Without input, the Companion App searches the default directories defined in the Companion App.</text>

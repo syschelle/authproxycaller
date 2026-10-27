@@ -75,6 +75,7 @@
     sameViewerFqdn: ['field.sameViewerFqdn', 'FQDN für DicomServices und DU Viewer gleich?'],
     foreignPatientIdVariable: ['field.foreignPatientIdVariable', 'Variablenname Patienten-ID'],
     foreignOrderNumberVariable: ['field.foreignOrderNumberVariable', 'Variablenname Auftragsnummer'],
+    foreignStudyUidVariable: ['field.foreignStudyUidVariable', 'Variablenname SUID'],
     foreignUserVariable: ['field.foreignUserVariable', 'Variablenname Benutzername'],
     foreignPasswordVariable: ['field.foreignPasswordVariable', 'Variablenname Passwort']
   };
@@ -101,6 +102,7 @@
     ['guide.foreignPasswordTitle', 'Variablenname Passwort', 'guide.foreignPasswordBody', 'Hier steht der Variablenname für das Passwort im Fremd-KIS-Aufruf.', 'foreignPasswordVariable', (config) => config.kisType === 'fremd'],
     ['guide.foreignPatientTitle', 'Variablenname Patienten-ID', 'guide.foreignPatientBody', 'Hier steht der Variablenname für die Patienten-ID im Fremd-KIS-Aufruf.', 'foreignPatientIdVariable', (config) => config.kisType === 'fremd'],
     ['guide.foreignOrderTitle', 'Variablenname Auftragsnummer', 'guide.foreignOrderBody', 'Hier steht der Variablenname für die Auftragsnummer im Fremd-KIS-Aufruf.', 'foreignOrderNumberVariable', (config) => config.kisType === 'fremd'],
+    ['guide.foreignStudyTitle', 'Variablenname SUID', 'guide.foreignStudyBody', 'Hier steht der Variablenname für die StudyUID im Fremd-KIS-Aufruf.', 'foreignStudyUidVariable', (config) => config.kisType === 'fremd'],
     ['guide.terminalTitle', 'Terminal-KIS?', 'guide.terminalBody', 'Wenn ORBIS im Terminal, Citrix oder RDP läuft, setzen wir den Remote-Hinweis und den passenden Parameter.', 'terminalKis', (config) => config.kisType !== 'fremd'],
     ['guide.encryptedTitle', 'ORBIS Verschlüsselung?', 'guide.encryptedBody', 'Wenn ORBIS verschlüsselte SVF-Platzhalter erwartet, schaltest du das hier ein.', 'encryptedSvf', (config) => config.kisType !== 'fremd'],
     ['guide.diagnostTitle', 'DeepUnity-Ordner', 'guide.diagnostBody', 'Optionaler Ordnerpfad zum DeepUnity-Client. Leer lassen, wenn die Companion App den Client automatisch finden soll.', 'diagnostPath'],
@@ -552,6 +554,7 @@
     if (config.kisType === 'fremd') {
       config.PatientID = variablePlaceholder(config.foreignPatientIdVariable);
       config.AccessionNumber = variablePlaceholder(config.foreignOrderNumberVariable);
+      config.foreignStudyUidPlaceholder = variablePlaceholder(config.foreignStudyUidVariable);
       config.foreignUserPlaceholder = variablePlaceholder(config.foreignUserVariable);
       config.foreignPasswordPlaceholder = variablePlaceholder(config.foreignPasswordVariable);
     }
@@ -843,11 +846,11 @@
   }
 
   function foreignRisParameters(config, parameters) {
-    return Object.fromEntries(Object.entries(parameters).map(([key, value]) => {
-      if (value === '%PATIENTID%') return [key, config.PatientID];
-      if (value === '%ORDERNR%') return [key, config.AccessionNumber];
-      return [key, value];
-    }));
+    return DUBuilder.mapExternalRisParameters(parameters, {
+      PatientID: config.PatientID,
+      AccessionNumber: config.AccessionNumber,
+      studyUID: config.foreignStudyUidPlaceholder
+    });
   }
 
   function missingForeignRisParameterFields(config, parameters) {
@@ -858,6 +861,9 @@
       }
       if (value === '%ORDERNR%' && !config.AccessionNumber) {
         missing.push('foreignOrderNumberVariable');
+      }
+      if (value === '%STUDYUID%' && !config.foreignStudyUidPlaceholder) {
+        missing.push('foreignStudyUidVariable');
       }
     });
     return missing;
@@ -884,7 +890,8 @@
         config.foreignUserPlaceholder,
         config.foreignPasswordPlaceholder,
         config.PatientID,
-        config.AccessionNumber
+        config.AccessionNumber,
+        config.foreignStudyUidPlaceholder
       ]
     });
   }
@@ -1395,6 +1402,7 @@
     'kisType',
     'foreignPatientIdVariable',
     'foreignOrderNumberVariable',
+    'foreignStudyUidVariable',
     'foreignUserVariable',
     'foreignPasswordVariable',
     'diagnostPath',
@@ -1471,6 +1479,7 @@
     kisType.value = 'fremd';
     document.getElementById('foreignPatientIdVariable').value = 'FKIS_PATIENT_ID';
     document.getElementById('foreignOrderNumberVariable').value = 'FKIS_AUFTRAG_NR';
+    document.getElementById('foreignStudyUidVariable').value = 'FKIS_SUID';
     document.getElementById('foreignUserVariable').value = 'FKIS_USER';
     document.getElementById('foreignPasswordVariable').value = 'FKIS_PASSWORD';
     document.getElementById('diagnostPath').value = 'C:\\Program Files\\Dedalus\\DeepUnity';

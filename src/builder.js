@@ -120,6 +120,18 @@
     }, value);
   }
 
+  function mapExternalRisParameters(parameters, variables) {
+    const replacements = {
+      '%PATIENTID%': externalVariableValue(variables.PatientID),
+      '%ORDERNR%': externalVariableValue(variables.AccessionNumber),
+      '%STUDYUID%': externalVariableValue(variables.studyUID)
+    };
+    return Object.fromEntries(Object.entries(parameters).map(([key, value]) => [
+      key,
+      Object.prototype.hasOwnProperty.call(replacements, value) ? replacements[value] : value
+    ]));
+  }
+
   function validateDebugLevel(value) {
     const text = validatePlainText(value, 'Debuglevel');
     if (text && !['DEBUG', 'TRACE'].includes(text)) {
@@ -278,6 +290,11 @@
     return `"${text.replace(/"/g, '""')}"`;
   }
 
+  function quoteCmdParameterValue(value) {
+    const text = validatePlainText(String(value), 'Kommando-Wert', MAX_PATH_LENGTH);
+    return `"${text.replace(/"/g, '""')}"`;
+  }
+
   // SVF credential placeholders keep their surrounding percent syntax. When
   // encryption is enabled, only the placeholder name receives the configured prefix.
   function svfCredentialPlaceholder(value, encrypted, encryptedPrefix = 'enc_') {
@@ -317,7 +334,7 @@
     scenario.params.forEach((parameter) => {
       const value = validatePlainText(normalizedConfig[parameter], parameter);
       if (value !== '') {
-        const formattedValue = parameter === 'remote' && value === '%' ? '%' : quoteCmdValue(value);
+        const formattedValue = parameter === 'remote' && value === '%' ? '%' : quoteCmdParameterValue(value);
         pairs.push(`${parameter}=${formattedValue}`);
       }
     });
@@ -363,7 +380,7 @@
     }
     Object.entries(pairs).forEach(([key, value]) => {
       const parameter = validateParameterName(key);
-      const formattedValue = key === 'remote' && value === '%' ? '%' : quoteCmdValue(value);
+      const formattedValue = key === 'remote' && value === '%' ? '%' : quoteCmdParameterValue(value);
       parts.push(`${parameter}=${formattedValue}`);
     });
 
@@ -414,9 +431,11 @@
     normalizeAccessions,
     quoteCmdValue,
     quoteCmdPathValue,
+    quoteCmdParameterValue,
     svfCredentialPlaceholder,
     validateParameterName,
     externalVariableValue,
+    mapExternalRisParameters,
     preserveUrlTemplateValues
   };
 });

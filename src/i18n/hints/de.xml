@@ -18,6 +18,7 @@
   <text key="foreignPasswordVariable">Herstellerdefinierte Variable für das Passwort im Fremd-RIS. Der eingegebene Wert wird unverändert übernommen.</text>
   <text key="foreignPatientIdVariable">Herstellerdefinierte Variable für die Patienten-ID im Fremd-RIS. Der eingegebene Wert wird unverändert übernommen.</text>
   <text key="foreignOrderNumberVariable">Herstellerdefinierte Variable für die Auftragsnummer im Fremd-RIS. Der eingegebene Wert wird unverändert übernommen.</text>
+  <text key="foreignStudyUidVariable">Herstellerdefinierte Variable für die SUID im Fremd-RIS. Der eingegebene Wert wird unverändert übernommen.</text>
   <text key="terminalKis">Nur für die Companion App. Aktivieren, wenn ORBIS im Terminal-/Citrix-/RDP-Kontext läuft. Companion-App-Aufrufe enthalten dann remote=%.</text>
   <text key="encryptedSvf">Aktivieren, wenn ORBIS-SVF-Benutzer- und Passwortplatzhalter verschlüsselt übergeben werden sollen, z. B. %ENC_USER%.</text>
   <text key="diagnostPath">Optionaler DeepUnity-Ordnerpfad. Wenn gesetzt, wird er als path an die Companion App übergeben. Ohne Eingabe sucht die Companion App Standardverzeichnisse, die in der Companion App definiert sind.</text>
