@@ -14,10 +14,10 @@
   <text key="debugLevel">Defines the debug level for test calls. The value is passed as the string DEBUG or TRACE in test URL and test Companion App calls. Outside test calls, the parameter may need to be added manually for testing.</text>
   <text key="companionPath">Optional folder path to the Companion App. Enter the folder only; du-proxy-app.exe is appended internally. Without a path, Companion App calls are not generated.</text>
   <text key="kisType">Controls whether ORBIS-specific SVF calls or external RIS calls are generated. External RIS calls use freely selectable variables. Without these placeholder variables, it makes little sense to build the calls here at all.</text>
-  <text key="foreignUserVariable">Variable name for the user in the external RIS. The value is used as a placeholder in generated external RIS calls.</text>
-  <text key="foreignPasswordVariable">Variable name for the password in the external RIS. The value is used as a placeholder in generated external RIS calls.</text>
-  <text key="foreignPatientIdVariable">Variable name for the patient ID in the external RIS. Safe parameter names may contain letters, numbers, dots, underscores or hyphens.</text>
-  <text key="foreignOrderNumberVariable">Variable name for the order number in the external RIS. Safe parameter names may contain letters, numbers, dots, underscores or hyphens.</text>
+  <text key="foreignUserVariable">Manufacturer-defined variable for the external RIS user. The entered value is used unchanged without automatically adding percent signs.</text>
+  <text key="foreignPasswordVariable">Manufacturer-defined variable for the external RIS password. The entered value is used unchanged without automatically adding percent signs.</text>
+  <text key="foreignPatientIdVariable">Manufacturer-defined variable for the external RIS patient ID. The entered value is used unchanged without automatically adding percent signs.</text>
+  <text key="foreignOrderNumberVariable">Manufacturer-defined variable for the external RIS order number. The entered value is used unchanged without automatically adding percent signs.</text>
   <text key="terminalKis">Only for the Companion App. Enable this when ORBIS runs in a terminal, Citrix or RDP context. Companion App calls then include remote=%.</text>
   <text key="encryptedSvf">Enable this when ORBIS SVF user and password placeholders should be passed encrypted, for example %ENC_USER%.</text>
   <text key="diagnostPath">Optional DeepUnity folder path. When set, it is passed to the Companion App as path. Without input, the Companion App searches the default directories defined in the Companion App.</text>

@@ -522,10 +522,7 @@
   }
 
   function variablePlaceholder(value) {
-    const text = typeof value === 'string' ? value.trim() : '';
-    if (!text) return '';
-    const unwrapped = text.replace(/^%/, '').replace(/%$/, '');
-    return `%${DUBuilder.validateParameterName(unwrapped)}%`;
+    return DUBuilder.externalVariableValue(value);
   }
 
   // collectConfig translates raw form controls into the normalized configuration
@@ -830,7 +827,10 @@
     Object.entries(params).forEach(([key, value]) => {
       url.searchParams.append(key, value);
     });
-    return preserveSvfVariables(url.toString());
+    return DUBuilder.preserveUrlTemplateValues(
+      preserveSvfVariables(url.toString()),
+      options.preservedVariables || []
+    );
   }
 
   function buildExternalCompanion(config, userPlaceholder, passwordPlaceholder, parameters, options = {}) {
@@ -905,7 +905,13 @@
       userPlaceholder: config.foreignUserPlaceholder || '%USER%',
       passwordPlaceholder: config.foreignPasswordPlaceholder || '%PWD%',
       encryptedPrefix: '',
-      applyEncryption: false
+      applyEncryption: false,
+      preservedVariables: [
+        config.foreignUserPlaceholder,
+        config.foreignPasswordPlaceholder,
+        config.PatientID,
+        config.AccessionNumber
+      ]
     });
   }
 

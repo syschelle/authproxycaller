@@ -10,7 +10,9 @@ const {
   companionExecutablePath,
   svfCredentialPlaceholder,
   validatePlainText,
-  validateParameterName
+  validateParameterName,
+  externalVariableValue,
+  preserveUrlTemplateValues
 } = require('../src/builder.js');
 
 test('builds viewer URL by StudyUID with encoded parameters', () => {
@@ -195,6 +197,24 @@ test('builds Companion App executable path from directory', () => {
 
 test('rejects unsafe custom parameter names', () => {
   assert.throws(() => validateParameterName('path&calc'), /unzulässige Zeichen/);
+});
+
+test('keeps manufacturer-defined external RIS variables unchanged', () => {
+  assert.equal(externalVariableValue('parameter'), 'parameter');
+  assert.equal(externalVariableValue('%HERSTELLER_USER%'), '%HERSTELLER_USER%');
+  assert.equal(externalVariableValue('${patient.id}'), '${patient.id}');
+  assert.equal(externalVariableValue('[order-number]'), '[order-number]');
+});
+
+test('preserves manufacturer-defined external RIS variables in URL templates', () => {
+  const url = new URL('https://viewer.example.local/du-auth-proxy/viewer');
+  url.searchParams.append('user', '%HERSTELLER_USER%');
+  url.searchParams.append('PatientID', '${patient.id}');
+
+  assert.equal(
+    preserveUrlTemplateValues(url.toString(), ['%HERSTELLER_USER%', '${patient.id}']),
+    'https://viewer.example.local/du-auth-proxy/viewer?user=%HERSTELLER_USER%&PatientID=${patient.id}'
+  );
 });
 
 test('rejects control characters in text values', () => {

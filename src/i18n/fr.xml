@@ -50,10 +50,10 @@
   <text key="placeholder.urlSharedUser">utilisateur_partage</text>
   <text key="placeholder.urlSharedPassword">mot_de_passe_partage</text>
   <text key="placeholder.companionPath">O:\orbis\admin</text>
-  <text key="placeholder.foreignUserVariable">UTILISATEUR</text>
-  <text key="placeholder.foreignPasswordVariable">MOT_DE_PASSE</text>
-  <text key="placeholder.foreignPatientIdVariable">ID_PATIENT</text>
-  <text key="placeholder.foreignOrderNumberVariable">NUMERO_COMMANDE</text>
+  <text key="placeholder.foreignUserVariable">paramètre</text>
+  <text key="placeholder.foreignPasswordVariable">paramètre</text>
+  <text key="placeholder.foreignPatientIdVariable">paramètre</text>
+  <text key="placeholder.foreignOrderNumberVariable">paramètre</text>
   <text key="placeholder.diagnostPath">C:\Program Files\Dedalus\DeepUnity</text>
   <text key="placeholder.user">utilisateurtest</text>
   <text key="placeholder.password">motdepasse123</text>

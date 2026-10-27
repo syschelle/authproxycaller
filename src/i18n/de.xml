@@ -50,10 +50,10 @@
   <text key="placeholder.urlSharedUser">sammelbenutzer</text>
   <text key="placeholder.urlSharedPassword">sammelpasswort</text>
   <text key="placeholder.companionPath">O:\orbis\admin</text>
-  <text key="placeholder.foreignUserVariable">BENUTZER</text>
-  <text key="placeholder.foreignPasswordVariable">PASSWORT</text>
-  <text key="placeholder.foreignPatientIdVariable">PATIENTEN_ID</text>
-  <text key="placeholder.foreignOrderNumberVariable">AUFTRAGSNUMMER</text>
+  <text key="placeholder.foreignUserVariable">parameter</text>
+  <text key="placeholder.foreignPasswordVariable">parameter</text>
+  <text key="placeholder.foreignPatientIdVariable">parameter</text>
+  <text key="placeholder.foreignOrderNumberVariable">parameter</text>
   <text key="placeholder.diagnostPath">C:\Program Files\Dedalus\DeepUnity</text>
   <text key="placeholder.user">testbenutzer</text>
   <text key="placeholder.password">testpasswort123</text>

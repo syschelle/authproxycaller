@@ -107,6 +107,19 @@
     return text;
   }
 
+  function externalVariableValue(value) {
+    return validatePlainText(value, 'Fremd-RIS-Variable');
+  }
+
+  function preserveUrlTemplateValues(value, templateValues) {
+    return templateValues.reduce((result, templateValue) => {
+      const text = externalVariableValue(templateValue);
+      if (!text) return result;
+      const encoded = new URLSearchParams([['value', text]]).toString().slice('value='.length);
+      return result.replaceAll(encoded, text);
+    }, value);
+  }
+
   function validateDebugLevel(value) {
     const text = validatePlainText(value, 'Debuglevel');
     if (text && !['DEBUG', 'TRACE'].includes(text)) {
@@ -368,6 +381,8 @@
     quoteCmdValue,
     quoteCmdPathValue,
     svfCredentialPlaceholder,
-    validateParameterName
+    validateParameterName,
+    externalVariableValue,
+    preserveUrlTemplateValues
   };
 });
