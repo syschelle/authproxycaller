@@ -834,33 +834,7 @@
   }
 
   function buildExternalCompanion(config, userPlaceholder, passwordPlaceholder, parameters, options = {}) {
-    const includeIssuer = options.includeIssuer !== false;
-    const requiredFields = ['appName', 'loginserver'];
-    const missing = requiredFields.filter((field) => !config[field]);
-    if (missing.length > 0) {
-      throw missingFieldsError(missing);
-    }
-
-    const pairs = {
-      loginserver: DUBuilder.normalizeLoginServer(config.loginserver),
-      user: userPlaceholder,
-      password: passwordPlaceholder,
-      ...(config.realm ? { realm: config.realm } : {}),
-      ...(includeIssuer && config.IssuerOfPatientID ? { IssuerOfPatientID: config.IssuerOfPatientID } : {}),
-      ...svfCommonCallParameters(config),
-      ...(config.remote ? { remote: config.remote } : {}),
-      ...parameters
-    };
-    const parts = [DUBuilder.quoteCmdValue(config.appName)];
-    if (config.diagnostPath) {
-      parts.push(`path=${DUBuilder.quoteCmdPathValue(config.diagnostPath)}`);
-    }
-    Object.entries(pairs).forEach(([key, value]) => {
-      const formattedValue = key === 'remote' && value === '%' ? '%' : DUBuilder.quoteCmdValue(value);
-      parts.push(`${key}=${formattedValue}`);
-    });
-
-    return `${parts.join(' ')} //`;
+    return DUBuilder.buildExternalCompanion(config, userPlaceholder, passwordPlaceholder, parameters, options);
   }
 
   function buildSvfRisCompanion(config, parameters, options) {

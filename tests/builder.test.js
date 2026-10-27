@@ -5,6 +5,7 @@ const assert = require('node:assert/strict');
 const {
   buildUrl,
   buildCompanion,
+  buildExternalCompanion,
   buildInfo4UPacsParameters,
   normalizeAccessions,
   companionExecutablePath,
@@ -103,6 +104,59 @@ test('adds browser and raw debug level to Companion App commands', () => {
   assert.match(result, / browser=CHROME /);
   assert.match(result, / DEBUG \/\/$/);
   assert.doesNotMatch(result, /debuglevel=/);
+});
+
+test('keeps app_usr out of generic test Companion App commands', () => {
+  const result = buildCompanion('companion-study', {
+    appName: 'du-proxy-app.exe',
+    loginserver: 'deepunity.example.local',
+    user: 'test-user',
+    password: 'test-password',
+    studyUID: '1.2.3',
+    urlAuditUserEnabled: true
+  }, 'single-line');
+
+  assert.equal(
+    result,
+    'du-proxy-app.exe loginserver=deepunity.example.local user=test-user password=test-password studyUID=1.2.3 //'
+  );
+  assert.doesNotMatch(result, /app_usr=/);
+});
+
+test('adds app_usr in exact order to special SVF Companion App commands', () => {
+  const result = buildExternalCompanion({
+    appName: 'O:\\orbis\\admin\\du-proxy-app.exe',
+    loginserver: 'deepunity.example.local',
+    diagnostPath: 'C:\\Program Files\\Dedalus\\DeepUnity',
+    urlAuditUserEnabled: true,
+    realm: 'ORBIS',
+    IssuerOfPatientID: '9509KBT',
+    browser: 'EDGE',
+    remote: '%'
+  }, '%ENC_USER%', '%ENC_PWD%', {
+    PatientID: '%PATIENTID%',
+    studyUID: '%STUDYUID%'
+  });
+
+  assert.equal(
+    result,
+    'O:\\orbis\\admin\\du-proxy-app.exe path="C:\\Program Files\\Dedalus\\DeepUnity" loginserver=deepunity.example.local user="%ENC_USER%" password="%ENC_PWD%" app_usr="%ENC_USER%" realm=ORBIS IssuerOfPatientID=9509KBT browser=EDGE remote=% PatientID="%PATIENTID%" studyUID="%STUDYUID%" //'
+  );
+});
+
+test('preserves external RIS audit variable in special Companion App commands', () => {
+  const result = buildExternalCompanion({
+    appName: 'du-proxy-app.exe',
+    loginserver: 'deepunity.example.local',
+    urlAuditUserEnabled: true
+  }, '${external.user}', '%HERSTELLER_PWD%', {
+    PatientID: '[patient-id]'
+  });
+
+  assert.equal(
+    result,
+    'du-proxy-app.exe loginserver=deepunity.example.local user=${external.user} password="%HERSTELLER_PWD%" app_usr=${external.user} PatientID=[patient-id] //'
+  );
 });
 
 test('quotes Companion App values containing spaces', () => {

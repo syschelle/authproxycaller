@@ -337,6 +337,39 @@
       .join('\n');
   }
 
+  // buildExternalCompanion creates the project-specific SVF/Fremd-RIS command
+  // paths. Unlike generic test commands, these commands may carry app_usr so the
+  // originating user remains visible when URL authentication uses a shared user.
+  function buildExternalCompanion(config, userPlaceholder, passwordPlaceholder, parameters, options = {}) {
+    const includeIssuer = options.includeIssuer !== false;
+    requireFields(config, ['appName', 'loginserver']);
+
+    const pairs = {
+      loginserver: normalizeLoginServer(config.loginserver),
+      user: validatePlainText(userPlaceholder, 'Benutzer'),
+      password: validatePlainText(passwordPlaceholder, 'Passwort'),
+      ...(config.urlAuditUserEnabled ? { app_usr: validatePlainText(userPlaceholder, 'Audit-Protokoll-Benutzer') } : {}),
+      ...(config.realm ? { realm: validatePlainText(config.realm, 'Realm') } : {}),
+      ...(includeIssuer && config.IssuerOfPatientID
+        ? { IssuerOfPatientID: validatePlainText(config.IssuerOfPatientID, 'IssuerOfPatientID') }
+        : {}),
+      ...(config.browser ? { browser: validatePlainText(config.browser, 'Browserwahl') } : {}),
+      ...(config.remote ? { remote: validatePlainText(config.remote, 'Terminal-KIS') } : {}),
+      ...parameters
+    };
+    const parts = [quoteCmdValue(validatePlainText(config.appName, 'Pfad zur Companion App', MAX_PATH_LENGTH))];
+    if (config.diagnostPath) {
+      parts.push(`path=${quoteCmdPathValue(config.diagnostPath)}`);
+    }
+    Object.entries(pairs).forEach(([key, value]) => {
+      const parameter = validateParameterName(key);
+      const formattedValue = key === 'remote' && value === '%' ? '%' : quoteCmdValue(value);
+      parts.push(`${parameter}=${formattedValue}`);
+    });
+
+    return `${parts.join(' ')} //`;
+  }
+
   function buildInfo4UPacsParameters(config) {
     requireFields(config, ['loginserver', 'server', 'urlSharedUser', 'urlSharedPassword', 'IssuerOfPatientID']);
     const viewerUrl = new URL('/du-auth-proxy/viewer', normalizeServer(config.server)).toString();
@@ -372,6 +405,7 @@
     COMPANION_SCENARIOS,
     buildUrl,
     buildCompanion,
+    buildExternalCompanion,
     buildInfo4UPacsParameters,
     validatePlainText,
     normalizeServer,
