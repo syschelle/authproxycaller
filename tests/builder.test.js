@@ -115,7 +115,10 @@ test('quotes Companion App values containing spaces', () => {
     diagnostPath: 'C:\\Program Files\\Dedalus\\DeepUnity'
   }, 'single-line');
 
-  assert.match(result, /path="C:\\Program Files\\Dedalus\\DeepUnity" \/\/$/);
+  assert.match(
+    result,
+    /^du-proxy-app\.exe path="C:\\Program Files\\Dedalus\\DeepUnity" loginserver=deepunity\.example\.local /
+  );
 });
 
 test('always quotes Companion App path value', () => {
@@ -129,7 +132,7 @@ test('always quotes Companion App path value', () => {
     diagnostPath: 'C:\\DeepUnity'
   }, 'single-line');
 
-  assert.match(result, /path="C:\\DeepUnity" \/\/$/);
+  assert.match(result, /^du-proxy-app\.exe path="C:\\DeepUnity" loginserver=deepunity\.example\.local /);
 });
 
 test('omits optional DeepUnity folder path when empty', () => {

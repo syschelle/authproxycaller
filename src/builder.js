@@ -294,6 +294,13 @@
     };
 
     const pairs = [];
+    const diagnostParameter = clean(config.diagnostParameter);
+    const diagnostPath = validatePlainText(config.diagnostPath, 'Pfad zum DeepUnity-Ordner', MAX_PATH_LENGTH);
+    if (diagnostParameter && diagnostPath) {
+      requireFields(config, ['diagnostParameter', 'diagnostPath']);
+      pairs.push(`${validateParameterName(diagnostParameter)}=${quoteCmdPathValue(diagnostPath)}`);
+    }
+
     scenario.params.forEach((parameter) => {
       const value = validatePlainText(normalizedConfig[parameter], parameter);
       if (value !== '') {
@@ -305,13 +312,6 @@
     const debugLevel = validateDebugLevel(config.debuglevel);
     if (debugLevel) {
       pairs.push(quoteCmdValue(debugLevel));
-    }
-
-    const diagnostParameter = clean(config.diagnostParameter);
-    const diagnostPath = validatePlainText(config.diagnostPath, 'Pfad zum DeepUnity-Ordner', MAX_PATH_LENGTH);
-    if (diagnostParameter && diagnostPath) {
-      requireFields(config, ['diagnostParameter', 'diagnostPath']);
-      pairs.push(`${validateParameterName(diagnostParameter)}=${quoteCmdPathValue(diagnostPath)}`);
     }
 
     if (format === 'single-line') {

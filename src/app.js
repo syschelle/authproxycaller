@@ -852,14 +852,14 @@
       ...parameters
     };
     const parts = [DUBuilder.quoteCmdValue(config.appName)];
+    if (config.diagnostPath) {
+      parts.push(`path=${DUBuilder.quoteCmdPathValue(config.diagnostPath)}`);
+    }
     Object.entries(pairs).forEach(([key, value]) => {
       const formattedValue = key === 'remote' && value === '%' ? '%' : DUBuilder.quoteCmdValue(value);
       parts.push(`${key}=${formattedValue}`);
     });
 
-    if (config.diagnostPath) {
-      parts.push(`path=${DUBuilder.quoteCmdPathValue(config.diagnostPath)}`);
-    }
     return `${parts.join(' ')} //`;
   }
 
